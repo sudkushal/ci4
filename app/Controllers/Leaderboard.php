@@ -23,10 +23,12 @@ class Leaderboard extends BaseController
         foreach ($users as $user) {
             $activities = $activityModel
                 ->where('strava_athlete_id', $user['strava_athlete_id'])
-                ->where('type', 'Walk')
                 ->where('start_date >=', $startDate)
-                ->where('start_date <', $endDate)
-                ->findAll();
+                ->where('start_date <', $endDate);
+                
+                $activities->whereIn('type', ['Walk', 'Run']); 
+                
+                $activities = $activities->findAll();
 
             $totalDistance = 0;
             $points = 0;
