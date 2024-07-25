@@ -1,4 +1,6 @@
-<?php namespace App\Controllers;
+<?php
+
+namespace App\Controllers;
 
 use App\Models\UserModel;
 use App\Models\StravaActivityModel;
@@ -8,67 +10,80 @@ class Leaderboard extends BaseController
     public function index()
     {
         $activityModel = new StravaActivityModel();
+        $userModel = new UserModel();
+        $users = $userModel->findAll();
 
         // Fetch leaderboard data within the date range (April 1st - August 1st)
         $startDate = '2024-07-11';
         $endDate = '2024-07-30';
-        
-        // Initialize the leaderboard data array
+
+        // Get the activity type filter from the query string
         $leaderboardData = [];
-        
-        // Retrieve user information, including Strava athlete IDs
-        $userModel = new UserModel();
-        $users = $userModel->findAll();
-        
+
         foreach ($users as $user) {
+            // Fetch and filter activities
             $activities = $activityModel
                 ->where('strava_athlete_id', $user['strava_athlete_id'])
                 ->where('start_date >=', $startDate)
                 ->where('start_date <', $endDate);
-                
-                $activities->whereIn('type', ['Walk', 'Run']); 
-                
-                $activities = $activities->findAll();
 
+            $activities->whereIn('type', ['Walk', 'Run']);
+
+            $activities = $activities->findAll();
+
+            // Calculate total distance and points
             $totalDistance = 0;
             $points = 0;
-            $has5kmWalk = false; 
+            $has5kmActivity = false;
+            $qualifyingActivities = []; // Array to store qualifying activities
 
             foreach ($activities as $activity) {
-                $totalDistance += $activity['distance'] / 1000; // Calculate in kilometers
+                $distanceKm = $activity['distance'] / 1000;
+                $totalDistance += $distanceKm;
 
-                if ($activity['distance'] >= 2000) { // Award points for 2+ km walks
+                // Points calculation
+                if ($distanceKm >= 2) {
                     $points++;
                 }
-                if ($activity['distance'] >= 5000 && !$has5kmWalk) { // Award 10 points for 1st 5+ km walk
+                if ($distanceKm >= 5 && !$has5kmActivity) {
                     $points += 10;
-                    $has5kmWalk = true;
+                    $has5kmActivity = true;
+                }
+
+                // Store qualifying activities
+                if ($distanceKm >= 2 || ($distanceKm >= 5 && !$has5kmActivity)) {
+                    $activity['distance'] = $distanceKm; // Store distance in km
+                    $qualifyingActivities[] = $activity;
                 }
             }
 
-            if ($totalDistance >= 50) {  // Award 20 points for 50+ km total
+            if ($totalDistance >= 50) {
                 $points += 20;
             }
 
-            $leaderboardData[] = [
-                'strava_athlete_id' => $user['strava_athlete_id'],
-                'name' => $user['name'],
-                'profile_medium' => $user['profile_medium'], // Add profile picture (if available)
-                'total_distance' => $totalDistance, 
-                'total_activities' => count($activities),
-                'points' => $points
-            ];
+            // Add user to leaderboard only if they have activities of the selected type
+            if (count($activities) > 0) {
+                $leaderboardData[] = [
+                    'strava_athlete_id' => $user['strava_athlete_id'],
+                    'name' => $user['name'],
+                    'profile_medium' => $user['profile_medium'],
+                    'total_distance' => $totalDistance,
+                    'total_activities' => count($activities),
+                    'points' => $points,
+                    'qualifying_activities' => $qualifyingActivities
+                ];
+            }
         }
 
-        // Sort leaderboard by total distance (descending)
-        usort($leaderboardData, function($a, $b) {
+        // Sort leaderboard by points (descending)
+        usort($leaderboardData, function ($a, $b) {
             return $b['points'] - $a['points'];
         });
 
         $data = [
             'leaderboardData' => $leaderboardData,
-            'startDate' => $startDate,         
-            'endDate' => $endDate  
+            'startDate' => $startDate,
+            'endDate' => $endDate
         ];
 
         return view('leaderboard_view', $data);

@@ -16,7 +16,20 @@
     </header>
 
     <main>
-        <h2>Top Athletes (<?= date('F j', strtotime($startDate)); ?> - <?= date('F j, Y', strtotime($endDate)); ?>)</h2> 
+        <?php
+            // Determine the filter type from the query parameter
+            $filterType = 'all';
+            $filterLabel = ($filterType === 'Walk') ? 'Walk' : (($filterType === 'Run') ? 'Run' : 'All Activities');
+        ?>
+
+        <h2>Top Athletes (<?= $filterLabel; ?>) (<?= date('F j', strtotime($startDate)); ?> - <?= date('F j, Y', strtotime($endDate)); ?>)</h2>
+
+        <div class="filter-buttons">
+            <a href="<?= site_url('leaderboard'); ?>" class="<?= ($filterType === 'all') ? 'active' : ''; ?>">All Activities</a>
+            <a href="<?= site_url('leaderboard?type=Walk'); ?>" class="<?= ($filterType === 'Walk') ? 'active' : ''; ?>">Walk</a>
+            <a href="<?= site_url('leaderboard?type=Run'); ?>" class="<?= ($filterType === 'Run') ? 'active' : ''; ?>">Run</a>
+        </div>
+
         <table class="leaderboard-table">
             <thead>
                 <tr>
@@ -24,7 +37,7 @@
                     <th>Name</th>
                     <th>Points</th>
                     <th>Total Distance (km)</th>
-                    <th>Total Walks</th>
+                    <th>Qualifying Activities</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,19 +51,31 @@
                         <?php if (!empty($entry['profile_medium'])) : ?>
                             <img src="<?= $entry['profile_medium']; ?>" alt="Athlete Profile" class="profile-pic">
                         <?php endif; ?>
-                        <?= $entry['name']; ?> 
+                        <?= $entry['name']; ?>
                     </td>
                     <td><?= $entry['points']; ?></td>
-                    <td><?= number_format($entry['total_distance'], 2); ?></td> 
-                    <td><?= $entry['total_activities']; ?></td>  
+                    <td><?= number_format($entry['total_distance'], 2); ?></td>
+                    <td>
+                        <?php if (!empty($entry['qualifying_activities'])) : ?>
+                            <ul>
+                                <?php foreach ($entry['qualifying_activities'] as $activity) : ?>
+                                    <li>
+                                        <a href="https://www.strava.com/activities/<?= $activity['activity_id']; ?>" target="_blank">
+                                            <?= $activity['name']; ?> (<?= number_format($activity['distance'], 2); ?> km)
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php else : ?>
+                            No qualifying activities
+                        <?php endif; ?>
+                    </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </main>
-
     <footer>
     </footer>
 </body>
 </html>
-
