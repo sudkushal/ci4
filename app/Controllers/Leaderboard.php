@@ -21,48 +21,52 @@ class Leaderboard extends BaseController
         $leaderboardData = [];
 
         foreach ($users as $user) {
-            // Fetch and filter activities
             $activities = $activityModel
                 ->where('strava_athlete_id', $user['strava_athlete_id'])
                 ->where('start_date >=', $startDate)
                 ->where('start_date <', $endDate);
-
-            $activities->whereIn('type', ['Walk', 'Run']);
-
+                $activities->whereIn('type', ['Walk', 'Run']);
+         
             $activities = $activities->findAll();
 
-            // Calculate total distance and points
             $totalDistance = 0;
             $points = 0;
             $has5kmActivity = false;
-            $qualifyingActivities = []; // Array to store qualifying activities
+            $qualifyingActivities = [];
 
+            // Group activities by date
+            $activitiesByDate = [];
             foreach ($activities as $activity) {
-                $distanceKm = $activity['distance'] / 1000;
-                $totalDistance += $distanceKm;
+                $date = date('Y-m-d', strtotime($activity['start_date_local']));
+                $activitiesByDate[$date][] = $activity;
+            }
 
-                // Points calculation
-                if ($distanceKm >= 2) {
+            // Find the longest activity for each day and award points
+            foreach ($activitiesByDate as $dateActivities) {
+                usort($dateActivities, function($a, $b) {
+                    return $b['distance'] - $a['distance']; // Sort by distance descending
+                });
+
+                $longestActivity = $dateActivities[0];
+                $totalDistance += $longestActivity['distance'] / 1000; // Calculate in kilometers
+
+                if ($longestActivity['distance'] >= 2000) {
                     $points++;
                 }
-                if ($distanceKm >= 5 && !$has5kmActivity) {
+                if ($longestActivity['distance'] >= 5000 && !$has5kmActivity) {
                     $points += 10;
                     $has5kmActivity = true;
                 }
 
-                // Store qualifying activities
-                if ($distanceKm >= 2 || ($distanceKm >= 5 && !$has5kmActivity)) {
-                    $activity['distance'] = $distanceKm; // Store distance in km
-                    $qualifyingActivities[] = $activity;
-                }
+                $qualifyingActivities[] = $longestActivity;
             }
 
             if ($totalDistance >= 50) {
                 $points += 20;
             }
 
-            // Add user to leaderboard only if they have activities of the selected type
-            if (count($activities) > 0) {
+            // Add user to leaderboard only if they have qualifying activities
+            if (!empty($qualifyingActivities)) {
                 $leaderboardData[] = [
                     'strava_athlete_id' => $user['strava_athlete_id'],
                     'name' => $user['name'],
@@ -70,7 +74,7 @@ class Leaderboard extends BaseController
                     'total_distance' => $totalDistance,
                     'total_activities' => count($activities),
                     'points' => $points,
-                    'qualifying_activities' => $qualifyingActivities
+                    'qualifying_activities' => $qualifyingActivities, 
                 ];
             }
         }
