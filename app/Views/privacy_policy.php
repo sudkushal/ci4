@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Privacy Policy - 100 Days Fitness Challenge</title>
-    <link rel="stylesheet" href="<?= base_url('css/style.css'); ?>"> 
+    <link rel="stylesheet" href="<?= base_url('css/style.css'); ?>">
 </head>
 <body>
     <header>
@@ -13,51 +13,71 @@
         <h2>100 Days Fitness Challenge Privacy Policy</h2>
 
         <p>
-            This privacy policy outlines how your personal information is collected, used, and shared when you participate in the 100 Days Fitness Challenge.
+            This Privacy Policy describes how we collect, use, and share your personal information when you participate in the 100 Days Fitness Challenge, which runs from August 15th to November 30th, 2024.
         </p>
 
-        <h3>Information Collection</h3>
+        <h3>Information We Collect</h3>
 
         <p>
-            We collect information you provide directly to us when you connect your Strava account. This may include your name, Strava ID, activity data (e.g., distance, time, pace), and any other information you choose to share through Strava.
+            When you connect your Strava account to our challenge platform, we collect the following information:
+        </p>
+        <ul>
+            <li>Your Strava athlete ID</li>
+            <li>Your full name (as displayed on Strava)</li>
+            <li>Your Strava profile picture URLs (medium and large sizes)</li>
+            <li>Data about your walk activities, including distance, time, and date</li>
+        </ul>
+
+        <p>
+            We do not collect or store your email address.
         </p>
 
-        <h3>Information Use</h3>
-
+        <h3>How We Use Your Information</h3>
         <p>
             We use the collected information for the following purposes:
         </p>
         <ul>
-            <li>To track your progress and display it on the leaderboard.</li>
-            <li>To improve the challenge experience.</li>
+            <li>To calculate your total walking distance and points.</li>
+            <li>To rank you on the challenge leaderboard.</li>
+            <li>To display your name and profile picture (if available) on the leaderboard.</li>
         </ul>
 
-        <h3>Information Sharing</h3>
-
+        <h3>Data Sharing</h3>
         <p>
-            We do not share your personal information with third parties for their marketing or advertising purposes. We may share aggregated and anonymized data (e.g., average distances run) for informational or research purposes.
+            We do not share your personal information with any third parties, except for the data displayed on the public leaderboard (your name, profile picture, total distance, and points). 
         </p>
 
         <h3>Data Retention</h3>
 
         <p>
-            We will retain your information for the duration of the 100 Days Fitness Challenge (August 15 to November 30, 2024). After the challenge concludes, we will delete all personally identifiable information.
+            We will retain your information for the duration of the 100 Days Fitness Challenge. After the challenge concludes on November 30th, 2024, we will delete all data associated with your participation.
+        </p>
+        
+        <h3>Disclaimer</h3>
+        <p>
+            This fitness challenge is an independent initiative and is not affiliated with or endorsed by Strava. We are not responsible for the privacy practices or content of Strava.
         </p>
 
-        <h3>Disclaimer</h3>
+        <h3>Your Rights</h3>
 
         <p>
-            This fitness challenge is not affiliated with Strava or any other organization. We are not responsible for any actions taken by Strava or changes to their policies. 
+            You have the right to request access to, correction of, or deletion of your personal data. To exercise these rights, please contact us at [your contact email].
         </p>
 
+        <h3>Changes to This Privacy Policy</h3>
+
+        <p>
+            We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.
+        </p>
+        
         <h3>Contact Us</h3>
 
         <p>
-            If you have any questions or concerns about this privacy policy, please contact us at sudarshankushal@gmail.com.
+            If you have any questions or concerns about this Privacy Policy, please contact us at sudarshankushal@gmail.com.
         </p>
     </main>
-
+    
     <footer>
-        </footer>
+    </footer>
 </body>
 </html>

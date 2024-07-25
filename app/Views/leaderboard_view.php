@@ -16,7 +16,7 @@
     </header>
 
     <main>
-        <h2>Top Athletes</h2>
+        <h2>Top Athletes (<?= date('F j', strtotime($startDate)); ?> - <?= date('F j, Y', strtotime($endDate)); ?>)</h2> 
         <table class="leaderboard-table">
             <thead>
                 <tr>
@@ -53,3 +53,4 @@
     </footer>
 </body>
 </html>
+

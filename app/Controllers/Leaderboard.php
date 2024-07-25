@@ -65,6 +65,8 @@ class Leaderboard extends BaseController
 
         $data = [
             'leaderboardData' => $leaderboardData,
+            'startDate' => $startDate,         
+            'endDate' => $endDate  
         ];
 
         return view('leaderboard_view', $data);
