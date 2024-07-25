@@ -10,8 +10,8 @@ class Leaderboard extends BaseController
         $activityModel = new StravaActivityModel();
 
         // Fetch leaderboard data within the date range (April 1st - August 1st)
-        $startDate = '2024-04-01';
-        $endDate = '2024-08-01';
+        $startDate = '2024-07-11';
+        $endDate = '2024-07-30';
         
         // Initialize the leaderboard data array
         $leaderboardData = [];
