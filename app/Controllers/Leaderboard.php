@@ -20,33 +20,47 @@ class Leaderboard extends BaseController
         $userModel = new UserModel();
         $users = $userModel->findAll();
         
-        foreach($users as $user) {
-            // Calculate total distance for each user
-            $totalDistance = $activityModel->select('SUM(distance) AS total_distance')
+        foreach ($users as $user) {
+            $activities = $activityModel
                 ->where('strava_athlete_id', $user['strava_athlete_id'])
+                ->where('type', 'Walk')
                 ->where('start_date >=', $startDate)
                 ->where('start_date <', $endDate)
-                ->first()['total_distance'];
-        
-            // Calculate total number of activities for each user
-            $totalActivities = $activityModel->where('strava_athlete_id', $user['strava_athlete_id'])
-                ->where('start_date >=', $startDate)
-                ->where('start_date <', $endDate)
-                ->countAllResults();
-        
-            // Add the user to the leaderboard data
+                ->findAll();
+
+            $totalDistance = 0;
+            $points = 0;
+            $has5kmWalk = false; 
+
+            foreach ($activities as $activity) {
+                $totalDistance += $activity['distance'] / 1000; // Calculate in kilometers
+
+                if ($activity['distance'] >= 2000) { // Award points for 2+ km walks
+                    $points++;
+                }
+                if ($activity['distance'] >= 5000 && !$has5kmWalk) { // Award 10 points for 1st 5+ km walk
+                    $points += 10;
+                    $has5kmWalk = true;
+                }
+            }
+
+            if ($totalDistance >= 50) {  // Award 20 points for 50+ km total
+                $points += 20;
+            }
+
             $leaderboardData[] = [
                 'strava_athlete_id' => $user['strava_athlete_id'],
                 'name' => $user['name'],
-                'profile_medium' => $user['profile_medium'],
-                'total_distance' => $totalDistance,
-                'total_activities' => $totalActivities
+                'profile_medium' => $user['profile_medium'], // Add profile picture (if available)
+                'total_distance' => $totalDistance, 
+                'total_activities' => count($activities),
+                'points' => $points
             ];
         }
 
         // Sort leaderboard by total distance (descending)
         usort($leaderboardData, function($a, $b) {
-            return $b['total_distance'] - $a['total_distance'];
+            return $b['points'] - $a['points'];
         });
 
         $data = [

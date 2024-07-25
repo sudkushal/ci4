@@ -22,8 +22,9 @@
                 <tr>
                     <th>Rank</th>
                     <th>Name</th>
-                    <th>Total Distance (km)</th> 
-                    <th>Total Activities</th>
+                    <th>Points</th>
+                    <th>Total Distance (km)</th>
+                    <th>Total Walks</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,13 +35,13 @@
                 <tr>
                     <td><?= $rank++; ?></td>
                     <td>
-                        <?php 
-                            // Display athlete's profile picture if available
-                            if (!empty($entry['profile_medium'])) : ?>
-                                <img src="<?= $entry['profile_medium']; ?>" alt="Athlete Profile" class="profile-pic">
+                        <?php if (!empty($entry['profile_medium'])) : ?>
+                            <img src="<?= $entry['profile_medium']; ?>" alt="Athlete Profile" class="profile-pic">
                         <?php endif; ?>
+                        <?= $entry['name']; ?> 
                     </td>
-                    <td><?= number_format($entry['total_distance'] / 1000, 2); ?></td>  
+                    <td><?= $entry['points']; ?></td>
+                    <td><?= number_format($entry['total_distance'], 2); ?></td> 
                     <td><?= $entry['total_activities']; ?></td>  
                 </tr>
                 <?php endforeach; ?>
