@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 use App\Models\StravaActivityModel;
+use App\Config\AppConstants;
 
 class Leaderboard extends BaseController
 {
@@ -14,8 +15,8 @@ class Leaderboard extends BaseController
         $users = $userModel->findAll();
 
         // Fetch leaderboard data within the date range (April 1st - August 1st)
-        $startDate = '2024-07-11';
-        $endDate = '2024-07-30';
+        $startDate = AppConstants::CHALLENGE_START_DATE;
+        $endDate = AppConstants::CHALLENGE_END_DATE;
 
         // Get the activity type filter from the query string
         $leaderboardData = [];

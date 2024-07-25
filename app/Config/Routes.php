@@ -11,4 +11,4 @@ $routes->get('privacy_policy', 'Privacy::index');
 $routes->get('strava/connectToStrava', 'Strava::connectToStrava');
 $routes->get('strava/callback', 'Strava::callback');
 $routes->get('leaderboard', 'Leaderboard::index'); 
-
+$routes->get('analytics', 'Analytics::index'); 
