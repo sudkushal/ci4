@@ -24,11 +24,7 @@
 
         <h2>Top Athletes (<?= $filterLabel; ?>) (<?= date('F j', strtotime($startDate)); ?> - <?= date('F j, Y', strtotime($endDate)); ?>)</h2>
 
-        <div class="filter-buttons">
-            <a href="<?= site_url('leaderboard'); ?>" class="<?= ($filterType === 'all') ? 'active' : ''; ?>">All Activities</a>
-            <a href="<?= site_url('leaderboard?type=Walk'); ?>" class="<?= ($filterType === 'Walk') ? 'active' : ''; ?>">Walk</a>
-            <a href="<?= site_url('leaderboard?type=Run'); ?>" class="<?= ($filterType === 'Run') ? 'active' : ''; ?>">Run</a>
-        </div>
+        
 
         <table class="leaderboard-table">
             <thead>
