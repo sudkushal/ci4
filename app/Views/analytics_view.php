@@ -28,8 +28,17 @@
 </head>
 <body>
 
-    <header>
-        </header>
+<header>
+        <h1>Analytics</h1>
+        <nav>
+            <ul>
+            <li><a href="<?= site_url('/'); ?>">Home</a></li>
+                <li><a href="<?= site_url('leaderboard'); ?>">Leaderboard</a></li>
+                <li><a href="<?= site_url('analytics'); ?>">Analytics</a></li>
+            </ul>
+        </nav>
+    </header>
+
 
     <main>
         <h2>100 Days Fitness Challenge - Analytics</h2>
