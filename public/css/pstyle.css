@@ -1,0 +1,92 @@
+/* General Styles */
+body {
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    color: #333;
+}
+
+/* Header Styles */
+header {
+    background-color: #f0f0f0;
+    padding: 1rem 0;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Main Content Styles */
+main {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+h3 {
+    color: #555;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+p {
+    margin-bottom: 1.5rem;
+}
+
+ul {
+    list-style: disc;
+    padding-left: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+a {
+    color: #007bff;
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+    position: static;
+    width: 100%;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {  
+    /* Styles for tablets and smaller screens */
+    main {
+        padding: 1rem;  /* Reduce padding on smaller screens */
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) { 
+    /* Styles for mobile phones */
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    ul {
+        padding-left: 1.5rem;
+    }
+}

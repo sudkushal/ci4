@@ -1,0 +1,575 @@
+CRITICAL - 2024-07-25 06:56:05 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "new_page_view.php"
+[Method: GET, Route: new_page]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 41.
+ 1 SYSTEMPATH\View\View.php(222): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('new_page_view.php')
+ 2 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('new_page_view', [], true)
+ 3 APPPATH\Controllers\Auth.php(9): view('new_page_view')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Auth->index()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 07:18:49 --> Error: Class "GuzzleHttp\Client" not found
+[Method: GET, Route: /]
+in APPPATH\Controllers\Home.php on line 11.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->index()
+ 2 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2024-07-25 07:27:12 --> Error connecting to the database: mysqli_sql_exception: Access denied for user ''@'localhost' (using password: NO) in E:\Xampp2\htdocs\ci4\system\Database\MySQLi\Connection.php:186
+Stack trace:
+#0 E:\Xampp2\htdocs\ci4\system\Database\MySQLi\Connection.php(186): mysqli->real_connect('localhost', '', Object(SensitiveParameterValue), '', 3306, '', 0)
+#1 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(421): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(616): CodeIgniter\Database\BaseConnection->initialize()
+#3 E:\Xampp2\htdocs\ci4\system\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 E:\Xampp2\htdocs\ci4\system\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+#5 E:\Xampp2\htdocs\ci4\system\BaseModel.php(714): CodeIgniter\Model->doFirst()
+#6 E:\Xampp2\htdocs\ci4\app\Controllers\Strava.php(14): CodeIgniter\BaseModel->first()
+#7 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+#8 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+#9 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 E:\Xampp2\htdocs\ci4\system\Boot.php(325): CodeIgniter\CodeIgniter->run()
+#11 E:\Xampp2\htdocs\ci4\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 E:\Xampp2\htdocs\ci4\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Access denied for user ''@'localhost' (using password: NO) in E:\Xampp2\htdocs\ci4\system\Database\MySQLi\Connection.php:231
+Stack trace:
+#0 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(421): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(616): CodeIgniter\Database\BaseConnection->initialize()
+#2 E:\Xampp2\htdocs\ci4\system\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 E:\Xampp2\htdocs\ci4\system\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+#4 E:\Xampp2\htdocs\ci4\system\BaseModel.php(714): CodeIgniter\Model->doFirst()
+#5 E:\Xampp2\htdocs\ci4\app\Controllers\Strava.php(14): CodeIgniter\BaseModel->first()
+#6 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+#7 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+#8 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 E:\Xampp2\htdocs\ci4\system\Boot.php(325): CodeIgniter\CodeIgniter->run()
+#10 E:\Xampp2\htdocs\ci4\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#11 E:\Xampp2\htdocs\ci4\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#12 {main}
+CRITICAL - 2024-07-25 07:27:12 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: Access denied for user ''@'localhost' (using password: NO)
+[Method: GET, Route: strava/connectToStrava]
+in SYSTEMPATH\Database\BaseConnection.php on line 467.
+ 1 SYSTEMPATH\Database\BaseConnection.php(616): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `strava_credentials`
+ LIMIT 1', [], false)
+ 3 SYSTEMPATH\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(714): CodeIgniter\Model->doFirst()
+ 5 APPPATH\Controllers\Strava.php(14): CodeIgniter\BaseModel->first()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+ 7 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+ 8 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2024-07-25 07:27:53 --> Error connecting to the database: mysqli_sql_exception: Access denied for user ''@'localhost' (using password: NO) in E:\Xampp2\htdocs\ci4\system\Database\MySQLi\Connection.php:186
+Stack trace:
+#0 E:\Xampp2\htdocs\ci4\system\Database\MySQLi\Connection.php(186): mysqli->real_connect('localhost', '', Object(SensitiveParameterValue), '', 3306, '', 0)
+#1 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(421): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(616): CodeIgniter\Database\BaseConnection->initialize()
+#3 E:\Xampp2\htdocs\ci4\system\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 E:\Xampp2\htdocs\ci4\system\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+#5 E:\Xampp2\htdocs\ci4\system\BaseModel.php(714): CodeIgniter\Model->doFirst()
+#6 E:\Xampp2\htdocs\ci4\app\Controllers\Strava.php(14): CodeIgniter\BaseModel->first()
+#7 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+#8 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+#9 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 E:\Xampp2\htdocs\ci4\system\Boot.php(325): CodeIgniter\CodeIgniter->run()
+#11 E:\Xampp2\htdocs\ci4\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 E:\Xampp2\htdocs\ci4\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Access denied for user ''@'localhost' (using password: NO) in E:\Xampp2\htdocs\ci4\system\Database\MySQLi\Connection.php:231
+Stack trace:
+#0 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(421): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(616): CodeIgniter\Database\BaseConnection->initialize()
+#2 E:\Xampp2\htdocs\ci4\system\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 E:\Xampp2\htdocs\ci4\system\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+#4 E:\Xampp2\htdocs\ci4\system\BaseModel.php(714): CodeIgniter\Model->doFirst()
+#5 E:\Xampp2\htdocs\ci4\app\Controllers\Strava.php(14): CodeIgniter\BaseModel->first()
+#6 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+#7 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+#8 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 E:\Xampp2\htdocs\ci4\system\Boot.php(325): CodeIgniter\CodeIgniter->run()
+#10 E:\Xampp2\htdocs\ci4\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#11 E:\Xampp2\htdocs\ci4\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#12 {main}
+CRITICAL - 2024-07-25 07:27:53 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: Access denied for user ''@'localhost' (using password: NO)
+[Method: GET, Route: strava/connectToStrava]
+in SYSTEMPATH\Database\BaseConnection.php on line 467.
+ 1 SYSTEMPATH\Database\BaseConnection.php(616): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `strava_credentials`
+ LIMIT 1', [], false)
+ 3 SYSTEMPATH\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(714): CodeIgniter\Model->doFirst()
+ 5 APPPATH\Controllers\Strava.php(14): CodeIgniter\BaseModel->first()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+ 7 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+ 8 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2024-07-25 07:30:29 --> Error connecting to the database: mysqli_sql_exception: Access denied for user ''@'localhost' (using password: NO) in E:\Xampp2\htdocs\ci4\system\Database\MySQLi\Connection.php:186
+Stack trace:
+#0 E:\Xampp2\htdocs\ci4\system\Database\MySQLi\Connection.php(186): mysqli->real_connect('localhost', '', Object(SensitiveParameterValue), '', 3306, '', 0)
+#1 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(421): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(616): CodeIgniter\Database\BaseConnection->initialize()
+#3 E:\Xampp2\htdocs\ci4\system\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 E:\Xampp2\htdocs\ci4\system\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+#5 E:\Xampp2\htdocs\ci4\system\BaseModel.php(714): CodeIgniter\Model->doFirst()
+#6 E:\Xampp2\htdocs\ci4\app\Models\StravaCredentialModel.php(18): CodeIgniter\BaseModel->first()
+#7 E:\Xampp2\htdocs\ci4\app\Controllers\Strava.php(15): App\Models\StravaCredentialModel->getCredentials()
+#8 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+#9 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+#10 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 E:\Xampp2\htdocs\ci4\system\Boot.php(325): CodeIgniter\CodeIgniter->run()
+#12 E:\Xampp2\htdocs\ci4\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 E:\Xampp2\htdocs\ci4\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Access denied for user ''@'localhost' (using password: NO) in E:\Xampp2\htdocs\ci4\system\Database\MySQLi\Connection.php:231
+Stack trace:
+#0 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(421): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(616): CodeIgniter\Database\BaseConnection->initialize()
+#2 E:\Xampp2\htdocs\ci4\system\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 E:\Xampp2\htdocs\ci4\system\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+#4 E:\Xampp2\htdocs\ci4\system\BaseModel.php(714): CodeIgniter\Model->doFirst()
+#5 E:\Xampp2\htdocs\ci4\app\Models\StravaCredentialModel.php(18): CodeIgniter\BaseModel->first()
+#6 E:\Xampp2\htdocs\ci4\app\Controllers\Strava.php(15): App\Models\StravaCredentialModel->getCredentials()
+#7 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+#8 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+#9 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 E:\Xampp2\htdocs\ci4\system\Boot.php(325): CodeIgniter\CodeIgniter->run()
+#11 E:\Xampp2\htdocs\ci4\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 E:\Xampp2\htdocs\ci4\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+CRITICAL - 2024-07-25 07:30:29 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: Access denied for user ''@'localhost' (using password: NO)
+[Method: GET, Route: strava/connectToStrava]
+in SYSTEMPATH\Database\BaseConnection.php on line 467.
+ 1 SYSTEMPATH\Database\BaseConnection.php(616): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `strava_credentials`
+ LIMIT 1', [], false)
+ 3 SYSTEMPATH\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(714): CodeIgniter\Model->doFirst()
+ 5 APPPATH\Models\StravaCredentialModel.php(18): CodeIgniter\BaseModel->first()
+ 6 APPPATH\Controllers\Strava.php(15): App\Models\StravaCredentialModel->getCredentials()
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+ 8 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+ 9 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2024-07-25 07:32:55 --> Error connecting to the database: mysqli_sql_exception: Access denied for user ''@'localhost' (using password: NO) in E:\Xampp2\htdocs\ci4\system\Database\MySQLi\Connection.php:186
+Stack trace:
+#0 E:\Xampp2\htdocs\ci4\system\Database\MySQLi\Connection.php(186): mysqli->real_connect('localhost', '', Object(SensitiveParameterValue), '', 3306, '', 0)
+#1 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(421): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(616): CodeIgniter\Database\BaseConnection->initialize()
+#3 E:\Xampp2\htdocs\ci4\system\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 E:\Xampp2\htdocs\ci4\system\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+#5 E:\Xampp2\htdocs\ci4\system\BaseModel.php(714): CodeIgniter\Model->doFirst()
+#6 E:\Xampp2\htdocs\ci4\app\Models\StravaCredentialModel.php(18): CodeIgniter\BaseModel->first()
+#7 E:\Xampp2\htdocs\ci4\app\Controllers\Strava.php(15): App\Models\StravaCredentialModel->getCredentials()
+#8 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+#9 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+#10 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 E:\Xampp2\htdocs\ci4\system\Boot.php(325): CodeIgniter\CodeIgniter->run()
+#12 E:\Xampp2\htdocs\ci4\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 E:\Xampp2\htdocs\ci4\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Access denied for user ''@'localhost' (using password: NO) in E:\Xampp2\htdocs\ci4\system\Database\MySQLi\Connection.php:231
+Stack trace:
+#0 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(421): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(616): CodeIgniter\Database\BaseConnection->initialize()
+#2 E:\Xampp2\htdocs\ci4\system\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 E:\Xampp2\htdocs\ci4\system\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+#4 E:\Xampp2\htdocs\ci4\system\BaseModel.php(714): CodeIgniter\Model->doFirst()
+#5 E:\Xampp2\htdocs\ci4\app\Models\StravaCredentialModel.php(18): CodeIgniter\BaseModel->first()
+#6 E:\Xampp2\htdocs\ci4\app\Controllers\Strava.php(15): App\Models\StravaCredentialModel->getCredentials()
+#7 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+#8 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+#9 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 E:\Xampp2\htdocs\ci4\system\Boot.php(325): CodeIgniter\CodeIgniter->run()
+#11 E:\Xampp2\htdocs\ci4\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 E:\Xampp2\htdocs\ci4\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+CRITICAL - 2024-07-25 07:32:55 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: Access denied for user ''@'localhost' (using password: NO)
+[Method: GET, Route: strava/connectToStrava]
+in SYSTEMPATH\Database\BaseConnection.php on line 467.
+ 1 SYSTEMPATH\Database\BaseConnection.php(616): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `strava_credentials`
+ LIMIT 1', [], false)
+ 3 SYSTEMPATH\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(714): CodeIgniter\Model->doFirst()
+ 5 APPPATH\Models\StravaCredentialModel.php(18): CodeIgniter\BaseModel->first()
+ 6 APPPATH\Controllers\Strava.php(15): App\Models\StravaCredentialModel->getCredentials()
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+ 8 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+ 9 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2024-07-25 07:34:52 --> Error connecting to the database: mysqli_sql_exception: Access denied for user ''@'localhost' (using password: NO) in E:\Xampp2\htdocs\ci4\system\Database\MySQLi\Connection.php:186
+Stack trace:
+#0 E:\Xampp2\htdocs\ci4\system\Database\MySQLi\Connection.php(186): mysqli->real_connect('localhost', '', Object(SensitiveParameterValue), '', 3306, '', 0)
+#1 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(421): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(616): CodeIgniter\Database\BaseConnection->initialize()
+#3 E:\Xampp2\htdocs\ci4\system\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 E:\Xampp2\htdocs\ci4\system\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+#5 E:\Xampp2\htdocs\ci4\system\BaseModel.php(714): CodeIgniter\Model->doFirst()
+#6 E:\Xampp2\htdocs\ci4\app\Models\StravaCredentialModel.php(18): CodeIgniter\BaseModel->first()
+#7 E:\Xampp2\htdocs\ci4\app\Controllers\Strava.php(15): App\Models\StravaCredentialModel->getCredentials()
+#8 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+#9 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+#10 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 E:\Xampp2\htdocs\ci4\system\Boot.php(325): CodeIgniter\CodeIgniter->run()
+#12 E:\Xampp2\htdocs\ci4\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 E:\Xampp2\htdocs\ci4\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Access denied for user ''@'localhost' (using password: NO) in E:\Xampp2\htdocs\ci4\system\Database\MySQLi\Connection.php:231
+Stack trace:
+#0 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(421): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(616): CodeIgniter\Database\BaseConnection->initialize()
+#2 E:\Xampp2\htdocs\ci4\system\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 E:\Xampp2\htdocs\ci4\system\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+#4 E:\Xampp2\htdocs\ci4\system\BaseModel.php(714): CodeIgniter\Model->doFirst()
+#5 E:\Xampp2\htdocs\ci4\app\Models\StravaCredentialModel.php(18): CodeIgniter\BaseModel->first()
+#6 E:\Xampp2\htdocs\ci4\app\Controllers\Strava.php(15): App\Models\StravaCredentialModel->getCredentials()
+#7 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+#8 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+#9 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 E:\Xampp2\htdocs\ci4\system\Boot.php(325): CodeIgniter\CodeIgniter->run()
+#11 E:\Xampp2\htdocs\ci4\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 E:\Xampp2\htdocs\ci4\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+CRITICAL - 2024-07-25 07:34:52 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: Access denied for user ''@'localhost' (using password: NO)
+[Method: GET, Route: strava/connectToStrava]
+in SYSTEMPATH\Database\BaseConnection.php on line 467.
+ 1 SYSTEMPATH\Database\BaseConnection.php(616): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `strava_credentials`
+ LIMIT 1', [], false)
+ 3 SYSTEMPATH\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(714): CodeIgniter\Model->doFirst()
+ 5 APPPATH\Models\StravaCredentialModel.php(18): CodeIgniter\BaseModel->first()
+ 6 APPPATH\Controllers\Strava.php(15): App\Models\StravaCredentialModel->getCredentials()
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+ 8 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+ 9 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 07:36:06 --> Error: Call to a member function first() on array
+[Method: GET, Route: strava/connectToStrava]
+in APPPATH\Controllers\Strava.php on line 15.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+ 2 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 07:37:49 --> ErrorException: Attempt to read property "client_id" on array
+[Method: GET, Route: strava/connectToStrava]
+in APPPATH\Controllers\Strava.php on line 22.
+ 1 APPPATH\Controllers\Strava.php(22): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read property "client_id" on array', 'E:\\Xampp2\\htdocs\\ci4\\app\\Controllers\\Strava.php', 22)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 07:38:55 --> ErrorException: Attempt to read property "client_id" on array
+[Method: GET, Route: strava/connectToStrava]
+in APPPATH\Controllers\Strava.php on line 21.
+ 1 APPPATH\Controllers\Strava.php(21): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read property "client_id" on array', 'E:\\Xampp2\\htdocs\\ci4\\app\\Controllers\\Strava.php', 21)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 07:39:17 --> ErrorException: Attempt to read property "client_id" on array
+[Method: GET, Route: strava/connectToStrava]
+in APPPATH\Controllers\Strava.php on line 21.
+ 1 APPPATH\Controllers\Strava.php(21): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read property "client_id" on array', 'E:\\Xampp2\\htdocs\\ci4\\app\\Controllers\\Strava.php', 21)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 07:40:57 --> ArgumentCountError: print_r() expects at most 2 arguments, 3 given
+[Method: GET, Route: strava/connectToStrava]
+in APPPATH\Controllers\Strava.php on line 19.
+ 1 APPPATH\Controllers\Strava.php(19): print_r('1', '61250', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 07:42:04 --> ErrorException: Attempt to read property "client_id" on array
+[Method: GET, Route: strava/connectToStrava]
+in APPPATH\Controllers\Strava.php on line 22.
+ 1 APPPATH\Controllers\Strava.php(22): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read property "client_id" on array', 'E:\\Xampp2\\htdocs\\ci4\\app\\Controllers\\Strava.php', 22)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 07:42:56 --> ErrorException: Undefined variable $client_id
+[Method: GET, Route: strava/connectToStrava]
+in APPPATH\Controllers\Strava.php on line 22.
+ 1 APPPATH\Controllers\Strava.php(22): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $client_id', 'E:\\Xampp2\\htdocs\\ci4\\app\\Controllers\\Strava.php', 22)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 07:55:41 --> Error: Call to undefined function form_open()
+[Method: GET, Route: /]
+in APPPATH\Views\landing_page.php on line 23.
+ 1 SYSTEMPATH\View\View.php(234): include()
+ 2 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('landing_page', [], true)
+ 4 APPPATH\Controllers\Home.php(9): view('landing_page')
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->index()
+ 6 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 7 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 07:57:46 --> Error: Call to undefined function form_open()
+[Method: GET, Route: /]
+in APPPATH\Views\landing_page.php on line 23.
+ 1 SYSTEMPATH\View\View.php(234): include()
+ 2 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('landing_page', [], true)
+ 4 APPPATH\Controllers\Home.php(9): view('landing_page')
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->index()
+ 6 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 7 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 07:58:13 --> Error: Call to undefined function form_open()
+[Method: GET, Route: /]
+in APPPATH\Views\landing_page.php on line 23.
+ 1 SYSTEMPATH\View\View.php(234): include()
+ 2 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('landing_page', [], true)
+ 4 APPPATH\Controllers\Home.php(9): view('landing_page')
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->index()
+ 6 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 7 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 08:01:20 --> Error: Call to undefined function form_open()
+[Method: GET, Route: /]
+in APPPATH\Views\landing_page.php on line 23.
+ 1 SYSTEMPATH\View\View.php(234): include()
+ 2 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('landing_page', [], true)
+ 4 APPPATH\Controllers\Home.php(9): view('landing_page')
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->index()
+ 6 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 7 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 08:02:19 --> Error: Call to undefined function form_open()
+[Method: GET, Route: /]
+in APPPATH\Views\landing_page.php on line 23.
+ 1 SYSTEMPATH\View\View.php(234): include()
+ 2 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('landing_page', [], true)
+ 4 APPPATH\Controllers\Home.php(19): view('landing_page', [])
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->index()
+ 6 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 7 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 08:10:52 --> Error: Class "App\Models\UserModel" not found
+[Method: GET, Route: strava/callback]
+in APPPATH\Controllers\Strava.php on line 68.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Strava->callback()
+ 2 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 08:13:54 --> Error: Class "App\Models\UserModel" not found
+[Method: GET, Route: strava/callback]
+in APPPATH\Controllers\Strava.php on line 65.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Strava->callback()
+ 2 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 08:20:01 --> ParseError: syntax error, unexpected token ","
+[Method: GET, Route: strava/connectToStrava]
+in APPPATH\Controllers\Strava.php on line 64.
+ 1 SYSTEMPATH\Autoloader\Autoloader.php(296): CodeIgniter\Autoloader\Autoloader->includeFile('E:\\Xampp2\\htdocs\\ci4\\app\\Controllers\\Strava.php')
+ 2 SYSTEMPATH\Autoloader\Autoloader.php(272): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\Strava')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\Strava')
+ 4 SYSTEMPATH\CodeIgniter.php(887): class_exists('\\App\\Controllers\\Strava', true)
+ 5 SYSTEMPATH\CodeIgniter.php(496): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2024-07-25 08:45:48 --> mysqli_sql_exception: Unknown column 'strava_expires_at' in 'field list' in E:\Xampp2\htdocs\ci4\system\Database\MySQLi\Connection.php:312
+Stack trace:
+#0 E:\Xampp2\htdocs\ci4\system\Database\MySQLi\Connection.php(312): mysqli->query('INSERT INTO `us...', 0)
+#1 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `us...')
+#2 E:\Xampp2\htdocs\ci4\system\Database\BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `us...')
+#3 E:\Xampp2\htdocs\ci4\system\Database\BaseBuilder.php(2332): CodeIgniter\Database\BaseConnection->query('INSERT INTO `us...', Array, false)
+#4 E:\Xampp2\htdocs\ci4\system\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+#5 E:\Xampp2\htdocs\ci4\system\BaseModel.php(840): CodeIgniter\Model->doInsert(Array)
+#6 E:\Xampp2\htdocs\ci4\system\Model.php(802): CodeIgniter\BaseModel->insert(Array, true)
+#7 E:\Xampp2\htdocs\ci4\app\Models\UserModel.php(33): CodeIgniter\Model->insert(Array)
+#8 E:\Xampp2\htdocs\ci4\app\Controllers\Strava.php(81): App\Models\UserModel->updateOrCreate(Array)
+#9 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(933): App\Controllers\Strava->callback()
+#10 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+#11 E:\Xampp2\htdocs\ci4\system\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 E:\Xampp2\htdocs\ci4\system\Boot.php(325): CodeIgniter\CodeIgniter->run()
+#13 E:\Xampp2\htdocs\ci4\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#14 E:\Xampp2\htdocs\ci4\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#15 {main}
+CRITICAL - 2024-07-25 08:45:48 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'strava_expires_at' in 'field list'
+[Method: GET, Route: strava/callback]
+in SYSTEMPATH\Database\BaseConnection.php on line 688.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2332): CodeIgniter\Database\BaseConnection->query('INSERT INTO `users` (`strava_athlete_id`, `name`, `strava_access_token`, `strava_refresh_token`, `strava_expires_at`, `profile_medium`, `profile`) VALUES (:strava_athlete_id:, :name:, :strava_access_token:, :strava_refresh_token:, :strava_expires_at:, :profile_medium:, :profile:)', [...], false)
+ 2 SYSTEMPATH\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH\BaseModel.php(840): CodeIgniter\Model->doInsert([...])
+ 4 SYSTEMPATH\Model.php(802): CodeIgniter\BaseModel->insert([...], true)
+ 5 APPPATH\Models\UserModel.php(33): CodeIgniter\Model->insert([...])
+ 6 APPPATH\Controllers\Strava.php(81): App\Models\UserModel->updateOrCreate([...])
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Strava->callback()
+ 8 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+ 9 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 08:45:48 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'strava_expires_at' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 317.
+ 1 SYSTEMPATH\Database\BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `users` (`strava_athlete_id`, `name`, `strava_access_token`, `strava_refresh_token`, `strava_expires_at`, `profile_medium`, `profile`) VALUES (10140652, \'Sudarshan Subramanian\', \'37bef57f227634636a45992c7319bfda3b06aa63\', \'ca4f003c48c96e0ab9a15794fc327b8434b99612\', 1721915387, \'https://dgalywyr863hv.cloudfront.net/pictures/athletes/10140652/12883487/1/medium.jpg\', \'https://dgalywyr863hv.cloudfront.net/pictures/athletes/10140652/12883487/1/large.jpg\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `users` (`strava_athlete_id`, `name`, `strava_access_token`, `strava_refresh_token`, `strava_expires_at`, `profile_medium`, `profile`) VALUES (10140652, \'Sudarshan Subramanian\', \'37bef57f227634636a45992c7319bfda3b06aa63\', \'ca4f003c48c96e0ab9a15794fc327b8434b99612\', 1721915387, \'https://dgalywyr863hv.cloudfront.net/pictures/athletes/10140652/12883487/1/medium.jpg\', \'https://dgalywyr863hv.cloudfront.net/pictures/athletes/10140652/12883487/1/large.jpg\')')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2332): CodeIgniter\Database\BaseConnection->query('INSERT INTO `users` (`strava_athlete_id`, `name`, `strava_access_token`, `strava_refresh_token`, `strava_expires_at`, `profile_medium`, `profile`) VALUES (:strava_athlete_id:, :name:, :strava_access_token:, :strava_refresh_token:, :strava_expires_at:, :profile_medium:, :profile:)', [...], false)
+ 4 SYSTEMPATH\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH\BaseModel.php(840): CodeIgniter\Model->doInsert([...])
+ 6 SYSTEMPATH\Model.php(802): CodeIgniter\BaseModel->insert([...], true)
+ 7 APPPATH\Models\UserModel.php(33): CodeIgniter\Model->insert([...])
+ 8 APPPATH\Controllers\Strava.php(81): App\Models\UserModel->updateOrCreate([...])
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Strava->callback()
+10 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+11 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 08:45:48 --> [Caused by] mysqli_sql_exception: Unknown column 'strava_expires_at' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 312.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(312): mysqli->query('INSERT INTO `users` (`strava_athlete_id`, `name`, `strava_access_token`, `strava_refresh_token`, `strava_expires_at`, `profile_medium`, `profile`) VALUES (10140652, \'Sudarshan Subramanian\', \'37bef57f227634636a45992c7319bfda3b06aa63\', \'ca4f003c48c96e0ab9a15794fc327b8434b99612\', 1721915387, \'https://dgalywyr863hv.cloudfront.net/pictures/athletes/10140652/12883487/1/medium.jpg\', \'https://dgalywyr863hv.cloudfront.net/pictures/athletes/10140652/12883487/1/large.jpg\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `users` (`strava_athlete_id`, `name`, `strava_access_token`, `strava_refresh_token`, `strava_expires_at`, `profile_medium`, `profile`) VALUES (10140652, \'Sudarshan Subramanian\', \'37bef57f227634636a45992c7319bfda3b06aa63\', \'ca4f003c48c96e0ab9a15794fc327b8434b99612\', 1721915387, \'https://dgalywyr863hv.cloudfront.net/pictures/athletes/10140652/12883487/1/medium.jpg\', \'https://dgalywyr863hv.cloudfront.net/pictures/athletes/10140652/12883487/1/large.jpg\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `users` (`strava_athlete_id`, `name`, `strava_access_token`, `strava_refresh_token`, `strava_expires_at`, `profile_medium`, `profile`) VALUES (10140652, \'Sudarshan Subramanian\', \'37bef57f227634636a45992c7319bfda3b06aa63\', \'ca4f003c48c96e0ab9a15794fc327b8434b99612\', 1721915387, \'https://dgalywyr863hv.cloudfront.net/pictures/athletes/10140652/12883487/1/medium.jpg\', \'https://dgalywyr863hv.cloudfront.net/pictures/athletes/10140652/12883487/1/large.jpg\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2332): CodeIgniter\Database\BaseConnection->query('INSERT INTO `users` (`strava_athlete_id`, `name`, `strava_access_token`, `strava_refresh_token`, `strava_expires_at`, `profile_medium`, `profile`) VALUES (:strava_athlete_id:, :name:, :strava_access_token:, :strava_refresh_token:, :strava_expires_at:, :profile_medium:, :profile:)', [...], false)
+ 5 SYSTEMPATH\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+ 6 SYSTEMPATH\BaseModel.php(840): CodeIgniter\Model->doInsert([...])
+ 7 SYSTEMPATH\Model.php(802): CodeIgniter\BaseModel->insert([...], true)
+ 8 APPPATH\Models\UserModel.php(33): CodeIgniter\Model->insert([...])
+ 9 APPPATH\Controllers\Strava.php(81): App\Models\UserModel->updateOrCreate([...])
+10 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Strava->callback()
+11 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+12 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 09:13:13 --> ParseError: syntax error, unexpected token "catch", expecting "function" or "const"
+[Method: GET, Route: strava/connectToStrava]
+in APPPATH\Controllers\Strava.php on line 116.
+ 1 SYSTEMPATH\Autoloader\Autoloader.php(296): CodeIgniter\Autoloader\Autoloader->includeFile('E:\\Xampp2\\htdocs\\ci4\\app\\Controllers\\Strava.php')
+ 2 SYSTEMPATH\Autoloader\Autoloader.php(272): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\Strava')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\Strava')
+ 4 SYSTEMPATH\CodeIgniter.php(887): class_exists('\\App\\Controllers\\Strava', true)
+ 5 SYSTEMPATH\CodeIgniter.php(496): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2024-07-25 09:24:03 --> Error syncing Strava data: Undefined variable $user
+ERROR - 2024-07-25 09:33:16 --> Error syncing Strava data: Undefined variable $user
+ERROR - 2024-07-25 09:34:57 --> Error syncing Strava data: Undefined variable $user
+ERROR - 2024-07-25 09:35:44 --> Error syncing Strava data: Undefined variable $user
+ERROR - 2024-07-25 09:45:20 --> Error in Strava callback: 22 : The requested URL returned error: 400
+ERROR - 2024-07-25 09:45:51 --> Error in Strava callback: 22 : The requested URL returned error: 400
+ERROR - 2024-07-25 09:46:35 --> Error in Strava callback: 22 : The requested URL returned error: 400
+ERROR - 2024-07-25 09:46:45 --> Error in Strava callback: 22 : The requested URL returned error: 400
+ERROR - 2024-07-25 09:48:43 --> Error in Strava callback: 22 : The requested URL returned error: 400
+ERROR - 2024-07-25 09:49:09 --> Error in Strava callback: 22 : The requested URL returned error: 400
+ERROR - 2024-07-25 09:51:04 --> Error in Strava callback: 22 : The requested URL returned error: 400
+ERROR - 2024-07-25 09:56:15 --> Error in Strava callback: 22 : The requested URL returned error: 400
+CRITICAL - 2024-07-25 10:00:34 --> TypeError: App\Controllers\Strava::connectToStrava(): Return value must be of type CodeIgniter\HTTP\RedirectResponse, none returned
+[Method: GET, Route: strava/connectToStrava]
+in APPPATH\Controllers\Strava.php on line 26.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Strava->connectToStrava()
+ 2 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 10:05:16 --> Error: Class "App\Models\StravaActivityModel" not found
+[Method: GET, Route: strava/callback]
+in APPPATH\Controllers\Strava.php on line 105.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Strava->callback()
+ 2 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Strava))
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 10:21:08 --> ErrorException: Undefined array key "name"
+[Method: GET, Route: leaderboard]
+in APPPATH\Views\leaderboard_view.php on line 42.
+ 1 APPPATH\Views\leaderboard_view.php(42): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "name"', 'E:\\Xampp2\\htdocs\\ci4\\app\\Views\\leaderboard_view.php', 42)
+ 2 SYSTEMPATH\View\View.php(234): include('E:\\Xampp2\\htdocs\\ci4\\app\\Views\\leaderboard_view.php')
+ 3 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('leaderboard_view', [], true)
+ 5 APPPATH\Controllers\Leaderboard.php(31): view('leaderboard_view', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Leaderboard->index()
+ 7 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Leaderboard))
+ 8 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-07-25 10:21:57 --> ErrorException: Undefined array key "total_activities"
+[Method: GET, Route: leaderboard]
+in APPPATH\Views\leaderboard_view.php on line 44.
+ 1 APPPATH\Views\leaderboard_view.php(44): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "total_activities"', 'E:\\Xampp2\\htdocs\\ci4\\app\\Views\\leaderboard_view.php', 44)
+ 2 SYSTEMPATH\View\View.php(234): include('E:\\Xampp2\\htdocs\\ci4\\app\\Views\\leaderboard_view.php')
+ 3 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('leaderboard_view', [], true)
+ 5 APPPATH\Controllers\Leaderboard.php(31): view('leaderboard_view', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Leaderboard->index()
+ 7 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Leaderboard))
+ 8 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
