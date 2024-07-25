@@ -52,7 +52,7 @@ class Database extends Config
 
     public array $jaws = [
         'DSN'          => '',
-        'hostname'     => 'd6ybckq58s9ru745.cbetxkdyhwsb.us-east-1.rds.amazonaws.com	',
+        'hostname'     => 'd6ybckq58s9ru745.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
         'username'     => 's8yl2mwcdsycoyjy',
         'password'     => 'fbncstzjighghd5g',
         'database'     => 'wt4snbl8m2182yl0',
