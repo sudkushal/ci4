@@ -16,7 +16,8 @@ class App extends BaseConfig
      *
      * E.g., http://example.com/
      */
-    public string $baseURL = 'http://localhost/ci4/public/';
+   // public string $baseURL = 'http://localhost/ci4/public/';
+    public string $baseURL = 'https://fitness2024-6db662420b29.herokuapp.com/public/';
     public $composer_autoload = true;
 
 
