@@ -10,105 +10,112 @@ class Leaderboard100 extends BaseController
 {
     public function index()
     {
-        // Validate date range is exactly 20 days
+        // Challenge Configuration 
+        $challengeConfig = [
+            'minDailyDistance' => 5,            // Minimum daily distance in km
+            'minQualifyingDays' => 12,          // Minimum qualifying days for the overall challenge
+            'bonusDistance' => 12,            // Distance in km for bonus points
+            'maxBonusDays' => 2,               // Maximum days to earn bonus points
+            'pointsPerDay' => 10,
+            'bonusPoints' => 25,
+            'overallPoints' => 100
+        ];
+
         $startDate = AppConstants::CHALLENGE_START_DATE;
         $endDate = AppConstants::CHALLENGE_END_DATE;
-
-        $dateDiff = (strtotime($endDate) - strtotime($startDate)) / (60 * 60 * 24);
-        $dateDiff = $dateDiff +1;
-
+        
+        // Calculate challenge duration and dynamic values
+        $dateDiff = (strtotime($endDate) - strtotime($startDate)) / (60 * 60 * 24) + 1; // Add 1 to include both start and end days
+        $minQualifyingDays = min($challengeConfig['minQualifyingDays'], $dateDiff); 
+        $overallMinDistance = ($challengeConfig['minDailyDistance'] * $minQualifyingDays) + $challengeConfig['bonusDistance'];
+        
+        // Model Instantiation
         $activityModel = new StravaActivityModel();
         $userModel = new UserModel();
         $users = $userModel->select(['name', 'strava_athlete_id','profile_medium'])->findAll();
         $activityTypes = ['Walk', 'Run'];
-
+        
+        // Prepare Leaderboard Data
         $leaderboardData = [];
         foreach ($users as $user) {
             $activities = $activityModel->getActivitiesForLeaderboard($user['strava_athlete_id'], $startDate, $endDate, $activityTypes);
-            $pointsCalculation = $this->calculatePoints($activities, $dateDiff);
-            $points = $pointsCalculation['points'];
-            $pointsBreakdown = $pointsCalculation['breakdown'];
-            $totalDistance = $this->calculateTotalDistance($activities); // Calculate total distance
-            
-            if ($points > 0) {
-                $leaderboardData[] = [
-                    'strava_athlete_id' => $user['strava_athlete_id'],
-                    'name' => $user['name'],
-                    'profile_medium' => $user['profile_medium'],
-                    'total_distance' => $totalDistance,
+            $pointsCalculation = $this->calculatePoints($activities, $challengeConfig, $minQualifyingDays);
+            if ($pointsCalculation['points'] > 0) {
+                $leaderboardData[] = array_merge($user, $pointsCalculation, [
+                    'total_distance' => $this->calculateTotalDistance($activities),
                     'total_activities' => count($activities),
-                    'points' => $points,
-                    'points_breakdown' => $pointsBreakdown,
-                    'qualifying_activities' => $this->getQualifyingActivities($activities, $dateDiff),
-                ];
+                    'qualifying_activities' => $this->getQualifyingActivities($activities, $dateDiff)
+                ]);
             }
         }
 
-        usort($leaderboardData, function($a, $b) {
-            return $b['points'] - $a['points'];
-        });
-
+        // Sort and Render
+        usort($leaderboardData, fn($a, $b) => $b['points'] - $a['points']);
         return view('leaderboard100_view', [
             'leaderboardData' => $leaderboardData,
             'startDate' => $startDate,
             'endDate' => $endDate,
-            'filterLabel' => 'All Activities' // You can adjust this for different filter types
+            'filterLabel' => 'All Activities',
+            'challengeConfig' => $challengeConfig 
         ]);
     }
 
-    private function calculatePoints($activities, $dateDiff)
+    private function calculatePoints($activities, $challengeConfig, $minQualifyingDays)
     {
         $points = 0;
         $pointsBreakdown = [];
-        $daysWith5km = 0;
-        $daysWith12km = 0;
-
+        $daysWithMinDistance = 0;
+        $bonusDays = 0;
+        $totalDistance = 0;
+        
         foreach ($activities as $activity) {
             $distance = $activity['distance'] / 1000; // Convert meters to kilometers
 
-            if ($distance >= 5) {
-                $daysWith5km++;
+            if ($distance >= $challengeConfig['minDailyDistance']) {
+                $daysWithMinDistance++;
             }
-            if ($distance >= 12 && $daysWith12km < 2) {
-                $daysWith12km++;
+            if ($distance >= $challengeConfig['bonusDistance'] && $bonusDays < $challengeConfig['maxBonusDays']) {
+                $bonusDays++;
             }
+            $totalDistance += $distance;
         }
 
-        // Award points only if minimum criteria are met
-        if ($daysWith5km >= 12) {
-            $points += 10 * min($daysWith5km, $dateDiff+1); // Max 10 points per day for up to 20 days
-            $pointsBreakdown['5km+'] = 10 * min($daysWith5km, $dateDiff);
-            if ($daysWith12km > 0) {
-                $points += 25 * $daysWith12km; // 25 points per day for up to 2 days
-                $pointsBreakdown['12km+'] = 25 * $daysWith12km;
-            }
+        // Award Points
+        if ($daysWithMinDistance >= $minQualifyingDays && $totalDistance >= $challengeConfig['overallMinDistance']) {
+            $points += $challengeConfig['overallPoints'];
+            $pointsBreakdown['Overall'] = $challengeConfig['overallPoints'];
+            
+            $points += $challengeConfig['pointsPerDay'] * $daysWithMinDistance; 
+            $pointsBreakdown[$challengeConfig['minDailyDistance'].'km+'] = $challengeConfig['pointsPerDay'] * $daysWithMinDistance;
+            $points += $challengeConfig['bonusPoints'] * $bonusDays; 
+            $pointsBreakdown[$challengeConfig['bonusDistance'].'km+'] = $challengeConfig['bonusPoints'] * $bonusDays;
         }
-
+        
         return ['points' => $points, 'breakdown' => $pointsBreakdown];
     }
 
     private function getQualifyingActivities($activities, $dateDiff)
     {
         $qualifyingActivities = [];
-        $daysWith5km = 0;
-        $daysWith12km = 0;
+        $daysWithMinDistance = 0;
+        $bonusDays = 0;
 
         foreach ($activities as $activity) {
-            if ($activity['distance'] >= 5000 && $daysWith5km < $dateDiff) {
+            // Include only activities that contribute to points
+            if ($activity['distance'] >= 5000 && $daysWithMinDistance < $dateDiff) {
                 $qualifyingActivities[] = $activity;
-                $daysWith5km++;
+                $daysWithMinDistance++;
             }
 
-            if ($activity['distance'] >= 12000 && $daysWith12km < 2) {
+            if ($activity['distance'] >= 12000 && $bonusDays < 2) {
                 $qualifyingActivities[] = $activity;
-                $daysWith12km++;
+                $bonusDays++;
             }
         }
-
         return $qualifyingActivities;
     }
     
-     private function calculateTotalDistance($activities){
+    private function calculateTotalDistance($activities){
         return array_reduce($activities, function($sum, $activity) {
             return $sum + $activity['distance'] / 1000;
         }, 0);

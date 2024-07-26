@@ -204,3 +204,32 @@ input[type="checkbox"] {
     margin-right: 10px; /* Add some space between the image and the name */
     vertical-align: middle; /* Align the image vertically with the text */
 }
+
+/* Leaderboard100 View Specific Styles */
+
+/* Points Breakdown List Styling */
+.leaderboard-table td ul {
+    list-style: none; /* Remove default bullet points */
+    padding: 0;
+    margin: 0;
+}
+
+.leaderboard-table td ul li {
+    font-size: 0.9em; /* Slightly smaller font size for breakdown items */
+    margin-bottom: 5px; /* Add spacing between breakdown items */
+}
+
+.filter-container{
+  margin-bottom: 15px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) { 
+    .leaderboard-table {
+        font-size: 0.9em; /* Slightly smaller font size on smaller screens */
+    }
+
+    .leaderboard-table th, .leaderboard-table td {
+        padding: 0.5rem; /* Reduce padding for smaller screens */
+    }
+}
