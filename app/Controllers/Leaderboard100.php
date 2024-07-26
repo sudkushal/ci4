@@ -21,24 +21,18 @@ class Leaderboard100 extends BaseController
 
         $activityModel = new StravaActivityModel();
         $userModel = new UserModel();
-        $users = $userModel->select(['name', 'strava_athlete_id','profile_medium'])->findAll(); // Explicitly select 'name'
+        $users = $userModel->select(['name', 'strava_athlete_id','profile_medium'])->findAll();
         $activityTypes = ['Walk', 'Run'];
 
         $leaderboardData = [];
         foreach ($users as $user) {
             $activities = $activityModel->getActivitiesForLeaderboard($user['strava_athlete_id'], $startDate, $endDate, $activityTypes);
-
-            // Point Calculation Logic
             $pointsCalculation = $this->calculatePoints($activities);
             $points = $pointsCalculation['points'];
             $pointsBreakdown = $pointsCalculation['breakdown'];
-
-            // Only include users with at least 12 qualifying days
-            $totalDistance = array_reduce($activities, function($sum, $activity) {
-                return $sum + $activity['distance'] / 1000;
-            }, 0);
-
-            if($totalDistance >= 60){
+            $totalDistance = $this->calculateTotalDistance($activities); // Calculate total distance
+            
+            if ($points > 0) {
                 $leaderboardData[] = [
                     'strava_athlete_id' => $user['strava_athlete_id'],
                     'name' => $user['name'],
@@ -63,7 +57,7 @@ class Leaderboard100 extends BaseController
             'filterLabel' => 'All Activities' // You can adjust this for different filter types
         ]);
     }
-    
+
     private function calculatePoints($activities)
     {
         $points = 0;
@@ -74,16 +68,21 @@ class Leaderboard100 extends BaseController
         foreach ($activities as $activity) {
             $distance = $activity['distance'] / 1000; // Convert meters to kilometers
 
-            if ($distance >= 5 && $daysWith5km < 20) {
-                $points += 10;
+            if ($distance >= 5) {
                 $daysWith5km++;
-                $pointsBreakdown[] = "10 points for 5+ km activity on " . date('Y-m-d', strtotime($activity['start_date_local']));
             }
-
             if ($distance >= 12 && $daysWith12km < 2) {
-                $points += 25;
                 $daysWith12km++;
-                $pointsBreakdown[] = "25 points for 12+ km activity on " . date('Y-m-d', strtotime($activity['start_date_local']));
+            }
+        }
+
+        // Award points only if minimum criteria are met
+        if ($daysWith5km >= 12) {
+            $points += 10 * min($daysWith5km, 20); // Max 10 points per day for up to 20 days
+            $pointsBreakdown['5km+'] = 10 * min($daysWith5km, 20);
+            if ($daysWith12km > 0) {
+                $points += 25 * $daysWith12km; // 25 points per day for up to 2 days
+                $pointsBreakdown['12km+'] = 25 * $daysWith12km;
             }
         }
 
@@ -109,5 +108,11 @@ class Leaderboard100 extends BaseController
         }
 
         return $qualifyingActivities;
+    }
+    
+     private function calculateTotalDistance($activities){
+        return array_reduce($activities, function($sum, $activity) {
+            return $sum + $activity['distance'] / 1000;
+        }, 0);
     }
 }
