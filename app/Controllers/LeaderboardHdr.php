@@ -21,7 +21,7 @@ class LeaderboardHdr extends BaseController
                 'km' => 5,            // Minimum distance in km
                 'pointsPerDay' => 100, // Points per day for reaching this distance
                 'minDays' => 12,      // Minimum days to qualify for overall points
-                'maxDays' => 0,       // 0 means no maximum limit on days
+                'maxDays' => 20,       // 0 means no maximum limit on days
             ],
             'activeDay' => [       // Active day criteria
                 'km' => 7,            // Distance in km to qualify for active day
