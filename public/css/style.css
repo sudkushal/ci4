@@ -233,3 +233,122 @@ input[type="checkbox"] {
         padding: 0.5rem; /* Reduce padding for smaller screens */
     }
 }
+
+
+/* General Styles (Apply to all pages) */
+body {
+    font-family: 'Arial', sans-serif; 
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #f4f4f4; 
+}
+
+h1, h2, h3 {
+    text-align: center;
+    font-weight: bold;
+}
+
+a {
+    color: #007bff; 
+    text-decoration: none;
+}
+
+/* Header Styles */
+header {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem 0; 
+}
+/* Navigation styles */
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex; /* Or use float: left for each li */
+    justify-content: center; /* Or space-around, space-between etc. */
+}
+
+nav li {
+    margin: 0 15px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0.5rem 1rem; 
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Main Content Styles */
+main {
+    padding: 20px;
+    max-width: 960px; 
+    margin: 2rem auto;
+}
+
+/* Leaderboard Table Styles */
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    overflow-x: auto; 
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+    border: 1px solid #ddd;
+    padding: 0.8rem;
+    text-align: left;
+}
+
+.leaderboard-table th {
+    background-color: #f2f2f2; 
+}
+
+.profile-pic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* Points Breakdown Styling */
+.leaderboard-table td ul {
+    list-style: none; 
+    padding: 0;
+    margin: 0;
+}
+
+.leaderboard-table td ul li {
+    font-size: 0.9em;
+}
+
+/* Footer Styles (optional) */
+footer {
+    text-align: center;
+    padding: 1rem 0;
+    background-color: #333;
+    color: white;
+}
+
+/* Media Queries for Mobile Optimization */
+@media (max-width: 768px) { 
+    nav ul {
+        flex-direction: column; /* Stack menu items vertically */
+        align-items: center;
+    }
+
+    nav li {
+        margin: 5px 0; 
+    }
+}
