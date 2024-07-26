@@ -46,11 +46,11 @@
                     <td><?= $entry['points']; ?></td>
                     <td>
                         <ul>
-                            <?php if (!empty($entry['breakdown'])) : 
-                                foreach ($entry['breakdown'] as $criterion => $points): ?>
+                            <?php if (!empty($entry['breakdown'])) : ?>
+                                <?php foreach ($entry['breakdown'] as $criterion => $points): ?>
                                     <li><?= $criterion . ': ' . $points; ?> points</li>
-                                <?php endforeach; 
-                            else : ?>
+                                <?php endforeach; ?>
+                            <?php else : ?>
                                 No points earned yet
                             <?php endif; ?>
                         </ul>
