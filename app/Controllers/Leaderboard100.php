@@ -15,9 +15,7 @@ class Leaderboard100 extends BaseController
         $endDate = AppConstants::CHALLENGE_END_DATE;
 
         $dateDiff = (strtotime($endDate) - strtotime($startDate)) / (60 * 60 * 24);
-        if ($dateDiff != 19) { 
-            throw new \Exception('Challenge must be exactly 20 days long.');
-        }
+        $dateDiff = $dateDiff +1;
 
         $activityModel = new StravaActivityModel();
         $userModel = new UserModel();
@@ -27,7 +25,7 @@ class Leaderboard100 extends BaseController
         $leaderboardData = [];
         foreach ($users as $user) {
             $activities = $activityModel->getActivitiesForLeaderboard($user['strava_athlete_id'], $startDate, $endDate, $activityTypes);
-            $pointsCalculation = $this->calculatePoints($activities);
+            $pointsCalculation = $this->calculatePoints($activities, $dateDiff);
             $points = $pointsCalculation['points'];
             $pointsBreakdown = $pointsCalculation['breakdown'];
             $totalDistance = $this->calculateTotalDistance($activities); // Calculate total distance
@@ -41,7 +39,7 @@ class Leaderboard100 extends BaseController
                     'total_activities' => count($activities),
                     'points' => $points,
                     'points_breakdown' => $pointsBreakdown,
-                    'qualifying_activities' => $this->getQualifyingActivities($activities),
+                    'qualifying_activities' => $this->getQualifyingActivities($activities, $dateDiff),
                 ];
             }
         }
@@ -58,7 +56,7 @@ class Leaderboard100 extends BaseController
         ]);
     }
 
-    private function calculatePoints($activities)
+    private function calculatePoints($activities, $dateDiff)
     {
         $points = 0;
         $pointsBreakdown = [];
@@ -78,8 +76,8 @@ class Leaderboard100 extends BaseController
 
         // Award points only if minimum criteria are met
         if ($daysWith5km >= 12) {
-            $points += 10 * min($daysWith5km, 20); // Max 10 points per day for up to 20 days
-            $pointsBreakdown['5km+'] = 10 * min($daysWith5km, 20);
+            $points += 10 * min($daysWith5km, $dateDiff+1); // Max 10 points per day for up to 20 days
+            $pointsBreakdown['5km+'] = 10 * min($daysWith5km, $dateDiff);
             if ($daysWith12km > 0) {
                 $points += 25 * $daysWith12km; // 25 points per day for up to 2 days
                 $pointsBreakdown['12km+'] = 25 * $daysWith12km;
@@ -89,14 +87,14 @@ class Leaderboard100 extends BaseController
         return ['points' => $points, 'breakdown' => $pointsBreakdown];
     }
 
-    private function getQualifyingActivities($activities)
+    private function getQualifyingActivities($activities, $dateDiff)
     {
         $qualifyingActivities = [];
         $daysWith5km = 0;
         $daysWith12km = 0;
 
         foreach ($activities as $activity) {
-            if ($activity['distance'] >= 5000 && $daysWith5km < 20) {
+            if ($activity['distance'] >= 5000 && $daysWith5km < $dateDiff) {
                 $qualifyingActivities[] = $activity;
                 $daysWith5km++;
             }
