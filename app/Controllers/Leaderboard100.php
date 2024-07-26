@@ -1,10 +1,10 @@
 <?php
-
 namespace App\Controllers;
 
 use App\Models\UserModel;
 use App\Models\StravaActivityModel;
 use App\Config\AppConstants;
+use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class Leaderboard100 extends BaseController
 {
@@ -25,7 +25,7 @@ class Leaderboard100 extends BaseController
         $endDate = AppConstants::CHALLENGE_END_DATE;
         
         // Calculate challenge duration and dynamic values
-        $dateDiff = (strtotime($endDate) - strtotime($startDate)) / (60 * 60 * 24) + 1; // Add 1 to include both start and end days
+        $dateDiff = (strtotime($endDate) - strtotime($startDate)) / (60 * 60 * 24) + 1;
         $minQualifyingDays = min($challengeConfig['minQualifyingDays'], $dateDiff); 
         $overallMinDistance = ($challengeConfig['minDailyDistance'] * $minQualifyingDays) + $challengeConfig['bonusDistance'];
         
@@ -39,7 +39,7 @@ class Leaderboard100 extends BaseController
         $leaderboardData = [];
         foreach ($users as $user) {
             $activities = $activityModel->getActivitiesForLeaderboard($user['strava_athlete_id'], $startDate, $endDate, $activityTypes);
-            $pointsCalculation = $this->calculatePoints($activities, $challengeConfig, $minQualifyingDays);
+            $pointsCalculation = $this->calculatePoints($activities, $challengeConfig, $minQualifyingDays, $overallMinDistance);
             if ($pointsCalculation['points'] > 0) {
                 $leaderboardData[] = array_merge($user, $pointsCalculation, [
                     'total_distance' => $this->calculateTotalDistance($activities),
@@ -57,11 +57,12 @@ class Leaderboard100 extends BaseController
             'endDate' => $endDate,
             'filterLabel' => 'All Activities',
             'challengeConfig' => $challengeConfig,
-            'overallMinDistance' => $overallMinDistance, 
+            'overallMinDistance' => $overallMinDistance
         ]);
     }
 
-    private function calculatePoints($activities, $challengeConfig, $minQualifyingDays)
+    // Private Methods
+    private function calculatePoints($activities, $challengeConfig, $minQualifyingDays, $overallMinDistance)
     {
         $points = 0;
         $pointsBreakdown = [];
@@ -70,8 +71,8 @@ class Leaderboard100 extends BaseController
         $totalDistance = 0;
         
         foreach ($activities as $activity) {
-            $distance = $activity['distance'] / 1000; // Convert meters to kilometers
-
+            $distance = $activity['distance'] / 1000; 
+            
             if ($distance >= $challengeConfig['minDailyDistance']) {
                 $daysWithMinDistance++;
             }
@@ -81,17 +82,15 @@ class Leaderboard100 extends BaseController
             $totalDistance += $distance;
         }
 
-        // Award Points
-        if ($daysWithMinDistance >= $minQualifyingDays && $totalDistance >= $challengeConfig['overallMinDistance']) {
+        if ($daysWithMinDistance >= $minQualifyingDays && $totalDistance >= $overallMinDistance) {
             $points += $challengeConfig['overallPoints'];
             $pointsBreakdown['Overall'] = $challengeConfig['overallPoints'];
-            
             $points += $challengeConfig['pointsPerDay'] * $daysWithMinDistance; 
             $pointsBreakdown[$challengeConfig['minDailyDistance'].'km+'] = $challengeConfig['pointsPerDay'] * $daysWithMinDistance;
-            $points += $challengeConfig['bonusPoints'] * $bonusDays; 
+            $points += $challengeConfig['bonusPoints'] * $bonusDays;
             $pointsBreakdown[$challengeConfig['bonusDistance'].'km+'] = $challengeConfig['bonusPoints'] * $bonusDays;
         }
-        
+
         return ['points' => $points, 'breakdown' => $pointsBreakdown];
     }
 
@@ -102,7 +101,6 @@ class Leaderboard100 extends BaseController
         $bonusDays = 0;
 
         foreach ($activities as $activity) {
-            // Include only activities that contribute to points
             if ($activity['distance'] >= 5000 && $daysWithMinDistance < $dateDiff) {
                 $qualifyingActivities[] = $activity;
                 $daysWithMinDistance++;
@@ -115,9 +113,10 @@ class Leaderboard100 extends BaseController
         }
         return $qualifyingActivities;
     }
-    
-    private function calculateTotalDistance($activities){
-        return array_reduce($activities, function($sum, $activity) {
+
+    private function calculateTotalDistance($activities)
+    {
+        return array_reduce($activities, function ($sum, $activity) {
             return $sum + $activity['distance'] / 1000;
         }, 0);
     }
