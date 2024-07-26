@@ -60,7 +60,13 @@ class Leaderboard100 extends BaseController
             // Only include users with at least 12 qualifying days
             if ($daysWith5km >= 12) {
                 $leaderboardData[] = [
-                    // ... rest of user data (same as before) ...
+                    'strava_athlete_id' => $user['strava_athlete_id'],
+                    'name' => $user['name'], // Make sure this line is present and correct
+                    'profile_medium' => $user['profile_medium'],
+                    'total_distance' => $totalDistance,
+                    'total_activities' => count($activities),
+                    'points' => $points,
+                    'qualifying_activities' => $this->getQualifyingActivities($activities),
                 ];
             }
         }
@@ -76,4 +82,26 @@ class Leaderboard100 extends BaseController
             'filterLabel' => 'All Activities' // You can adjust this for different filter types
         ]);
     }
+
+    private function getQualifyingActivities($activities)
+    {
+        $qualifyingActivities = [];
+        $daysWith5km = 0;
+        $daysWith12km = 0;
+
+        foreach ($activities as $activity) {
+            if ($activity['distance'] >= 5000 && $daysWith5km < 20) { 
+                $qualifyingActivities[] = $activity;
+                $daysWith5km++;
+            }
+
+            if ($activity['distance'] >= 12000 && $daysWith12km < 2) {
+                $qualifyingActivities[] = $activity;
+                $daysWith12km++;
+            }
+        }
+
+        return $qualifyingActivities;
+    }
+
 }
