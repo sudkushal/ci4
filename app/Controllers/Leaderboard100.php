@@ -56,7 +56,8 @@ class Leaderboard100 extends BaseController
             'startDate' => $startDate,
             'endDate' => $endDate,
             'filterLabel' => 'All Activities',
-            'challengeConfig' => $challengeConfig 
+            'challengeConfig' => $challengeConfig,
+            'overallMinDistance' => $overallMinDistance, 
         ]);
     }
 
