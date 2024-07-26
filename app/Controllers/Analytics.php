@@ -15,7 +15,6 @@ class Analytics extends BaseController
         $endDate = AppConstants::CHALLENGE_END_DATE;
         $activityTypes = ['Walk', 'Run'];
 
-
         // Overall Stats
         $totalDistance = $activityModel->select('SUM(distance)')->whereIn('type', $activityTypes)
             ->where('start_date >=', $startDate)->where('start_date <', $endDate)->first()['SUM(distance)'] ?? 0;
@@ -23,15 +22,12 @@ class Analytics extends BaseController
             ->where('start_date >=', $startDate)->where('start_date <', $endDate)->countAllResults();
         $averageDistance = ($totalActivities > 0) ? $totalDistance / $totalActivities : 0;
 
-
         // Participation
         $participants = $activityModel->select('strava_athlete_id')->distinct()
             ->whereIn('type', $activityTypes)
             ->where('start_date >=', $startDate)->where('start_date <', $endDate)->countAllResults();
         $totalDays = floor((strtotime($endDate) - strtotime($startDate)) / (60 * 60 * 24));
         $averageActivitiesPerParticipant = ($participants > 0) ? $totalActivities / $participants : 0;
-
-        //        print_r($averageActivitiesPerParticipant); exit;
 
         // Distance-Based Insights
         $longestActivity = $activityModel->whereIn('type', $activityTypes)
@@ -41,8 +37,7 @@ class Analytics extends BaseController
             ->where('start_date >=', $startDate)->where('start_date <', $endDate)
             ->orderBy('distance', 'ASC')->first();
 
-
-        // Time-Based Insights (Assuming you have these fields in your database)
+        // Time-Based Insights
         $totalMovingTime = $activityModel->select('SUM(moving_time)')->whereIn('type', $activityTypes)
             ->where('start_date >=', $startDate)->where('start_date <', $endDate)->first()['SUM(moving_time)'] ?? 0;
         $averageMovingTime = ($totalActivities > 0) ? $totalMovingTime / $totalActivities : 0;
@@ -61,15 +56,18 @@ class Analytics extends BaseController
             ->orderBy('count', 'DESC')
             ->first();
 
+        // Additional Analytics
+        $totalElevationGain = $activityModel->select('SUM(total_elevation_gain)')->whereIn('type', $activityTypes)
+            ->where('start_date >=', $startDate)->where('start_date <', $endDate)->first()['SUM(total_elevation_gain)'] ?? 0;
+
+        $averageSpeed = $activityModel->select('AVG(average_speed)')->whereIn('type', $activityTypes)
+            ->where('start_date >=', $startDate)->where('start_date <', $endDate)->first()['AVG(average_speed)'] ?? 0;
+
+        $maxSpeed = $activityModel->select('MAX(max_speed)')->whereIn('type', $activityTypes)
+            ->where('start_date >=', $startDate)->where('start_date <', $endDate)->first()['MAX(max_speed)'] ?? 0;
+
         // Pass data to the view
         $data = [
-            // ... (Previous data variables) ...
-            'totalMovingTime' => $totalMovingTime,
-            'averageMovingTime' => $averageMovingTime,
-            'mostActiveDay' => $mostActiveDay ? $mostActiveDay['day'] : 'N/A',
-            'mostActiveHour' => $mostActiveHour ? $mostActiveHour['hour'] : 'N/A',
-            'startDate' => $startDate,
-            'endDate' => $endDate,
             'totalDistance' => $totalDistance,
             'totalActivities' => $totalActivities,
             'averageDistance' => $averageDistance,
@@ -77,7 +75,15 @@ class Analytics extends BaseController
             'averageActivitiesPerParticipant' => $averageActivitiesPerParticipant,
             'longestActivity' => $longestActivity,
             'shortestActivity' => $shortestActivity,
-            
+            'totalMovingTime' => $totalMovingTime,
+            'averageMovingTime' => $averageMovingTime,
+            'mostActiveDay' => $mostActiveDay ? $mostActiveDay['day'] : 'N/A',
+            'mostActiveHour' => $mostActiveHour ? $mostActiveHour['hour'] : 'N/A',
+            'totalElevationGain' => $totalElevationGain,
+            'averageSpeed' => $averageSpeed,
+            'maxSpeed' => $maxSpeed,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
         ];
 
         return view('analytics_view', $data);
