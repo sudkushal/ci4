@@ -18,24 +18,24 @@ class LeaderboardHdr extends BaseController
         // 1. Challenge Configuration (Easily Customizable)
         $challengeConfig = [
             'minDistance' => [      // Minimum daily distance criteria
-                'km' => 5,            // Minimum distance in km
-                'pointsPerDay' => 100, // Points per day for reaching this distance
-                'minDays' => 12,      // Minimum days to qualify for overall points
+                'km' => 2,            // Minimum distance in km
+                'pointsPerDay' => 1, // Points per day for reaching this distance
+                'minDays' => 1,      // Minimum days to qualify for overall points
                 'maxDays' => 20,       // 0 means no maximum limit on days
             ],
             'activeDay' => [       // Active day criteria
-                'km' => 7,            // Distance in km to qualify for active day
-                'pointsPerDay' => 150, // Points per active day
-                'minDays' => 6,       // Minimum active days
-                'maxDays' => 10,      // Maximum active days
+                'km' => 0,            // Distance in km to qualify for active day
+                'pointsPerDay' => 0, // Points per active day
+                'minDays' => 0,       // Minimum active days
+                'maxDays' => 0,      // Maximum active days
             ],
             'bonusDay' => [        // Bonus day criteria
-                'km' => 11,           // Distance in km to qualify for bonus day
-                'points' => 200,     // Points awarded for a bonus day
+                'km' => 5,           // Distance in km to qualify for bonus day
+                'points' => 10,     // Points awarded for a bonus day
             ],
             'overallMinDistance' => [  // Overall minimum distance criteria
-                'km' => 75,           // Total distance in km
-                'points' => 250,     // Points awarded for overall distance
+                'km' => 50,           // Total distance in km
+                'points' => 10,     // Points awarded for overall distance
             ],
         ];
 
