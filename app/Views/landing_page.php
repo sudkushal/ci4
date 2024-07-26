@@ -7,13 +7,7 @@
 <body>
     <header>
         <h1>100 Days Fitness Challenge</h1>
-        <nav>
-            <ul>
-            <li><a href="<?= site_url('/'); ?>">Home</a></li>
-                <li><a href="<?= site_url('leaderboard'); ?>">Leaderboard</a></li>
-                <li><a href="<?= site_url('analytics'); ?>">Analytics</a></li>
-            </ul>
-        </nav>
+        <?= $this->include('_menu') ?>
     </header>
 
     <main>

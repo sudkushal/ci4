@@ -1,4 +1,6 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use CodeIgniter\Model;
 
@@ -10,9 +12,9 @@ class StravaActivityModel extends Model
     protected $allowedFields    = [
         'strava_athlete_id',
         'activity_id',
-        'name', 
-        'distance', 
-        'moving_time', 
+        'name',
+        'distance',
+        'moving_time',
         'elapsed_time',
         'type',
         'start_date',
@@ -23,7 +25,7 @@ class StravaActivityModel extends Model
         'average_speed',
         'max_speed'
     ];
-    
+
     public function updateOrCreate(array $data)
     {
         // Check if the activity already exists for this athlete
@@ -39,5 +41,14 @@ class StravaActivityModel extends Model
             // Create a new activity record
             $this->insert($data);
         }
+    }
+
+    public function getActivitiesForLeaderboard($stravaAthleteId, $startDate, $endDate, $activityTypes)
+    {
+        return $this->where('strava_athlete_id', $stravaAthleteId)
+            ->where('start_date >=', $startDate)
+            ->where('start_date <', $endDate)
+            ->whereIn('type', $activityTypes)
+            ->findAll();
     }
 }

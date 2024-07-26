@@ -13,3 +13,4 @@ $routes->get('strava/callback', 'Strava::callback');
 $routes->get('leaderboard', 'Leaderboard::index'); 
 $routes->get('analytics', 'Analytics::index'); 
 $routes->get('chart_analytics', 'ChartAnalytics::index');
+$routes->get('leaderboard100', 'Leaderboard100::index');
