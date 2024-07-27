@@ -2,12 +2,11 @@
 <html>
 <head>
     <title>Privacy Policy - 100 Days Fitness Challenge</title>
-    <link rel="stylesheet" href="<?= base_url('css/style.css'); ?>">
+    <link rel="stylesheet" href="<?= base_url('css/style.css?v=' . time()); ?>">
 </head>
 <body>
-    <header>
-        <h1>Privacy Policy</h1>
-    </header>
+<?= $this->include('_header') ?>
+
 
     <main>
         <h2>100 Days Fitness Challenge Privacy Policy</h2>
@@ -61,7 +60,7 @@
         <h3>Your Rights</h3>
 
         <p>
-            You have the right to request access to, correction of, or deletion of your personal data. To exercise these rights, please contact us at [your contact email].
+            You have the right to request access to, correction of, or deletion of your personal data. To exercise these rights, please contact us at sudarshankushal@gmail.com.
         </p>
 
         <h3>Changes to This Privacy Policy</h3>
@@ -77,7 +76,6 @@
         </p>
     </main>
     
-    <footer>
-    </footer>
+    <?= $this->include('_footer') ?>
 </body>
 </html>

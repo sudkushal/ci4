@@ -7,10 +7,9 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('new_page', 'Auth::index');
-$routes->get('privacy_policy', 'Privacy::index');
+$routes->get('privacy', 'Privacy::index');
 $routes->get('strava/connectToStrava', 'Strava::connectToStrava');
 $routes->get('strava/callback', 'Strava::callback');
-$routes->get('leaderboard', 'Leaderboard::index'); 
 $routes->get('analytics', 'Analytics::index'); 
 $routes->get('chart_analytics', 'ChartAnalytics::index');
-$routes->get('leaderboard100', 'LeaderboardHdr::index');
+$routes->get('leaderboard', 'LeaderboardHdr::index');

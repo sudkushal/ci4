@@ -2,13 +2,11 @@
 <html>
 <head>
     <title>HDR Leaderboard - Fitness Challenge</title>
-    <link rel="stylesheet" href="<?= base_url('css/style.css'); ?>">
+    <link rel="stylesheet" href="<?= base_url('css/style.css?v=' . time()); ?>">
 </head>
 <body>
-    <header>
-        <h1>HDR Leaderboard</h1>
-        <?= $this->include('_menu') ?>
-    </header>
+    
+    <?= $this->include('_header') ?>
 
     <main>
         <h2>Top Athletes for HDR Challenge</h2>
@@ -27,67 +25,79 @@
                     <th>Rank</th>
                     <th>Name</th>
                     <th>Points</th>
-                    <th>Points Breakdown</th>
                     <th>Total Distance (km)</th>
                     <th>Total Activities</th>
-                    <th>Considered Activities</th>
+                    <th>Details</th> 
                 </tr>
             </thead>
             <tbody>
                 <?php $rank = 1; foreach ($leaderboardData as $entry): ?>
-                <tr>
-                    <td><?= $rank++; ?></td>
-                    <td>
-                        <?php if (!empty($entry['profile_medium'])) : ?>
-                            <img src="<?= $entry['profile_medium']; ?>" alt="Athlete Profile" class="profile-pic">
-                        <?php endif; ?>
-                        <?= $entry['name']; ?>
-                    </td>
-                    <td><?= $entry['points']; ?></td>
-                    <td>
-                        <ul>
-                            <?php if (!empty($entry['breakdown'])) : 
-                                foreach ($entry['breakdown'] as $criterion => $points): ?>
-                                    <li><?= $criterion . ': ' . $points; ?> points</li>
-                                <?php endforeach; 
-                            else : ?>
-                                No points earned yet
+                    <tr data-details-row="<?= $rank; ?>"> 
+                        <td><?= $rank++; ?></td>
+                        <td>
+                            <?php if (!empty($entry['profile_medium'])) : ?>
+                                <img src="<?= $entry['profile_medium']; ?>" alt="Athlete Profile" class="profile-pic">
                             <?php endif; ?>
-                        </ul>
-                    </td>
-                    <td><?= number_format($entry['total_distance'], 2); ?></td>
-                    <td><?= $entry['total_activities']; ?></td>
-                    <td>
-                        <?php if (!empty($entry['considered_activities'])) : ?>
-                            <ul>
-                                <?php foreach ($entry['considered_activities'] as $activityId) : ?>
-                                    <li>
-                                        <a href="https://www.strava.com/activities/<?= $activityId; ?>" target="_blank">
-                                            Activity <?= $activityId; ?> 
-                                        </a>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        <?php else : ?>
-                            No activities considered
-                        <?php endif; ?>
-                    </td>
-                </tr>
+                            <?= $entry['name']; ?>
+                        </td>
+                        <td><?= $entry['points']; ?></td>
+                        <td><?= number_format($entry['total_distance'], 2); ?> km</td>
+                        <td><?= $entry['total_activities']; ?></td>
+                        <td><button class="show-more">Show More</button></td>
+                    </tr>
+                    <tr class="details-row" id="details-<?= $rank; ?>" style="display:none;"> 
+                        <td colspan="6">
+                            <strong>Points Breakdown:</strong>
+                            <div class="points-breakdown">
+                                <?php if (!empty($entry['breakdown'])) : 
+                                    foreach ($entry['breakdown'] as $criterion => $points): ?>
+                                        <li><?= $criterion . ': ' . $points; ?> points</li>
+                                    <?php endforeach; 
+                                else : ?>
+                                    No points earned yet
+                                <?php endif; ?>
+                            </div>
+
+                            <strong>Activities Considered:</strong>
+                            <div class="activities-considered">
+                                <?php if (!empty($entry['considered_activities'])): ?>
+                                    <ul>
+                                        <?php foreach ($entry['considered_activities'] as $activityId): ?>
+                                            <li>
+                                                <a href="https://www.strava.com/activities/<?= $activityId; ?>" target="_blank">
+                                                    Activity <?= $activityId; ?>
+                                                </a>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                <?php else: ?>
+                                    No activities considered
+                                <?php endif; ?>
+                            </div>
+                        </td>
+                    </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </main>
-    <footer>
-        <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const rows = document.querySelectorAll('.leaderboard-table tbody tr');
-    rows.forEach(row => {
-        row.addEventListener('click', () => {
-            row.classList.toggle('expanded');
+
+    <?= $this->include('_footer') ?>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const showMoreButtons = document.querySelectorAll('.show-more');
+
+            showMoreButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    // Find the details row by looking for the next sibling with class 'details-row'
+                    const detailsRow = this.closest('tr').nextElementSibling;
+                    if (detailsRow && detailsRow.classList.contains('details-row')) { // Check if the next row is indeed a details row
+                        detailsRow.style.display = detailsRow.style.display === 'none' ? 'table-row' : 'none';
+                        this.textContent = detailsRow.style.display === 'none' ? 'Show More' : 'Show Less';
+                    }
+                });
+            });
         });
-    });
-});
-        </script>
-    </footer>
+    </script>
 </body>
 </html>

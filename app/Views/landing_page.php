@@ -2,13 +2,11 @@
 <html>
 <head>
     <title>100 Days Fitness Challenge</title>
-    <link rel="stylesheet" href="<?= base_url('css/style.css'); ?>">
+    <link rel="stylesheet" href="<?= base_url('css/style.css?v=' . time()); ?>">
 </head>
 <body>
-    <header>
-        <h1>100 Days Fitness Challenge</h1>
-        <?= $this->include('_menu') ?>
-    </header>
+<?= $this->include('_header') ?>
+
 
     <main>
         <section id="strava-connect">
@@ -17,14 +15,14 @@
 
             <label>
                 <input type="checkbox" id="privacyCheckbox">
-                I have read and agree to the <a href="<?= site_url('privacy_policy'); ?>">Privacy Policy</a>.
+                I have read and agree to the <a href="<?= site_url('privacy'); ?>">Privacy Policy</a>.
             </label>
-            <button id="connectStravaBtn" disabled>Connect with Strava</button>
+            <button id="connectStravaBtn" disabled class="btn btn-primary">Connect with Strava</button>
         </section>
     </main>
 
-    <footer>
-        </footer>
+    <?= $this->include('_footer') ?>
+
 
     <script>
         const privacyCheckbox = document.getElementById('privacyCheckbox');

@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Analytics - 100 Days Fitness Challenge</title>
-    <link rel="stylesheet" href="<?= base_url('css/style.css'); ?>">
+    <link rel="stylesheet" href="<?= base_url('css/style.css?v=' . time()); ?>">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .graphs-container {
@@ -28,10 +28,7 @@
 </head>
 <body>
 
-<header>
-    <h1>Analytics</h1>
-    <?= $this->include('_menu') ?>
-</header>
+<?= $this->include('_header') ?>
 
 <main>
     <h2>100 Days Fitness Challenge - Analytics</h2>
@@ -192,7 +189,6 @@
     </script>
 </main>
 
-<footer>
-</footer>
+<?= $this->include('_footer') ?>
 </body>
 </html>
