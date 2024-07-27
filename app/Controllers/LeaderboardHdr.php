@@ -105,67 +105,65 @@ class LeaderboardHdr extends BaseController
     {
         $points = 0;
         $pointsBreakdown = [];
-        $daysWithMinDistance = 0;
+        $daysWithMinDistance = []; // Track qualifying days
         $bonusDayAchieved = false;
         $totalDistance = 0;
-        $consideredActivities = [];
+        $consideredActivities = []; // Array to store considered activities
 
-        // Group activities by date
-        $activitiesByDate = [];
         foreach ($activities as $activity) {
+            $distance = $activity['distance'] / 1000;
             $date = date('Y-m-d', strtotime($activity['start_date_local']));
-            $activitiesByDate[$date][] = $activity;
-        }
-
-        // Find the longest activity for each day and award points
-        foreach ($activitiesByDate as $date => $dailyActivities) {
-            usort($dailyActivities, fn($a, $b) => $b['distance'] - $a['distance']); // Sort by distance descending
-            $longestActivity = $dailyActivities[0];
-            $distance = $longestActivity['distance'] / 1000; // Convert to km
             $totalDistance += $distance;
 
-            if ($distance >= $challengeConfig['minDistance']['km']) {
-                $daysWithMinDistance++;
+            // Check for minimum daily distance (but only if it hasn't been met for the day yet)
+            if ($distance >= $challengeConfig['minDistance']['km'] && !in_array($date, $daysWithMinDistance)) {
+                $daysWithMinDistance[] = $date;
                 $pointsBreakdown["Min. Distance Day ($date)"] = $challengeConfig['minDistance']['pointsPerDay'];
-                $consideredActivities[] = $activity['activity_id'];
             }
-
-            // Bonus points awarded only once for the longest activity meeting the distance requirement
+            
+            // Check for bonus day (only once during the challenge)
             if (!$bonusDayAchieved && $distance >= $challengeConfig['bonusDay']['km']) {
                 $pointsBreakdown["Bonus Day ($date)"] = $challengeConfig['bonusDay']['points'];
                 $bonusDayAchieved = true;
+            } 
+
+            // Check for active day (only once during the challenge)
+            if($distance >= $challengeConfig['activeDay']['km']) {
+                $pointsBreakdown["Active Day ($date)"] = $challengeConfig['activeDay']['pointsPerDay'];
+            }
+            
+            // Add activity to considered activities if it contributes to any category
+            if ($distance >= $challengeConfig['minDistance']['km'] || $distance >= $challengeConfig['bonusDay']['km'] || $distance >= $challengeConfig['activeDay']['km']) {
                 $consideredActivities[] = $activity['activity_id'];
             }
         }
-
+        
         // Award Points Based on Criteria (Independent)
-        if ($daysWithMinDistance >= $challengeConfig['minDistance']['minDays']) {
+        if (count($daysWithMinDistance) >= $challengeConfig['minDistance']['minDays']) {
             // Cap the number of days to the maximum allowed
             $daysCounted = ($challengeConfig['minDistance']['maxDays'] > 0) ? 
-                min($daysWithMinDistance, $challengeConfig['minDistance']['maxDays']) : 
-                $daysWithMinDistance;
+                min(count($daysWithMinDistance), $challengeConfig['minDistance']['maxDays']) : 
+                count($daysWithMinDistance);
             $points += $challengeConfig['minDistance']['pointsPerDay'] * $daysCounted;
         }
 
         // Check for active days (count days that reached bonus distance)
-        $activeDays = count(array_filter($activitiesByDate, function ($dailyActivities) use ($challengeConfig) {
-            return $dailyActivities[0]['distance'] >= $challengeConfig['activeDay']['km'] * 1000; // Filter by distance
+        $activeDays = count(array_filter($activities, function ($activity) use ($challengeConfig) {
+            return $activity['distance'] >= $challengeConfig['activeDay']['km'] * 1000; // Filter by distance
         }));
 
         if ($activeDays >= $challengeConfig['activeDay']['minDays']) {
             // Cap the number of active days to the maximum allowed
             $activeDaysCounted = min($activeDays, $challengeConfig['activeDay']['maxDays']);
             $points += $challengeConfig['activeDay']['pointsPerDay'] * $activeDaysCounted;
-            $pointsBreakdown['Active Days'] = $challengeConfig['activeDay']['pointsPerDay'] * $activeDaysCounted;
         }
 
         // Award points for overall distance (only if minimum days are met)
         if ($daysWithMinDistance >= $challengeConfig['minDistance']['minDays'] &&
             $totalDistance >= $challengeConfig['overallMinDistance']['km']) {
             $points += $challengeConfig['overallMinDistance']['points'];
-            $pointsBreakdown['Overall Distance'] = $challengeConfig['overallMinDistance']['points'];
         }
-        
+
         // Adding bonus points if applicable (only once during the challenge)
         if($bonusDayAchieved){
             $points += $challengeConfig['bonusDay']['points'];
