@@ -1,74 +1,76 @@
 /* General Styles (Apply to all pages) */
 body {
-    font-family: 'Montserrat', sans-serif;     /* Set the main font for the website */
-    line-height: 1.6;                           /* Improve line height for readability */
-    margin: 0;                                /* Remove default margins */
-    color: #333;                             /* Dark grey text color */
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    color: #333; /* Dark gray text for better readability */
     background: linear-gradient(45deg, #4099ff, #7adf9f); /* Vibrant gradient background */
-    display: flex;                            /* Enable flexbox for layout */
-    flex-direction: column;                    /* Stack elements vertically */
-    min-height: 100vh;                         /* Ensure body covers full viewport height */
+    display: flex; /* Enable flexbox for the body */
+    flex-direction: column; 
+    min-height: 100vh; /* Ensure body covers full viewport height */
 }
 
-h1, h2, h3 {                                    /* Basic heading styles */
-    text-align: center;                        /* Center all headings */
-    font-weight: bold;                         /* Make headings bold */
+h1, h2, h3 {
+    text-align: center;
+    font-weight: bold;
 }
 
+/* Heading Colors */
 h1 {
-    color: #fff;                             /* White color for main heading */
-    font-size: 2.5em;                          /* Larger font size for main heading */
+    color: #fff; /* White for main heading */
+    font-size: 2.5em;
 }
 
 h2, h3 {
-    color: #007bff;                          /* Blue color for secondary headings */
+    color: #007bff; /* Blue for secondary headings */
 }
 
 /* Link Styles */
-a {                                            /* Style for hyperlinks */
-    color: #007bff;                          /* Blue color for links */
-    text-decoration: none;                    /* Remove default underline */
+a {
+    color: #007bff; /* Blue links */
+    text-decoration: none;
 }
 
-a:hover {                                      /* Hover effect for links */
-    text-decoration: underline;                /* Underline links on hover */
+a:hover {
+    text-decoration: underline;
 }
 
 /* Button Styles */
-.btn {                                         /* Basic button styles */
-    background-color: #007bff;                /* Primary button color */
-    color: white;                            /* White text color */
-    padding: 0.75rem 1.5rem;                  /* Padding around text */
-    border: none;                             /* Remove default border */
-    border-radius: 0.25rem;                    /* Slightly rounded corners */
-    text-align: center;                        /* Center text */
-    text-decoration: none;                    /* Remove default underline for button links */
-    display: inline-block;                    /* Display as a block-level element, but flow inline with other content */
-    font-size: 1rem;                           /* Standard font size */
-    margin: 4px 2px;                           /* Small margin around the button */
-    cursor: pointer;                          /* Show pointer cursor on hover */
+.btn {
+    background-color: #007bff; /* Primary button color */
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1rem;
+    margin: 4px 2px;
+    cursor: pointer;
 }
 
-.btn:hover {                                  /* Hover effect for buttons */
-    background-color: #0069d9;                /* Slightly darker shade of blue on hover */
+.btn:hover {
+    background-color: #0069d9; /* Slightly darker on hover */
 }
 
 /* Header Styles */
-header {                                         /* Style for the header section */
-    background-color: #2980b9;                /* Main blue background */
-    color: white;                            /* White text color */
-    padding: 1rem;                             /* Padding around the header content */
-    text-align: center;                        /* Center align text within the header */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle box shadow for depth */
-    position: fixed;                           /* Keep the header fixed at the top */
-    top: 0;                                     /* Position the header at the top of the screen */
-    left: 0;                                    /* Position the header at the left of the screen */
-    width: 100%;                                /* Make the header take up full width */
-    z-index: 1000;                             /* Ensure the header is above other elements */
+header {
+    background-color: #2980b9;
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; 
 }
 
 header h1 {
     margin: 0;
+    padding: 0 1rem; 
     line-height: 1.5;
     font-size: 1.8em;
 }
@@ -81,43 +83,145 @@ nav {
 }
 
 nav ul {
-    list-style: none; /* Remove default bullet points */
-    padding: 0;       
+    list-style: none;
+    padding: 0;
     margin: 0;
 }
 
 nav li {
-    display: inline;  /* Display list items horizontally */
-    margin: 0 15px;   /* Add space between list items */
+    display: inline;
+    margin: 0 15px;
 }
 
-nav a {             /* Styles for navigation links */
-    color: white;   /* White text color */
-    padding: 0.5rem 1rem; /* Padding around the link text */
-    border-radius: 5px;  /* Rounded corners */
-    transition: background-color 0.3s ease; /* Smooth transition effect for background color on hover */
+nav a {
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
 nav a:hover, nav a.active {
-    background-color: #0056b3;
+    background-color: #0056b3; 
 }
 
 /* Main Content Styles */
 main {
-    padding: 2rem; /* Add space around the main content */
-    max-width: 960px; /* Limit the maximum width of the content area */
-    margin: 7rem auto; /* Push content down to account for fixed header and footer */
-    flex: 1;                /* Allow the main content to take up the remaining vertical space */
-    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent white background */
+    padding: 2rem;
+    max-width: 960px;
+    margin: 5rem auto 2rem; /* Added margin-bottom to make space for the footer */
+    flex: 1;                /* Allow main content to grow and take remaining space */
+}
+
+/* Section Styles (Landing, Privacy, Analytics) */
+section {
+    background-color: #fff;
+    padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem; /* Add margin between sections */
 }
-/* Section Styles (for landing page, privacy, etc.) */
-section {
-    padding: 1.5rem; /* Adjusted for better spacing */
-    border-bottom: 1px solid #eee; /* Subtle divider between sections */
+
+section:last-child { /* Remove divider from the last section */
+    border-bottom: none;
 }
-/* ... landing page, privacy policy and leaderboard styles same as before ... */
+
+section h2 {
+    margin-top: 0; 
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+section ul, section ol {
+    list-style: disc;
+    padding-left: 20px;
+    margin-bottom: 1rem;
+}
+
+section li, section p {
+    margin-bottom: 0.5rem;
+}
+
+/* Landing Page Specific Styles */
+#strava-connect {
+    text-align: center;
+}
+#strava-connect label {
+    display: block;
+    margin-bottom: 1.5rem;
+    font-weight: normal; 
+}
+#strava-connect input[type="checkbox"] {
+    margin-right: 0.5rem;
+    accent-color: #007bff; 
+}
+
+
+/* Leaderboard Table Styles */
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+.leaderboard-table th, .leaderboard-table td {
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    text-align: left;
+    vertical-align: middle; 
+}
+
+.leaderboard-table caption {
+    caption-side: top;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.leaderboard-table th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+.leaderboard-table tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+/* Added Row Hover Effect */
+.leaderboard-table tbody tr:hover {
+    background-color: #f5f5f5; /* Light gray hover effect */
+}
+
+
+/* Profile Picture Styles */
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* Points Breakdown Styling */
+.leaderboard-table td ul {
+    list-style: disc;
+    padding-left: 20px;
+    margin: 0;
+}
+
+.leaderboard-table td ul li {
+    font-size: 0.9em;
+}
+
+/* Show More Button Styles */
+.leaderboard-table .details-row {
+    display: none; 
+}
+
+
 
 /* Footer Styles */
 footer {
@@ -127,32 +231,28 @@ footer {
     text-align: center;
     font-size: 0.9rem;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); 
-
-    /* Make the footer sticky at the bottom */
+    /* Sticky Footer*/
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
 }
+
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) { 
     nav ul {
-        flex-direction: column; /* Stack menu items vertically */
+        flex-direction: column; 
         align-items: center;
     }
+
     nav li {
         margin: 5px 0; 
     }
-
-    .leaderboard-table .details-row {
-        display: none;
-    }
+    
     .leaderboard-table .show-more {
         display: block;
         width: 100%; 
         margin-top: 0.5rem;
     }
 }
-
-
