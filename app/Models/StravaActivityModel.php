@@ -43,11 +43,13 @@ class StravaActivityModel extends Model
         }
     }
 
-    public function getActivitiesForLeaderboard($stravaAthleteId, $startDate, $endDate, $activityTypes)
+    public function getActivitiesForLeaderboard($stravaAthleteId, $startDate, $endDate, $activityTypes, $minDistance)
     {
+        $minDistance = $minDistance * 1000;
         return $this->where('strava_athlete_id', $stravaAthleteId)
             ->where('start_date >=', $startDate)
             ->where('start_date <', $endDate)
+            ->where('distance >=', $minDistance)
             ->whereIn('type', $activityTypes)
             ->findAll();
     }
