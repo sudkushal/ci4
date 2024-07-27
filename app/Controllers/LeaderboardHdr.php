@@ -108,6 +108,7 @@ class LeaderboardHdr extends BaseController
         $daysWithMinDistance = 0;
         $bonusDayAchieved = false;
         $totalDistance = 0;
+        $consideredActivities = [];
 
         // Group activities by date
         $activitiesByDate = [];
@@ -126,12 +127,14 @@ class LeaderboardHdr extends BaseController
             if ($distance >= $challengeConfig['minDistance']['km']) {
                 $daysWithMinDistance++;
                 $pointsBreakdown["Min. Distance Day ($date)"] = $challengeConfig['minDistance']['pointsPerDay'];
+                $consideredActivities[] = $activity['activity_id'];
             }
 
             // Bonus points awarded only once for the longest activity meeting the distance requirement
             if (!$bonusDayAchieved && $distance >= $challengeConfig['bonusDay']['km']) {
                 $pointsBreakdown["Bonus Day ($date)"] = $challengeConfig['bonusDay']['points'];
                 $bonusDayAchieved = true;
+                $consideredActivities[] = $activity['activity_id'];
             }
         }
 
@@ -168,7 +171,7 @@ class LeaderboardHdr extends BaseController
             $points += $challengeConfig['bonusDay']['points'];
         }
 
-        return ['points' => $points, 'breakdown' => $pointsBreakdown];
+        return ['points' => $points, 'breakdown' => $pointsBreakdown, 'considered_activities' => $consideredActivities];
     }
 
     /**

@@ -1,29 +1,34 @@
-/* General Styles (Apply to all pages) */
+/* General Styles */
 body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    color: #333;
-    background-color: #f4f4f4;
+    color: #212529; /* Dark blue text */
+    background-color: #fff; /* White background */
 }
 
 h1, h2, h3 {
     text-align: center;
     font-weight: bold;
+    color: #007bff; /* Blue headings */
 }
 
 /* Link Styles */
 a {
-    color: #007bff;
+    color: #007bff; /* Blue links */
     text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 /* Header Styles */
 header {
-    background-color: #333;
+    background-color: #007bff; /* Blue header */
     color: white;
-    padding: 1rem 0; /* Adjusted for mobile */
+    padding: 1rem 0;
     text-align: center;
 }
 
@@ -31,13 +36,13 @@ header {
 nav ul {
     list-style: none;
     padding: 0;
-    margin: 1rem auto 0; /* Center the menu */
-    text-align: center; /* Ensure links are centered even when stacked */
+    margin: 1rem auto 0;
+    text-align: center;
 }
 
 nav li {
     display: inline;
-    margin: 0 15px;
+    margin-right: 20px;
 }
 
 nav a {
@@ -46,49 +51,50 @@ nav a {
     font-weight: bold;
     padding: 0.5rem 1rem;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
 }
 
 nav a:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.2); /* Light blue hover background */
 }
 
 /* Main Content Styles */
 main {
     padding: 1rem;
     max-width: 960px;
-    margin: 0 auto;  /* Center the content horizontally */
+    margin: 0 auto;
 }
 
-/* Leaderboard Styles */
+/* Leaderboard Table Styles */
 .leaderboard-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    overflow-x: auto;  /* Enable horizontal scrolling for smaller screens */
 }
 
 .leaderboard-table th,
 .leaderboard-table td {
     border: 1px solid #ddd;
-    padding: 0.8rem;
+    padding: 8px;
     text-align: left;
+    vertical-align: top; /* Align content to the top of the cell */
 }
 
 .leaderboard-table th {
-    background-color: #f2f2f2; 
+    background-color: #007bff;  /* Blue header background */
+    color: white;
 }
+
 
 /* Profile Picture Styles */
 .profile-pic {
-    width: 30px;
-    height: 30px;
+    width: 40px; /* Slightly larger profile picture */
+    height: 40px;
     border-radius: 50%;
     margin-right: 10px;
     vertical-align: middle;
 }
 
-/* Points Breakdown List Styling */
+/* Points Breakdown Styling */
 .leaderboard-table td ul {
     list-style: none;
     padding: 0;
@@ -99,76 +105,50 @@ main {
     font-size: 0.9em;
 }
 
+/* Footer Styles (optional) */
+footer {
+    text-align: center;
+    padding: 1rem 0;
+    background-color: #007bff;
+    color: white;
+}
 
-/* Media Queries for Mobile Responsiveness */
+/* Responsive Styling (for smaller screens) */
 @media (max-width: 768px) {
-
-    /* Navigation */
     nav li {
-        display: block; /* Stack menu items vertically on smaller screens */
+        display: block;
         margin: 10px 0;
     }
     
-    /* Leaderboard Table */
-    .leaderboard-table {
-        font-size: 0.9em;
+    /* Hide columns on mobile and add a details button */
+    .leaderboard-table td:nth-child(4), 
+    .leaderboard-table th:nth-child(4),
+    .leaderboard-table td:nth-child(5),
+    .leaderboard-table th:nth-child(5),
+    .leaderboard-table td:nth-child(6),
+    .leaderboard-table th:nth-child(6) {
+        display: none;
     }
-
-    .leaderboard-table th, 
-    .leaderboard-table td {
-        padding: 0.5rem; /* Reduce padding on smaller screens */
+    
+    .leaderboard-table tbody tr {
+        cursor: pointer; /* Indicate that rows are clickable */
     }
-}
-
-/* ... (Your existing general styles) ... */
-
-/* Strava Connect Section Styles */
-#strava-connect {
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
-    text-align: center; /* Center content within the section */
-    margin: 2rem auto;   /* Center the section horizontally */
-    max-width: 400px;   /* Limit the width for better aesthetics */
-}
-
-#strava-connect h2 {
-    color: #fc4c02;  /* Bright orange color */
-    margin-bottom: 1.5rem;
-}
-
-#strava-connect p {
-    margin-bottom: 2rem; /* More space before the button */
-}
-
-/* Connect with Strava Button Styles */
-#connectStravaBtn {
-    background-color: #fc4c02; /* Bright orange */
-    color: white;
-    padding: 1rem 2rem;
-    border: none;
-    border-radius: 8px;  /* Slightly more rounded corners */
-    cursor: pointer;
-    font-size: 1.1rem;
-    font-weight: bold; /* Make the text bolder */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Add a transform transition for the hover effect */
-}
-
-#connectStravaBtn:hover {
-    background-color: #d84100; /* Slightly darker orange on hover */
-    transform: translateY(-2px); /* Lift up the button slightly on hover */
-}
-
-
-/* Responsive Adjustments */
-@media (max-width: 768px) { 
-    #strava-connect {
-        max-width: 90%; /* Adjust width for smaller screens */
+    
+    .leaderboard-table tbody tr:after { 
+        content: "+"; /* Add a "+" button to each row */
+        display: block;
+        text-align: center;
+        font-weight: bold;
     }
-
-    #connectStravaBtn {
-        width: 100%; /* Make the button full width on smaller screens */
+    
+    .leaderboard-table tbody tr.expanded:after { /* Switch to "-" on expanded rows */
+        content: "-";
+    }
+    
+    /* Show hidden columns on expanded rows */
+    .leaderboard-table tbody tr.expanded td:nth-child(4), 
+    .leaderboard-table tbody tr.expanded td:nth-child(5),
+    .leaderboard-table tbody tr.expanded td:nth-child(6) {
+        display: table-cell;
     }
 }

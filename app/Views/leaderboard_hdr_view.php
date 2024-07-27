@@ -12,7 +12,6 @@
 
     <main>
         <h2>Top Athletes for HDR Challenge</h2>
-
         <p>
             <strong>Challenge Period:</strong> <?= date('F j, Y', strtotime($startDate)); ?> - <?= date('F j, Y', strtotime($endDate)); ?><br>
             <strong>Challenge Rules:</strong><br>
@@ -31,6 +30,7 @@
                     <th>Points Breakdown</th>
                     <th>Total Distance (km)</th>
                     <th>Total Activities</th>
+                    <th>Considered Activities</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,24 +46,48 @@
                     <td><?= $entry['points']; ?></td>
                     <td>
                         <ul>
-                            <?php if (!empty($entry['breakdown'])) : ?>
-                                <?php foreach ($entry['breakdown'] as $criterion => $points): ?>
+                            <?php if (!empty($entry['breakdown'])) : 
+                                foreach ($entry['breakdown'] as $criterion => $points): ?>
                                     <li><?= $criterion . ': ' . $points; ?> points</li>
-                                <?php endforeach; ?>
-                            <?php else : ?>
+                                <?php endforeach; 
+                            else : ?>
                                 No points earned yet
                             <?php endif; ?>
                         </ul>
                     </td>
                     <td><?= number_format($entry['total_distance'], 2); ?></td>
                     <td><?= $entry['total_activities']; ?></td>
+                    <td>
+                        <?php if (!empty($entry['considered_activities'])) : ?>
+                            <ul>
+                                <?php foreach ($entry['considered_activities'] as $activityId) : ?>
+                                    <li>
+                                        <a href="https://www.strava.com/activities/<?= $activityId; ?>" target="_blank">
+                                            Activity <?= $activityId; ?> 
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php else : ?>
+                            No activities considered
+                        <?php endif; ?>
+                    </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </main>
-
     <footer>
+        <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const rows = document.querySelectorAll('.leaderboard-table tbody tr');
+    rows.forEach(row => {
+        row.addEventListener('click', () => {
+            row.classList.toggle('expanded');
+        });
+    });
+});
+        </script>
     </footer>
 </body>
 </html>
