@@ -164,6 +164,7 @@ section li, section p {
     border-collapse: collapse;
     margin-top: 20px;
     overflow-x: auto;
+    margin-bottom: 80px;
 }
 
 .leaderboard-table th, .leaderboard-table td {
@@ -237,6 +238,7 @@ footer {
     left: 0;
     width: 100%;
     z-index: 1000;
+    padding-top: 20px;
 }
 
 /* Media Queries for Responsiveness */
@@ -254,5 +256,11 @@ footer {
         display: block;
         width: 100%; 
         margin-top: 0.5rem;
+    }
+
+    /* Center align specific columns (except Name) */
+    .leaderboard-table th:not(:nth-child(2)), /* Exclude the 2nd column (Name) */
+    .leaderboard-table td:not(:nth-child(2)) {
+        text-align: center!important;
     }
 }
