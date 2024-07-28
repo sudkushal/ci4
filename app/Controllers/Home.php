@@ -20,7 +20,7 @@ class Home extends BaseController
         $data = []; // Initialize an empty data array for the view
 
         if (!$this->session->has('selectedStyle')) {
-            $styles = ['india', 'us', 'colombia'];
+            $styles = ['india', 'us', 'colombia','philippines'];
             $preferredStyle = $styles[array_rand($styles)];
             $this->session->set('selectedStyle', 'style-' . $preferredStyle . '.css');
         }

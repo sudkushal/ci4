@@ -3,6 +3,7 @@
 <head>
     <title>100 Days Fitness Challenge</title>
     <link rel="stylesheet" href="<?= base_url('css/' . session()->get('selectedStyle')); ?>"> 
+    <link rel="icon" href="<?= base_url('favicon.ico'); ?>" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .graphs-container {

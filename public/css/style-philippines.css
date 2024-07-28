@@ -1,0 +1,263 @@
+/* General Styles (Apply to all pages) */
+body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    color: #333; /* Dark gray text for better readability */
+    background: linear-gradient(45deg, #0038A8, #FFFFFF, #CE1126); /* Philippine flag colors */
+    display: flex; /* Enable flexbox for the body */
+    flex-direction: column;
+    min-height: 100vh; /* Ensure body covers full viewport height */
+}
+
+h1, h2, h3 {
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Heading Colors */
+h1 {
+    color: #0038A8; /* Blue for main heading */
+    font-size: 2.5em;
+}
+
+h2, h3 {
+    color: #CE1126; /* Red for secondary headings */
+}
+
+/* Link Styles */
+a {
+    color: #0038A8; /* Blue links */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Button Styles */
+.btn {
+    background-color: #0038A8; /* Blue primary button color */
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1rem;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #002675; /* Slightly darker on hover */
+}
+
+/* Header Styles */
+header {
+    background-color: #FFCD00; /* Yellow background for header */
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+header h1 {
+    margin: 0;
+    padding: 0 1rem;
+    line-height: 1.5;
+    font-size: 1.8em;
+}
+
+/* Navigation Styles */
+nav {
+    background-color: #0038A8; /* Blue for navigation */
+    padding: 0.5rem 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav a {
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover, nav a.active {
+    background-color: #002675; 
+}
+
+/* Main Content Styles */
+main {
+    padding: 2rem;
+    max-width: 960px;
+    margin: 1rem auto 2rem; /* Increased top margin to provide space from the header */
+    flex: 1; /* Allow main content to grow and take remaining space */
+}
+
+/* Section Styles (Landing, Privacy, Analytics) */
+section {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem; /* Add margin between sections */
+}
+
+section:last-child { /* Remove divider from the last section */
+    border-bottom: none;
+}
+
+section h2 {
+    margin-top: 0;
+    color: #CE1126; /* Red color for section headings */
+    border-bottom: 2px solid #CE1126;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+section ul, section ol {
+    list-style: disc;
+    padding-left: 20px;
+    margin-bottom: 1rem;
+}
+
+section li, section p {
+    margin-bottom: 0.5rem;
+}
+
+/* Landing Page Specific Styles */
+#strava-connect {
+    text-align: center;
+}
+#strava-connect label {
+    display: block;
+    margin-bottom: 1.5rem;
+    font-weight: normal;
+}
+#strava-connect input[type="checkbox"] {
+    margin-right: 0.5rem;
+    accent-color: #0038A8;
+}
+
+/* Leaderboard Table Styles */
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    overflow-x: auto;
+    margin-bottom: 80px;
+}
+
+.leaderboard-table th, .leaderboard-table td {
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.leaderboard-table caption {
+    caption-side: top;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.leaderboard-table th {
+    background-color: #0038A8; /* Blue for table headers */
+    color: white;
+    font-weight: bold;
+}
+
+.leaderboard-table tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+/* Added Row Hover Effect */
+.leaderboard-table tbody tr:hover {
+    background-color: #f5f5f5; /* Light gray hover effect */
+}
+
+/* Profile Picture Styles */
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* Points Breakdown Styling */
+.leaderboard-table td ul {
+    list-style: disc;
+    padding-left: 20px;
+    margin: 0;
+}
+
+.leaderboard-table td ul li {
+    font-size: 0.9em;
+}
+
+/* Show More Button Styles */
+.leaderboard-table .details-row {
+    display: none;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #FFCD00; /* Yellow background for footer */
+    color: white;
+    padding: 0.75rem 0;
+    text-align: center;
+    font-size: 0.9rem;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); 
+    /* Sticky Footer*/
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding-top: 20px;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav li {
+        margin: 5px 0;
+    }
+
+    .leaderboard-table .show-more {
+        display: block;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    /* Center align specific columns (except Name) */
+    .leaderboard-table th:not(:nth-child(2)),
+    /* Exclude the 2nd column (Name) */
+    .leaderboard-table td:not(:nth-child(2)) {
+        text-align: center !important;
+    }
+}
