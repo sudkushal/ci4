@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>HDR Leaderboard - Fitness Challenge</title>
-    <link rel="stylesheet" href="<?= base_url('css/style.css?v=' . time()); ?>">
+    <title>100 Days Fitness Challenge</title>
+    <link rel="stylesheet" href="<?= base_url('css/' . session()->get('selectedStyle')); ?>"> 
 </head>
 <body>
     

@@ -3,31 +3,41 @@ body {
     font-family: 'Montserrat', sans-serif;
     line-height: 1.6;
     margin: 0;
-    color: #333; /* Dark gray text for better readability */
-    background: linear-gradient(45deg, #FF9933, #FFFFFF, #138808); /* Indian flag colors */
-    display: flex; /* Enable flexbox for the body */
-    flex-direction: column; 
-    min-height: 100vh; /* Ensure body covers full viewport height */
+    color: #333;
+    /* Dark gray text for better readability */
+    background: linear-gradient(45deg, #FFCD00, #0033A0, #CE1126);
+    /* Colombian flag colors */
+    display: flex;
+    /* Enable flexbox for the body */
+    flex-direction: column;
+    min-height: 100vh;
+    /* Ensure body covers full viewport height */
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     text-align: center;
     font-weight: bold;
 }
 
 /* Heading Colors */
 h1 {
-    color: #138808; /* Dark green for main heading */
+    color: #0033A0;
+    /* Blue for main heading */
     font-size: 2.5em;
 }
 
-h2, h3 {
-    color: #FF9933; /* Saffron for secondary headings */
+h2,
+h3 {
+    color: #CE1126;
+    /* Red for secondary headings */
 }
 
 /* Link Styles */
 a {
-    color: #138808; /* Dark green links */
+    color: #0033A0;
+    /* Blue links */
     text-decoration: none;
 }
 
@@ -37,7 +47,8 @@ a:hover {
 
 /* Button Styles */
 .btn {
-    background-color: #138808; /* Dark green primary button color */
+    background-color: #0033A0;
+    /* Blue primary button color */
     color: white;
     padding: 0.75rem 1.5rem;
     border: none;
@@ -51,33 +62,36 @@ a:hover {
 }
 
 .btn:hover {
-    background-color: #0f6a05; /* Slightly darker on hover */
+    background-color: #002675;
+    /* Slightly darker on hover */
 }
 
 /* Header Styles */
 header {
-    background-color: #FF9933; /* Saffron background for header */
+    background-color: #FFCD00;
+    /* Yellow background for header */
     color: white;
     padding: 1rem 0;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: sticky; 
+    position: sticky;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000; 
+    z-index: 1000;
 }
 
 header h1 {
     margin: 0;
-    padding: 0 1rem; 
+    padding: 0 1rem;
     line-height: 1.5;
     font-size: 1.8em;
 }
 
 /* Navigation Styles */
 nav {
-    background-color: #138808; /* Dark green for navigation */
+    background-color: #0033A0;
+    /* Blue for navigation */
     padding: 0.5rem 0;
     text-align: center;
 }
@@ -100,16 +114,19 @@ nav a {
     transition: background-color 0.3s ease;
 }
 
-nav a:hover, nav a.active {
-    background-color: #0f6a05; 
+nav a:hover,
+nav a.active {
+    background-color: #002675;
 }
 
 /* Main Content Styles */
 main {
     padding: 2rem;
     max-width: 960px;
-    margin: 1rem auto 2rem; /* Increased top margin to provide space from the header */
-    flex: 1;               /* Allow main content to grow and take remaining space */
+    margin: 1rem auto 2rem;
+    /* Increased top margin to provide space from the header */
+    flex: 1;
+    /* Allow main content to grow and take remaining space */
 }
 
 /* Section Styles (Landing, Privacy, Analytics) */
@@ -118,28 +135,33 @@ section {
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem; /* Add margin between sections */
+    margin-bottom: 2rem;
+    /* Add margin between sections */
 }
 
-section:last-child { /* Remove divider from the last section */
+section:last-child {
+    /* Remove divider from the last section */
     border-bottom: none;
 }
 
 section h2 {
-    margin-top: 0; 
-    color: #FF9933; /* Saffron color for section headings */
-    border-bottom: 2px solid #FF9933;
+    margin-top: 0;
+    color: #CE1126;
+    /* Red color for section headings */
+    border-bottom: 2px solid #CE1126;
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
 }
 
-section ul, section ol {
+section ul,
+section ol {
     list-style: disc;
     padding-left: 20px;
     margin-bottom: 1rem;
 }
 
-section li, section p {
+section li,
+section p {
     margin-bottom: 0.5rem;
 }
 
@@ -147,14 +169,16 @@ section li, section p {
 #strava-connect {
     text-align: center;
 }
+
 #strava-connect label {
     display: block;
     margin-bottom: 1.5rem;
-    font-weight: normal; 
+    font-weight: normal;
 }
+
 #strava-connect input[type="checkbox"] {
     margin-right: 0.5rem;
-    accent-color: #138808; 
+    accent-color: #0033A0;
 }
 
 /* Leaderboard Table Styles */
@@ -166,11 +190,12 @@ section li, section p {
     margin-bottom: 80px;
 }
 
-.leaderboard-table th, .leaderboard-table td {
+.leaderboard-table th,
+.leaderboard-table td {
     border: 1px solid #ddd;
     padding: 10px 15px;
     text-align: left;
-    vertical-align: middle; 
+    vertical-align: middle;
 }
 
 .leaderboard-table caption {
@@ -181,7 +206,8 @@ section li, section p {
 }
 
 .leaderboard-table th {
-    background-color: #138808; /* Dark green for table headers */
+    background-color: #0033A0;
+    /* Blue for table headers */
     color: white;
     font-weight: bold;
 }
@@ -192,7 +218,8 @@ section li, section p {
 
 /* Added Row Hover Effect */
 .leaderboard-table tbody tr:hover {
-    background-color: #f5f5f5; /* Light gray hover effect */
+    background-color: #f5f5f5;
+    /* Light gray hover effect */
 }
 
 /* Profile Picture Styles */
@@ -217,17 +244,18 @@ section li, section p {
 
 /* Show More Button Styles */
 .leaderboard-table .details-row {
-    display: none; 
+    display: none;
 }
 
 /* Footer Styles */
 footer {
-    background-color: #FF9933; /* Saffron background for footer */
+    background-color: #FFCD00;
+    /* Yellow background for footer */
     color: white;
     padding: 0.75rem 0;
     text-align: center;
     font-size: 0.9rem;
-    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
     /* Sticky Footer*/
     position: sticky;
     bottom: 0;
@@ -238,25 +266,26 @@ footer {
 }
 
 /* Media Queries for Responsiveness */
-@media (max-width: 768px) { 
+@media (max-width: 768px) {
     nav ul {
-        flex-direction: column; 
+        flex-direction: column;
         align-items: center;
     }
 
     nav li {
-        margin: 5px 0; 
+        margin: 5px 0;
     }
-    
+
     .leaderboard-table .show-more {
         display: block;
-        width: 100%; 
+        width: 100%;
         margin-top: 0.5rem;
     }
 
     /* Center align specific columns (except Name) */
-    .leaderboard-table th:not(:nth-child(2)), /* Exclude the 2nd column (Name) */
+    .leaderboard-table th:not(:nth-child(2)),
+    /* Exclude the 2nd column (Name) */
     .leaderboard-table td:not(:nth-child(2)) {
-        text-align: center!important;
+        text-align: center !important;
     }
 }

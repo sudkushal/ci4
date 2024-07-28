@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Analytics - 100 Days Fitness Challenge</title>
-    <link rel="stylesheet" href="<?= base_url('css/style.css?v=' . time()); ?>">
+    <title>100 Days Fitness Challenge</title>
+    <link rel="stylesheet" href="<?= base_url('css/' . session()->get('selectedStyle')); ?>"> 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .graphs-container {
