@@ -1,72 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Leaderboard - 100 Days Fitness Challenge</title>
-    <link rel="stylesheet" href="<?= base_url('css/style.css'); ?>">
+    <title>Leaderboard</title>
+    <link rel="stylesheet" href="<?= base_url('css/style.css?v=' . time()); ?>">
+
 </head>
 <body>
-    <header>
-        <h1>Leaderboard</h1>
-        <?= $this->include('_menu') ?>
-    </header>
+<?= $this->include('_header') ?>
 
-    <main>
+    <h1>Consolidated Leaderboard - 100 Days Challenge (Starts 15 August, 2024) </h1>
+
+    <table class='leaderboard-table'>
+        <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Stage 1</th>
+            <th>Stage 2</th>
+            <th>Stage 3</th>
+            <th>Stage 4</th>
+            <th>Stage 5</th>
+            <th>Total Points</th>
+        </tr>
+
         <?php
-            // Determine the filter type from the query parameter
-            $filterType = 'all';
-            $filterLabel = ($filterType === 'Walk') ? 'Walk' : (($filterType === 'Run') ? 'Run' : 'All Activities');
+        $rank = 1; // Initialize rank
+        foreach ($leaderboard_data as $row): 
         ?>
-
-        <h2>Top Athletes (<?= $filterLabel; ?>) (<?= date('F j', strtotime($startDate)); ?> - <?= date('F j, Y', strtotime($endDate)); ?>)</h2>
-
-        
-
-        <table class="leaderboard-table">
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Name</th>
-                    <th>Points</th>
-                    <th>Total Distance (km)</th>
-                    <th>Qualifying Activities</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php 
-                    $rank = 1;
-                    foreach ($leaderboardData as $entry): 
-                ?>
-                <tr>
-                    <td><?= $rank++; ?></td>
-                    <td>
-                        <?php if (!empty($entry['profile_medium'])) : ?>
-                            <img src="<?= $entry['profile_medium']; ?>" alt="Athlete Profile" class="profile-pic">
-                        <?php endif; ?>
-                        <?= $entry['name']; ?>
-                    </td>
-                    <td><?= $entry['points']; ?></td>
-                    <td><?= number_format($entry['total_distance'], 2); ?></td>
-                    <td>
-                        <?php if (!empty($entry['qualifying_activities'])) : ?>
-                            <ul>
-                                <?php foreach ($entry['qualifying_activities'] as $activity) : ?>
-                                    <li>
-                                        <a href="https://www.strava.com/activities/<?= $activity['activity_id']; ?>" target="_blank">
-                                            <?= $activity['name']; ?> (<?= number_format($activity['distance'], 2); ?> km)
-                                        </a>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        <?php else : ?>
-                            No qualifying activities
-                        <?php endif; ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </main>
-    <footer>
-    </footer>
+            <tr>
+                <td><?php echo $row['rank_order']; ?></td>
+                <td>
+                    <?php if (!empty($row['profile_medium'])) : ?>
+                        <img src="<?= $row['profile_medium']; ?>" alt="Athlete Profile" class="profile-pic">
+                    <?php endif; ?>
+                    <?= $row['name']; ?>
+                </td>
+                <td><?php echo $row['stage1_points']; ?></td>
+                <td><?php echo $row['stage2_points']; ?></td>
+                <td><?php echo $row['stage3_points']; ?></td>
+                <td><?php echo $row['stage4_points']; ?></td>
+                <td><?php echo $row['stage5_points']; ?></td>
+                <td><?php echo $row['total_points']; ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+    <?= $this->include('_footer') ?>
 </body>
 </html>

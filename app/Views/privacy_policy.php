@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Privacy Policy - 100 Days Fitness Challenge</title>
+    <title>Privacy Policy - Wellness Challenge</title>
     <link rel="stylesheet" href="<?= base_url('css/style.css?v=' . time()); ?>">
 </head>
 <body>
 <?= $this->include('_header') ?>
 
-
     <main>
-        <h2>100 Days Fitness Challenge Privacy Policy</h2>
+        <h2>100 Days Challenge Privacy Policy</h2>
 
         <p>
-            This Privacy Policy describes how we collect, use, and share your personal information when you participate in the 100 Days Fitness Challenge, which runs from August 15th to November 30th, 2024.
+            This Privacy Policy describes how we collect, use, and share your personal information when you participate in the Wellness Challenge.
         </p>
 
         <h3>Information We Collect</h3>
@@ -24,37 +23,38 @@
             <li>Your Strava athlete ID</li>
             <li>Your full name (as displayed on Strava)</li>
             <li>Your Strava profile picture URLs (medium and large sizes)</li>
-            <li>Data about your walk activities, including distance, time, and date</li>
+            <li>Data about your activities, including distance, time, and date</li>
         </ul>
-
-        <p>
-            We do not collect or store your email address.
-        </p>
 
         <h3>How We Use Your Information</h3>
         <p>
             We use the collected information for the following purposes:
         </p>
         <ul>
-            <li>To calculate your total walking distance and points.</li>
+            <li>To calculate your total distance and points.</li>
             <li>To rank you on the challenge leaderboard.</li>
             <li>To display your name and profile picture (if available) on the leaderboard.</li>
         </ul>
 
         <h3>Data Sharing</h3>
         <p>
-            We do not share your personal information with any third parties, except for the data displayed on the public leaderboard (your name, profile picture, total distance, and points). 
+            We do not share your personal information with any third parties, except for the data displayed on the public leaderboard (your name, profile picture, total distance, and points). However, in case of any disputes, this data might be shared with relevant authorities.
         </p>
 
         <h3>Data Retention</h3>
 
         <p>
-            We will retain your information for the duration of the 100 Days Fitness Challenge. After the challenge concludes on November 30th, 2024, we will delete all data associated with your participation.
+            We will retain your information for the duration of the Wellness Challenge. After the challenge concludes, we will delete all data associated with your participation.
+        </p>
+
+        <h3>Data Usage Disclaimer</h3>
+        <p>
+            Any analytics derived from the Wellness Challenge and the data acquired will be used for marketing within the organization that the participants belong to.
         </p>
         
         <h3>Disclaimer</h3>
         <p>
-            This fitness challenge is an independent initiative and is not affiliated with or endorsed by Strava. We are not responsible for the privacy practices or content of Strava.
+            This wellness challenge is an independent initiative and is not affiliated with or endorsed by Strava. We are not responsible for the privacy practices or content of Strava.
         </p>
 
         <h3>Your Rights</h3>
