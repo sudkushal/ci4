@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>100 Days Leaderboard - Fitness Challenge</title>
-    <link rel="stylesheet" href="<?= base_url('css/style.css'); ?>">
+    <link rel="stylesheet" href="<?= base_url('css/' . session()->get('selectedStyle').'?v=' . time()); ?>">
 </head>
 <body>
 <header>
