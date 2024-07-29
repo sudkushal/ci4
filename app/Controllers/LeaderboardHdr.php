@@ -112,8 +112,8 @@ class LeaderboardHdr extends BaseController
 
         foreach ($activities as $activity) {
             $distance = $activity['distance'] / 1000;
-            if ($distance >= $challengeConfig['minDistance']['km']) {
             $date = date('Y-m-d', strtotime($activity['start_date_local']));
+            if ($distance >= $challengeConfig['minDistance']['km'] && !in_array($date, $daysWithMinDistance)) {
             $totalDistance += $distance;
             }
             // Check for minimum daily distance (but only if it hasn't been met for the day yet)
