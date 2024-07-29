@@ -3,7 +3,7 @@
 
 <head>
     <title>Stage Leaderboard - Fitness Challenge</title>
-    <link rel="stylesheet" href="<?= base_url('css/' . session()->get('selectedStyle').'?v=' . time()); ?>">
+    <link rel="stylesheet" href="<?= base_url('css/style-india.css?v=' . time()); ?>">
 </head>
 
 <body>

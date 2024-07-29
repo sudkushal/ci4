@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>100 Days Fitness Challenge</title>
-    <link rel="stylesheet" href="<?= base_url('css/' . session()->get('selectedStyle').'?v=' . time()); ?>">
+    <link rel="stylesheet" href="<?= base_url('css/style-india.css?v=' . time()); ?>">
     <link rel="icon" href="<?= base_url('favicon.ico'); ?>" type="image/x-icon">
 </head>
 <body>
