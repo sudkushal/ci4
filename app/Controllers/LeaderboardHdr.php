@@ -135,7 +135,6 @@ class LeaderboardHdr extends BaseController
             $date = date('Y-m-d', strtotime($activity['start_date_local']));
             if ($distance >= $challengeConfig['minDistance']['km'] && !in_array($date, $daysWithMinDistance)) {
             $totalDistance += $distance;
-
             }
             // Check for minimum daily distance (but only if it hasn't been met for the day yet)
             if ($distance >= $challengeConfig['minDistance']['km'] && !in_array($date, $daysWithMinDistance)) {
