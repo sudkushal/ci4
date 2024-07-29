@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>100 Days Fitness Challenge</title>
-    <link rel="stylesheet" href="<?= base_url('css/' . session()->get('selectedStyle')); ?>"> 
+    <link rel="stylesheet" href="<?= base_url('css/' . session()->get('selectedStyle')); ?>">
     <link rel="icon" href="<?= base_url('favicon.ico'); ?>" type="image/x-icon">
 </head>
+
 <body>
-    
+
     <?= $this->include('_header') ?>
 
     <main>
@@ -28,12 +30,13 @@
                     <th>Points</th>
                     <th>Total Distance (km)</th>
                     <th>Total Activities</th>
-                    <th>Details</th> 
+                    <th>Details</th>
                 </tr>
             </thead>
             <tbody>
-                <?php $rank = 1; foreach ($leaderboardData as $entry): ?>
-                    <tr data-details-row="<?= $rank; ?>"> 
+                <?php $rank = 1;
+                foreach ($leaderboardData as $entry) : ?>
+                    <tr data-details-row="<?= $rank; ?>">
                         <td><?= $rank++; ?></td>
                         <td>
                             <?php if (!empty($entry['profile_medium'])) : ?>
@@ -46,14 +49,14 @@
                         <td><?= $entry['total_activities']; ?></td>
                         <td><button class="show-more">Show More</button></td>
                     </tr>
-                    <tr class="details-row" id="details-<?= $rank; ?>" style="display:none;"> 
+                    <tr class="details-row" id="details-<?= $rank; ?>" style="display:none;">
                         <td colspan="6">
                             <strong>Points Breakdown:</strong>
                             <div class="points-breakdown">
-                                <?php if (!empty($entry['breakdown'])) : 
-                                    foreach ($entry['breakdown'] as $criterion => $points): ?>
+                                <?php if (!empty($entry['breakdown'])) :
+                                    foreach ($entry['breakdown'] as $criterion => $points) : ?>
                                         <li><?= $criterion . ': ' . $points; ?> points</li>
-                                    <?php endforeach; 
+                                    <?php endforeach;
                                 else : ?>
                                     No points earned yet
                                 <?php endif; ?>
@@ -61,17 +64,17 @@
 
                             <strong>Activities Considered:</strong>
                             <div class="activities-considered">
-                                <?php if (!empty($entry['considered_activities'])): ?>
+                                <?php if (!empty($entry['considered_activities'])) : ?>
                                     <ul>
-                                        <?php foreach ($entry['considered_activities'] as $activityId): ?>
+                                        <?php foreach ($entry['considered_activities'] as $activity) : ?>
                                             <li>
-                                                <a href="https://www.strava.com/activities/<?= $activityId; ?>" target="_blank">
-                                                    Activity <?= $activityId; ?>
+                                                <a href="https://www.strava.com/activities/<?= $activity['activity_id']; ?>" target="_blank">
+                                                    <?= $activity['activity_name']; ?> (Activity ID: <?= $activity['activity_id']; ?>)
                                                 </a>
                                             </li>
                                         <?php endforeach; ?>
                                     </ul>
-                                <?php else: ?>
+                                <?php else : ?>
                                     No activities considered
                                 <?php endif; ?>
                             </div>
@@ -85,11 +88,11 @@
     <?= $this->include('_footer') ?>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const showMoreButtons = document.querySelectorAll('.show-more');
 
             showMoreButtons.forEach(button => {
-                button.addEventListener('click', function () {
+                button.addEventListener('click', function() {
                     // Find the details row by looking for the next sibling with class 'details-row'
                     const detailsRow = this.closest('tr').nextElementSibling;
                     if (detailsRow && detailsRow.classList.contains('details-row')) { // Check if the next row is indeed a details row
@@ -101,4 +104,5 @@
         });
     </script>
 </body>
+
 </html>

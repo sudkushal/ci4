@@ -6,6 +6,8 @@ class Privacy extends BaseController
 {
     public function index()
     {
-        return view('privacy_policy'); // Load your new view file
+        $data['selectedStyle'] = $this->session->get('selectedStyle');
+
+        return view('privacy_policy', $data); // Load your new view file
     }
 }

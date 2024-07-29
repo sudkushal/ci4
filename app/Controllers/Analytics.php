@@ -9,6 +9,8 @@ class Analytics extends BaseController
 {
     public function index()
     {
+        $data['selectedStyle'] = $this->session->get('selectedStyle');
+
         $activityModel = new StravaActivityModel();
 
         $startDate = AppConstants::CHALLENGE_START_DATE;
