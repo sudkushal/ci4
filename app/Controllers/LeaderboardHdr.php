@@ -157,7 +157,7 @@ class LeaderboardHdr extends BaseController
             if ($distance >= $challengeConfig['minDistance']['km'] || $distance >= $challengeConfig['bonusDay']['km'] || $distance >= $challengeConfig['activeDay']['km']) {
                 $consideredActivities[] = [
                     'activity_id' => $activity['activity_id'],
-                    'activity_name' => $activity['name'] // Assuming your data has a 'name' field
+                    'activity_name' => $activity['name'] 
                 ];
             }
         }
