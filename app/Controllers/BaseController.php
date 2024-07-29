@@ -28,8 +28,6 @@ abstract class BaseController extends Controller
      * @var CLIRequest|IncomingRequest
      */
     protected $request;
-    protected $session;
-
 
     /**
      * An array of helpers to be loaded automatically upon
@@ -54,15 +52,6 @@ abstract class BaseController extends Controller
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
-
-        $this->session = \Config\Services::session();
-
-       // Set session variable for style if not set already
-       if (!$this->session->has('selectedStyle')) {
-           $styles = ['indian', 'us', 'south-african', 'colombian', 'uk-hk'];
-           $preferredStyle = $styles[array_rand($styles)];
-           $this->session->set('selectedStyle', 'style-' . $preferredStyle . '.css');
-       }
 
         // Preload any models, libraries, etc, here.
 
