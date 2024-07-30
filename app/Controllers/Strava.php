@@ -109,7 +109,7 @@ class Strava extends BaseController
                     return $activityStartTime >= $startDate && $activityStartTime < $endDate;
                 });
 
-                echo "<pre>"; print_r($filteredActivities); echo "</pre>"; exit;
+                //echo "<pre>"; print_r($filteredActivities); echo "</pre>"; exit;
 
                 $activities = array_merge($activities, $filteredActivities);
                 $page++;
