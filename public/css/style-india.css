@@ -289,5 +289,23 @@ footer {
         text-align: center !important;
     }
 
-   
+    .sunrise-walks-table {
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        width: auto;  /* Allow the table to shrink to its content */
+        margin: 0 auto; /* Center the table horizontally */
+    }
+
+    .sunrise-walks-table th,
+    .sunrise-walks-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .sunrise-walks-table th {
+        background-color: #f2f2f2;
+    }
+
+
 }

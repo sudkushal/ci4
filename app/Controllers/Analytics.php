@@ -37,9 +37,9 @@ class Analytics extends BaseController
 
         // Overall Stats
         $totalDistance = $activityModel->select('SUM(distance)')->whereIn('type', $activityTypes)
-        ->where('distance >=', 2000)->where('start_date >=', $startDate)->where('start_date <', $endDate)->first()['SUM(distance)'] ?? 0;
+            ->where('distance >=', 2000)->where('start_date >=', $startDate)->where('start_date <', $endDate)->first()['SUM(distance)'] ?? 0;
         $totalActivities = $activityModel->whereIn('type', $activityTypes)
-        ->where('distance >=', 2000)->where('start_date >=', $startDate)->where('start_date <', $endDate)->countAllResults();
+            ->where('distance >=', 2000)->where('start_date >=', $startDate)->where('start_date <', $endDate)->countAllResults();
         $averageDistance = ($totalActivities > 0) ? $totalDistance / $totalActivities : 0;
 
         // Participation
@@ -50,16 +50,21 @@ class Analytics extends BaseController
         $averageActivitiesPerParticipant = ($participants > 0) ? $totalActivities / $participants : 0;
 
         // Distance-Based Insights
-        $longestActivity = $activityModel->whereIn('type', $activityTypes)
-        ->where('distance >=', 2000)->where('start_date >=', $startDate)->where('start_date <', $endDate)
-            ->orderBy('distance', 'DESC')->first();
+        $longestActivity = $activityModel->select('strava_activities.*, users.name AS user_name')
+            ->join('users', 'strava_activities.strava_athlete_id = users.strava_athlete_id', 'left') // Replace 'user_id' and 'id' if necessary
+            ->whereIn('strava_activities.type', $activityTypes)
+            ->where('strava_activities.distance >=', 2000)
+            ->where('strava_activities.start_date >=', $startDate)
+            ->where('strava_activities.start_date <', $endDate)
+            ->orderBy('strava_activities.distance', 'DESC')
+            ->first();
         /*$shortestActivity = $activityModel->whereIn('type', $activityTypes)
             ->where('start_date >=', $startDate)->where('start_date <', $endDate)->where('distance >=', 2000)
             ->orderBy('distance', 'ASC')->first(); */
 
         // Time-Based Insights
         $totalMovingTime = $activityModel->select('SUM(moving_time)')->whereIn('type', $activityTypes)
-        ->where('distance >=', 2000)->where('start_date >=', $startDate)->where('start_date <', $endDate)->first()['SUM(moving_time)'] ?? 0;
+            ->where('distance >=', 2000)->where('start_date >=', $startDate)->where('start_date <', $endDate)->first()['SUM(moving_time)'] ?? 0;
         $averageMovingTime = ($totalActivities > 0) ? $totalMovingTime / $totalActivities : 0;
 
         $mostActiveDay = $activityModel->select("DATE_FORMAT(start_date_local, '%Y-%m-%d') AS day, COUNT(*) AS count")
@@ -78,13 +83,26 @@ class Analytics extends BaseController
 
         // Additional Analytics
         $totalElevationGain = $activityModel->select('SUM(total_elevation_gain)')->whereIn('type', $activityTypes)
-        ->where('distance >=', 2000)->where('start_date >=', $startDate)->where('start_date <', $endDate)->first()['SUM(total_elevation_gain)'] ?? 0;
+            ->where('distance >=', 2000)->where('start_date >=', $startDate)->where('start_date <', $endDate)->first()['SUM(total_elevation_gain)'] ?? 0;
 
         $averageSpeed = $activityModel->select('AVG(average_speed)')->whereIn('type', $activityTypes)
-        ->where('distance >=', 2000)->where('start_date >=', $startDate)->where('start_date <', $endDate)->first()['AVG(average_speed)'] ?? 0;
+            ->where('distance >=', 2000)->where('start_date >=', $startDate)->where('start_date <', $endDate)->first()['AVG(average_speed)'] ?? 0;
 
         $maxSpeed = $activityModel->select('MAX(max_speed)')->whereIn('type', $activityTypes)
-        ->where('distance >=', 2000)->where('start_date >=', $startDate)->where('start_date <', $endDate)->first()['MAX(max_speed)'] ?? 0;
+            ->where('distance >=', 2000)->where('start_date >=', $startDate)->where('start_date <', $endDate)->first()['MAX(max_speed)'] ?? 0;
+
+
+
+            $sunriseWalkCounts = $activityModel->select('users.name AS participant_name, COUNT(strava_activities.id) AS sunrise_walk_count')
+            ->join('users', 'strava_activities.strava_athlete_id = users.strava_athlete_id', 'left')
+            ->where('strava_activities.type', 'Walk')
+            ->where('TIME(strava_activities.start_date_local) >=', '05:00:00')
+            ->where('TIME(strava_activities.start_date_local) <=', '08:00:00')
+            ->where('strava_activities.start_date >=', $startDate)
+            ->where('strava_activities.start_date <', $endDate)
+            ->groupBy('users.name') // Group by participant name
+            ->orderBy('sunrise_walk_count', 'DESC') // Order by walk count (optional)
+            ->findAll(); 
 
         // Pass data to the view
         $data = [
@@ -103,6 +121,7 @@ class Analytics extends BaseController
             'maxSpeed' => $maxSpeed,
             'startDate' => $startDate,
             'endDate' => $endDate,
+            'sunriseWalkCounts' => $sunriseWalkCounts,
         ];
 
         return view('analytics_view', $data);
