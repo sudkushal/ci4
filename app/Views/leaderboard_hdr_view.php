@@ -14,7 +14,7 @@
     <main>
         <h2>Top Athletes for HDR Challenge</h2>
         <p>
-            <strong>Challenge Period:</strong> <?= date('F j, Y', strtotime($startDate)); ?> - <?= date('F j, Y', strtotime($endDate)); ?><br>
+            <strong>Challenge Period:</strong> <?= date('F j, Y', strtotime($startDate)); ?> - <?= date('F j, Y', strtotime($endDate.'-1 day')); ?><br>
             <strong>Challenge Rules:</strong><br>
             <?= $challengeConfig['minDistance']['km'] ?>+ km for <?= $challengeConfig['minDistance']['minDays'] ?> days: <?= $challengeConfig['minDistance']['pointsPerDay'] ?> points per day<br>
             <?= $challengeConfig['activeDay']['km'] ?>+ km for <?= $challengeConfig['activeDay']['minDays'] ?>-<?= $challengeConfig['activeDay']['maxDays'] ?> days: <?= $challengeConfig['activeDay']['pointsPerDay'] ?> points per day<br>
