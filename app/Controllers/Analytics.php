@@ -47,7 +47,7 @@ class Analytics extends BaseController
             ->whereIn('type', $activityTypes)
             ->where('start_date >=', $startDate)->where('start_date <', $endDate)->countAllResults();
         $totalDays = floor((strtotime($endDate) - strtotime($startDate)) / (60 * 60 * 24));
-        $averageActivitiesPerParticipant = ($participants > 0) ? $totalActivities / $participants : 0;
+        $averageActivitiesPerParticipant = ($participants > 0) ? floor($totalActivities / $participants) : 0;
 
         // Distance-Based Insights
         $longestActivity = $activityModel->select('strava_activities.*, users.name AS user_name')
@@ -97,7 +97,7 @@ class Analytics extends BaseController
             ->join('users', 'strava_activities.strava_athlete_id = users.strava_athlete_id', 'left')
             ->whereIn('type', $activityTypes)
             ->where('TIME(strava_activities.start_date_local) >=', '05:00:00')
-            ->where('TIME(strava_activities.start_date_local) <=', '08:00:00')
+            ->where('TIME(strava_activities.start_date_local) <=', '08:30:00')
             ->where('strava_activities.start_date >=', $startDate)
             ->where('strava_activities.start_date <', $endDate)
             ->groupBy('users.name') // Group by participant name

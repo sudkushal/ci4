@@ -57,7 +57,7 @@
         <h3>Participation</h3>
         <ul>
             <li>Number of Participants: <?= $participants; ?></li>
-            <li>Average Activities per Participant: <?= number_format($averageActivitiesPerParticipant, 2); ?></li>
+            <li>Average Activities per Participant: <?= number_format($averageActivitiesPerParticipant); ?></li>
         </ul>
 
         <h3>Distance-Based Insights</h3>
@@ -75,7 +75,7 @@
             <li>Most Active Hour of Day: <?= $mostActiveHour; ?>:00</li>
         </ul>
 
-        <h3>Sunrise Walk Counts (5 AM - 8 AM):</h3>
+        <h3>Sunrise Walk Counts (5 AM - 8:30 AM)</h3>
 
         <?php if (!empty($sunriseWalkCounts)) : ?>
             <table class="sunrise-walks-table">
