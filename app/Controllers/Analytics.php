@@ -95,7 +95,7 @@ class Analytics extends BaseController
 
             $sunriseWalkCounts = $activityModel->select('users.name AS participant_name, COUNT(strava_activities.id) AS sunrise_walk_count')
             ->join('users', 'strava_activities.strava_athlete_id = users.strava_athlete_id', 'left')
-            ->where('strava_activities.type', 'Walk')
+            ->whereIn('type', $activityTypes)
             ->where('TIME(strava_activities.start_date_local) >=', '05:00:00')
             ->where('TIME(strava_activities.start_date_local) <=', '08:00:00')
             ->where('strava_activities.start_date >=', $startDate)
