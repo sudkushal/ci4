@@ -91,7 +91,7 @@ class LeaderboardHdr extends BaseController
                 $challengeConfig['minDistance']['km']
             );
             
-            echo "<pre>"; print_r($activities); echo "</pre>"; exit;
+           // echo "<pre>"; print_r($activities); echo "</pre>"; exit;
 
 
             $pointsCalculation = $this->calculatePoints($activities, $challengeConfig, $startDate, $endDate, $dateDiff);
