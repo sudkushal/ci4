@@ -20,7 +20,7 @@ class ChartAnalytics extends BaseController
                 ->select("DATE_FORMAT(start_date_local, '%Y-%m-%d') AS day, SUM(distance) AS total_distance", false)
                 ->whereIn('type', $activityTypes)
                 ->where('start_date >=', $startDate)
-                ->where('start_date <', $endDate)
+                ->where('start_date <', $endDate)->where('distance >=', 2000)
                 ->groupBy('day')
                 ->orderBy('day')
                 ->findAll();
@@ -30,7 +30,7 @@ class ChartAnalytics extends BaseController
                 ->select('type, COUNT(*) AS count', false)
                 ->whereIn('type', $activityTypes)
                 ->where('start_date >=', $startDate)
-                ->where('start_date <', $endDate)
+                ->where('start_date <', $endDate)->where('distance >=', 2000)
                 ->groupBy('type')
                 ->findAll();
 
@@ -51,6 +51,7 @@ class ChartAnalytics extends BaseController
                 ->whereIn('type', $activityTypes)
                 ->where('start_date >=', $startDate)
                 ->where('start_date <', $endDate)
+                ->where('distance >=', 2000)
                 ->findAll();
             
             // Activity by Time of Day (Heatmap) 
@@ -59,6 +60,7 @@ class ChartAnalytics extends BaseController
                 ->whereIn('type', $activityTypes)
                 ->where('start_date >=', $startDate)
                 ->where('start_date <', $endDate)
+                ->where('distance >=', 2000)
                 ->groupBy('hour, day')
                 ->orderBy('hour, day')
                 ->findAll();

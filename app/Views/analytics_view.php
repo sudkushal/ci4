@@ -56,9 +56,6 @@
         <?php if ($longestActivity): ?>
             <li>Longest Activity: <?= $longestActivity['name']; ?> (<?= number_format($longestActivity['distance'] / 1000, 2); ?> km)</li>
         <?php endif; ?>
-        <?php if ($shortestActivity): ?>
-            <li>Shortest Activity: <?= $shortestActivity['name']; ?> (<?= number_format($shortestActivity['distance'] / 1000, 2); ?> km)</li>
-        <?php endif; ?>
     </ul>
 
     <h3>Time-Based Insights</h3>
