@@ -60,7 +60,7 @@ class LeaderboardHdr extends BaseController
         $endDate = AppConstants::CHALLENGE_END_DATE;
 
         // 3. Calculate Challenge Duration (in days)
-        $dateDiff = (strtotime($endDate) - strtotime($startDate)) / (60 * 60 * 24) + 1;
+        $dateDiff = (strtotime($endDate) - strtotime($startDate)) / (60 * 60 * 24);
 
         // 4. Input Validation (Ensure challenge is at least one day long)
         if ($dateDiff < 1) {

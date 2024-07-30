@@ -48,7 +48,7 @@ class StravaActivityModel extends Model
         $minDistance = $minDistance * 1000;
         return $this->where('strava_athlete_id', $stravaAthleteId)
             ->where('start_date >=', $startDate)
-            ->where('start_date <=', $endDate)
+            ->where('start_date <', $endDate)
             ->where('distance >=', $minDistance)
             ->whereIn('type', $activityTypes)
             ->findAll();
