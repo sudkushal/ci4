@@ -56,4 +56,10 @@ class StravaActivityModel extends Model
             ->whereIn('type', $activityTypes)
             ->findAll();
     }
+
+    public function getStatsData()
+{
+    // Using the query builder to select from the view
+    return $this->db->table('step_it_up_consolidated_leaderboard')->get()->getResultArray(); 
+}
 }

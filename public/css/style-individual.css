@@ -1,0 +1,49 @@
+/* Inherit Color Scheme from Main Stylesheet */
+@import url("style-india.css");
+
+/* Consolidated Leaderboard Specific Styles */
+
+body {
+    margin: 0; /* Remove default body margin */
+}
+
+main {
+    padding: 20px;   /* Add padding for content */
+    width: 90%;       /* Adjust width as needed */
+    margin: 80px auto; /* Center the content area */
+    max-width: 1200px;  /* Set a maximum width for large screens */
+}
+
+.consolidated-leaderboard-table {
+    width: 100%; 
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    table-layout: fixed; /* Ensure columns have equal width */
+}
+
+.consolidated-leaderboard-table th,
+.consolidated-leaderboard-table td {
+    border: 1px solid #000; /* Black borders for better readability */
+    padding: 8px 12px;      /* Adjust padding as needed */
+    text-align: center;      /* Center align all columns except the first */
+    word-wrap: break-word;   /* Break long words to prevent overflow */
+    max-width: 150px;         /* Limit cell width (adjust as needed) */
+}
+
+.consolidated-leaderboard-table th {
+    background-color: #FF9933; /* Use saffron color from Indian flag */
+    color: #fff;              /* White text for headers */
+    font-weight: bold;
+}
+.consolidated-leaderboard-table td {
+    background-color: #fff; /* Use white color for data cells */
+    color: #000;              /* Black text for data cells */
+}
+
+/* Filter Bar Styles */
+.filter-bar {
+    text-align: right;    /* Align the filter bar to the right */
+    margin-bottom: 10px; 
+}
+
+/* ... (Add any other table-specific styles you need here) ... */
