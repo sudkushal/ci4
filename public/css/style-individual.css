@@ -2,48 +2,104 @@
 @import url("style-india.css");
 
 /* Consolidated Leaderboard Specific Styles */
-
 body {
-    margin: 0; /* Remove default body margin */
+    margin: 0;
 }
 
 main {
-    padding: 20px;   /* Add padding for content */
-    width: 90%;       /* Adjust width as needed */
-    margin: 80px auto; /* Center the content area */
-    max-width: 1200px;  /* Set a maximum width for large screens */
+    padding: 20px;
+    width: 90%;
+    margin: 80px auto;
+    max-width: 1200px;
 }
 
+/* Make the table container responsive */
 .consolidated-leaderboard-table {
-    width: 100%; 
+    width: 100%;
+    overflow-x: auto;
+    font-size: 14px;
+    margin: 20px auto;
     border-collapse: collapse;
-    margin-bottom: 20px;
-    table-layout: fixed; /* Ensure columns have equal width */
 }
 
 .consolidated-leaderboard-table th,
 .consolidated-leaderboard-table td {
-    border: 1px solid #000; /* Black borders for better readability */
-    padding: 8px 12px;      /* Adjust padding as needed */
-    text-align: center;      /* Center align all columns except the first */
-    word-wrap: break-word;   /* Break long words to prevent overflow */
-    max-width: 150px;         /* Limit cell width (adjust as needed) */
+    border: 1px solid #000;
+    padding: 8px 12px;
+    vertical-align: middle;
+    white-space: nowrap;
 }
 
 .consolidated-leaderboard-table th {
-    background-color: #FF9933; /* Use saffron color from Indian flag */
-    color: #fff;              /* White text for headers */
+    background-color: #FF9933;
+    color: #fff;
     font-weight: bold;
 }
+
 .consolidated-leaderboard-table td {
-    background-color: #fff; /* Use white color for data cells */
-    color: #000;              /* Black text for data cells */
+    background-color: #fff;
+    color: #000;
 }
 
 /* Filter Bar Styles */
 .filter-bar {
-    text-align: right;    /* Align the filter bar to the right */
-    margin-bottom: 10px; 
+    text-align: center;
+    margin-bottom: 10px;
 }
 
-/* ... (Add any other table-specific styles you need here) ... */
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    main {
+        margin: 20px auto;
+        width: 100%;
+    }
+
+    .consolidated-leaderboard-table {
+        font-size: 12px;
+        display: block;
+        overflow-x: auto;
+        width: 100%;
+    }
+
+    .consolidated-leaderboard-table th,
+    .consolidated-leaderboard-table td {
+        padding: 6px 8px;
+        display: block;
+        width: 100%;
+    }
+
+    /* Ensure that each cell is displayed as a block on smaller screens */
+    .consolidated-leaderboard-table tr {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    /* Name column should always be at the top */
+    .consolidated-leaderboard-table td:first-child {
+        background-color: #FF9933;
+        color: #fff;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    /* Hide table headers */
+    .consolidated-leaderboard-table thead {
+        display: none;
+    }
+
+    /* Add labels for each data point */
+    .consolidated-leaderboard-table td {
+        position: relative;
+        padding-left: 50%;
+    }
+
+    .consolidated-leaderboard-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: bold;
+    }
+}

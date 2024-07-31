@@ -15,25 +15,25 @@
         <div class="filter-bar">
             <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Search...">
         </div>
-        <table class="leaderboard-table">
+        <table class="leaderboard-table consolidated-leaderboard-table">
             <thead>
                 <tr>
-                    <th>Name</th> <?php
-                                    // Exclude profile_medium and name from header since they're combined
-                                    if (!empty($leaderboardData)) {
-                                        foreach (array_keys($leaderboardData[0]) as $columnName) {
-                                            if ($columnName != 'profile_medium' && $columnName != 'name') {
-                                                echo "<th>" . ucwords(str_replace('_', ' ', $columnName)) . "</th>";
-                                            }
-                                        }
-                                    }
-                                    ?>
+                    <th>Name</th>
+                    <?php
+                    if (!empty($leaderboardData)) {
+                        foreach (array_keys($leaderboardData[0]) as $columnName) {
+                            if ($columnName != 'profile_medium' && $columnName != 'name') {
+                                echo "<th>" . ucwords(str_replace('_', ' ', $columnName)) . "</th>";
+                            }
+                        }
+                    }
+                    ?>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($leaderboardData as $entry) : ?>
                     <tr>
-                        <td>
+                        <td data-label="Name">
                             <?php if (!empty($entry['profile_medium']) && strpos($entry['profile_medium'], 'avatar/athlete/medium.png') !== false) : ?>
                                 <img src="<?= base_url('images/replacement_image.png'); ?>" alt="Athlete Profile" class="profile-pic">
                             <?php else : ?>
@@ -44,7 +44,7 @@
 
                         <?php foreach ($entry as $key => $value) : ?>
                             <?php if ($key != 'profile_medium' && $key != 'name') : ?>
-                                <td>
+                                <td data-label="<?= ucwords(str_replace('_', ' ', $key)); ?>">
                                     <?php
                                     if (is_numeric($value) && strpos($value, '.') !== false) {
                                         echo number_format($value, 2);  // Format to 2 decimal places
@@ -58,6 +58,10 @@
                     </tr>
                 <?php endforeach; ?>
             </tbody>
+
+
+
+
         </table>
     </main>
     <?= $this->include('_footer') ?>
