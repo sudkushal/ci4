@@ -44,10 +44,10 @@
                     { title: "Max Distance", field: "max_distance", sorter: "number", hozAlign: "center" },
                     { title: "Total Distance", field: "total_distance", sorter: "number", hozAlign: "center" },
                     { title: "Total Time", field: "total_time", sorter: "number", hozAlign: "center" },
-                    { title: "Total Elevation", field: "total_elevation", sorter: "number", hozAlign: "center" },
                     { title: "Max Speed", field: "max_speed", sorter: "number", hozAlign: "center" },
-                    { title: "Max Average Speed", field: "max_avg_speed", sorter: "number", hozAlign: "center" },
                     { title: "Activities Per Week", field: "activities_per_week", sorter: "number", hozAlign: "center" }
+                    { title: "Avg Dist Per Week", field: "avg_distance_per_week", sorter: "number", hozAlign: "center" }
+                    { title: "Avg Time Per Week", field: "avg_time_per_week", sorter: "number", hozAlign: "center" }
                 ]
             });
         });
