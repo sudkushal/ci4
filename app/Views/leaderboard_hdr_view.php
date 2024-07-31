@@ -14,7 +14,7 @@
     <main>
         <h2>Top Athletes for HDR Challenge</h2>
         <p>
-            <strong>Challenge Period:</strong> <?= date('F j, Y', strtotime($startDate)); ?> - <?= date('F j, Y', strtotime($endDate.'-1 day')); ?><br>
+            <strong>Challenge Period:</strong> <?= date('F j, Y', strtotime($startDate)); ?> - <?= date('F j, Y', strtotime($endDate . '-1 day')); ?><br>
             <strong>Challenge Rules:</strong><br>
             <?= $challengeConfig['minDistance']['km'] ?>+ km for <?= $challengeConfig['minDistance']['minDays'] ?> days: <?= $challengeConfig['minDistance']['pointsPerDay'] ?> points per day<br>
             <?= $challengeConfig['activeDay']['km'] ?>+ km for <?= $challengeConfig['activeDay']['minDays'] ?>-<?= $challengeConfig['activeDay']['maxDays'] ?> days: <?= $challengeConfig['activeDay']['pointsPerDay'] ?> points per day<br>
@@ -40,7 +40,11 @@
                         <td><?= $rank++; ?></td>
                         <td>
                             <?php if (!empty($entry['profile_medium'])) : ?>
-                                <img src="<?= $entry['profile_medium']; ?>" alt="Athlete Profile" class="profile-pic">
+                                <?php if (strpos($entry['profile_medium'], 'avatar/athlete/medium.png') !== false) : ?>
+                                    <img src="<?= base_url('images/replacement_image.png'); ?>" alt="Athlete Profile" class="profile-pic">
+                                <?php else : ?>
+                                    <img src="<?= $entry['profile_medium']; ?>" alt="Athlete Profile" class="profile-pic">
+                                <?php endif; ?>
                             <?php endif; ?>
                             <?= $entry['name']; ?>
                         </td>
