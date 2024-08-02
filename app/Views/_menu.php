@@ -1,49 +1,25 @@
 <?php namespace App\Views; ?>
 
-<nav>
-    <style>
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 1rem auto 0;
-            text-align: center;
-        }
 
-        nav li {
-            display: inline;
-            margin-right: 20px;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        nav a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        /* Mobile Responsive Styles for Menu */
-        @media (max-width: 768px) { 
-            nav ul {
-                flex-direction: column; 
-                align-items: center;
-            }
-        
-            nav li {
-                margin: 5px 0; 
-            }
-        }
-    </style>
-
-    <ul>
-        <li><a href="<?= site_url('/'); ?>" class="<?php if (current_url() == site_url('/')) echo 'active'; ?>">Home</a></li>
-        <li><a href="<?= site_url('leaderboard'); ?>" class="<?php if (current_url() == site_url('leaderboard')) echo 'active'; ?>">Leaderboard</a></li>
-        <li><a href="<?= site_url('individualboard'); ?>" class="<?php if (current_url() == site_url('individualboard')) echo 'active'; ?>">Individual Statistics</a></li>
-        <li><a href="<?= site_url('analytics'); ?>" class="<?php if (current_url() == site_url('analytics')) echo 'active'; ?>">Analytics</a></li>
-    </ul>
-</nav>
+<nav class="navbar navbar-expand-lg navbar-light bg-success">
+        <a class="navbar-brand text-white" href="#">100 Days Fitness Challenge</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link text-white" href="<?= site_url('/'); ?>">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="<?= site_url('leaderboard'); ?>">Leaderboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="<?= site_url('individualboard'); ?>">Individual Statistics</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="<?= site_url('analytics'); ?>">Analytics</a>
+                </li>
+            </ul>
+        </div>
+    </nav>

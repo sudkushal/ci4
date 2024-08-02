@@ -1,23 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>100 Days Fitness Challenge</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tabulator CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.4.3/css/tabulator.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="<?= base_url('css/style-individual.css?v=' . time()); ?>">
     <link rel="icon" href="<?= base_url('favicon.ico'); ?>" type="image/x-icon">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.4.3/css/tabulator.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.4.3/js/tabulator.min.js"></script>
-
 </head>
 
 <body>
 
-    <?= $this->include('_header') ?>
-    <h1>Individual Statistics</h1>
-    <main>
-        <div id="individual-stats-table"></div> <!-- This div will hold the Tabulator table -->
-    </main>
+    <?= $this->include('_menu') ?>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1>Individual Statistics</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div id="individual-stats-table" class="mt-4"></div> <!-- This div will hold the Tabulator table -->
+            </div>
+        </div>
+    </div>
+
     <?= $this->include('_footer') ?>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Tabulator JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.4.3/js/tabulator.min.js"></script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Use PHP to output the table data directly into the JavaScript

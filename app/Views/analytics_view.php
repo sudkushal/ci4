@@ -1,118 +1,115 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>100 Days Fitness Challenge</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('css/style-india.css?v=' . time()); ?>">
     <link rel="icon" href="<?= base_url('favicon.ico'); ?>" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        .graphs-container {
-            display: flex;
-            /* Use flexbox for layout */
-            flex-wrap: wrap;
-            /* Allow charts to wrap to the next line on smaller screens */
-            justify-content: space-around;
-            /* Evenly distribute space between charts */
-            gap: 20px;
-        }
-
-        .chart-container {
-            width: 45%;
-            /* Make each chart container take roughly half the width */
-            max-width: 500px;
-            /* Limit maximum width for larger screens */
-        }
-
-        /* Responsive adjustments for smaller screens */
-        @media (max-width: 768px) {
-            .chart-container {
-                width: 95%;
-                /* Take up almost full width on smaller screens */
-                margin: 10px auto;
-                /* Center the charts */
-            }
-        }
-    </style>
 </head>
 
 <body>
 
-    <?= $this->include('_header') ?>
+    <?= $this->include('_menu') ?>
 
-    <main>
-        <h2>100 Days Fitness Challenge - Analytics</h2>
-        <h3>Challenge Period: <?= date('F j', strtotime($startDate)); ?> - <?= date('F j, Y', strtotime($endDate)); ?></h3>
-
-        <h3>Overall Statistics</h3>
-        <ul>
-            <li>Total Distance: <?= number_format($totalDistance / 1000, 2); ?> km</li>
-            <li>Total Activities: <?= $totalActivities; ?></li>
-            <li>Average Distance per Activity: <?= number_format($averageDistance / 1000, 2); ?> km</li>
-            <li>Total Elevation Gain: <?= number_format($totalElevationGain, 2); ?> m</li>
-            <li>Average Speed: <?= number_format($averageSpeed, 2); ?> km/h</li>
-            <li>Max Speed: <?= number_format($maxSpeed, 2); ?> km/h</li>
-        </ul>
-
-        <h3>Participation</h3>
-        <ul>
-            <li>Number of Participants: <?= $participants; ?></li>
-            <li>Average Activities per Participant: <?= number_format($averageActivitiesPerParticipant); ?></li>
-        </ul>
-
-        <h3>Distance-Based Insights</h3>
-        <ul>
-            <?php if ($longestActivity) : ?>
-                <li>Longest Activity: <?= $longestActivity['name']; ?> (<?= number_format($longestActivity['distance'] / 1000, 2); ?> km) by <?= $longestActivity['user_name']; ?></li>
-            <?php endif; ?>
-        </ul>
-
-        <h3>Time-Based Insights</h3>
-        <ul>
-            <li>Total Moving Time: <?= gmdate('H:i:s', $totalMovingTime); ?> (HH:MM:SS)</li>
-            <li>Average Moving Time per Activity: <?= gmdate('i:s', $averageMovingTime); ?> (MM:SS)</li>
-            <li>Most Active Day: <?= $mostActiveDay; ?></li>
-            <li>Most Active Hour of Day: <?= $mostActiveHour; ?>:00</li>
-        </ul>
-
-        <h3>Sunrise Walk Counts (5 AM - 8:30 AM)</h3>
-
-        <?php if (!empty($sunriseWalkCounts)) : ?>
-            <table class="sunrise-walks-table">
-                <thead>
-                    <tr>
-                        <th>Participant</th>
-                        <th>Number of Walks</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($sunriseWalkCounts as $entry) : ?>
-                        <tr>
-                            <td><?= $entry['participant_name']; ?></td>
-                            <td><?= $entry['sunrise_walk_count']; ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php else : ?>
-            <p>No data available for sunrise walk counts.</p>
-        <?php endif; ?>
-
-        <div class="graphs-container">
-            <div class="chart-container">
-                <canvas id="distanceByDayChart"></canvas>
+    <main class="container mt-5">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2>100 Days Fitness Challenge - Analytics</h2>
+                <h3>Challenge Period: <?= date('F j', strtotime($startDate)); ?> - <?= date('F j, Y', strtotime($endDate)); ?></h3>
             </div>
-            <div class="chart-container">
-                <canvas id="activitiesByTypeChart"></canvas>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <h3>Overall Statistics</h3>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Total Distance: <?= number_format($totalDistance / 1000, 2); ?> km</li>
+                    <li class="list-group-item">Total Activities: <?= $totalActivities; ?></li>
+                    <li class="list-group-item">Average Distance per Activity: <?= number_format($averageDistance / 1000, 2); ?> km</li>
+                    <li class="list-group-item">Total Elevation Gain: <?= number_format($totalElevationGain, 2); ?> m</li>
+                    <li class="list-group-item">Average Speed: <?= number_format($averageSpeed, 2); ?> km/h</li>
+                    <li class="list-group-item">Max Speed: <?= number_format($maxSpeed, 2); ?> km/h</li>
+                </ul>
             </div>
-            <div class="chart-container">
-                <canvas id="cumulativeDistanceChart"></canvas>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h3>Participation</h3>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Number of Participants: <?= $participants; ?></li>
+                    <li class="list-group-item">Average Activities per Participant: <?= number_format($averageActivitiesPerParticipant); ?></li>
+                </ul>
             </div>
-            <div class="chart-container">
-                <canvas id="distanceVsTimeChart"></canvas>
+            <div class="col-md-6">
+                <h3>Distance-Based Insights</h3>
+                <ul class="list-group list-group-flush">
+                    <?php if ($longestActivity) : ?>
+                        <li class="list-group-item">Longest Activity: <?= $longestActivity['name']; ?> (<?= number_format($longestActivity['distance'] / 1000, 2); ?> km) by <?= $longestActivity['user_name']; ?></li>
+                    <?php endif; ?>
+                </ul>
             </div>
-            <div class="chart-container">
-                <canvas id="activityByHourChart"></canvas>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h3>Time-Based Insights</h3>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Total Moving Time: <?= gmdate('H:i:s', $totalMovingTime); ?> (HH:MM:SS)</li>
+                    <li class="list-group-item">Average Moving Time per Activity: <?= gmdate('i:s', $averageMovingTime); ?> (MM:SS)</li>
+                    <li class="list-group-item">Most Active Day: <?= $mostActiveDay; ?></li>
+                    <li class="list-group-item">Most Active Hour of Day: <?= $mostActiveHour; ?>:00</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h3>Sunrise Walk Counts (5 AM - 8:30 AM)</h3>
+                <?php if (!empty($sunriseWalkCounts)) : ?>
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Participant</th>
+                                <th>Number of Walks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($sunriseWalkCounts as $entry) : ?>
+                                <tr>
+                                    <td><?= $entry['participant_name']; ?></td>
+                                    <td><?= $entry['sunrise_walk_count']; ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php else : ?>
+                    <p>No data available for sunrise walk counts.</p>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="graphs-container row">
+                    <div class="chart-container col-lg-6 col-md-12">
+                        <canvas id="distanceByDayChart"></canvas>
+                    </div>
+                    <div class="chart-container col-lg-6 col-md-12">
+                        <canvas id="activitiesByTypeChart"></canvas>
+                    </div>
+                    <div class="chart-container col-lg-6 col-md-12">
+                        <canvas id="cumulativeDistanceChart"></canvas>
+                    </div>
+                    <div class="chart-container col-lg-6 col-md-12">
+                        <canvas id="distanceVsTimeChart"></canvas>
+                    </div>
+                    <div class="chart-container col-lg-6 col-md-12">
+                        <canvas id="activityByHourChart"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -141,25 +138,6 @@
                             }
                         }
                     });
-
-                    /* // Activities By Type Chart (Pie Chart)
-                    const typeCtx = document.getElementById('activitiesByTypeChart').getContext('2d');
-                    new Chart(typeCtx, {
-                        type: 'pie',
-                        data: {
-                            labels: data.activitiesByTypeData.map(item => item.type),
-                            datasets: [{
-                                label: 'Activities by Type',
-                                data: data.activitiesByTypeData.map(item => item.count),
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 0.7)',    // Red
-                                    'rgba(54, 162, 235, 0.7)',   // Blue
-                                    // ... Add more colors if you have more activity types
-                                ],
-                                hoverOffset: 4
-                            }]
-                        }
-                    }); */
 
                     // Cumulative Distance Chart (Line Chart)
                     const cumulativeDistanceCtx = document.getElementById('cumulativeDistanceChart').getContext('2d');
@@ -207,9 +185,6 @@
                             }
                         }
                     });
-
-                    // Activity By Hour (Heatmap - Requires additional Chart.js plugin)
-                    // You'll need to include and configure the Chart.js heatmap plugin here.
                 })
                 .catch(error => {
                     console.error('Error fetching or processing chart data:', error);
@@ -220,6 +195,11 @@
     </main>
 
     <?= $this->include('_footer') ?>
+
+    <!-- Include Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
