@@ -9,6 +9,13 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('css/style-india.css?v=' . time()); ?>">
     <link rel="icon" href="<?= base_url('favicon.ico'); ?>" type="image/x-icon">
+    <style>
+        #dayCounter {
+            font-size: 18px;
+            /* Adjust the font size as needed */
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
@@ -17,11 +24,12 @@
 
 
     <main class="container mt-5">
-        <div class="row">
-            <div class="col-12">
-                <h3 class="text-center">Please complete this process and then share the score in Microsoft Forms.</h3>
+        <div class="col-12">
+            <div class="mt-3 text-center">
+                <div id="dayCounter" class="text-white bg-info rounded py-2 px-4"></div>
             </div>
         </div>
+
         <div class="row justify-content-center my-4">
             <div class="col-12 col-md-8 col-lg-6">
                 <section id="strava-connect" class="text-center">
@@ -60,6 +68,21 @@
         connectButton.addEventListener('click', () => {
             window.location.href = "<?= site_url('strava/connectToStrava'); ?>";
         });
+        // Get the start date (replace with the actual start date)
+        const startDate = new Date("2024-08-15"); // Example: July 1st, 2024
+
+        // Calculate today's date
+        const today = new Date();
+
+        // Calculate the difference in milliseconds
+        const timeDiff = Math.abs(today - startDate);
+
+        // Convert milliseconds to days
+        const diffDays = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+        // Get the element where you want to display the counter (create a new div in your HTML)
+        const counterDisplay = document.getElementById("dayCounter");
+        counterDisplay.textContent = `Note: ${diffDays} Days to Start`;
     </script>
 </body>
 

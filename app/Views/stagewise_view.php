@@ -33,6 +33,27 @@
         .table-responsive-sm table {
             display: table;
             width: 100%;
+            background-color: #fff;
+            /* White background */
+            border-collapse: collapse;
+            /* Remove space between borders */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow */
+        }
+
+        .table-responsive-sm th,
+        .table-responsive-sm td {
+            border: 1px solid #ddd;
+            /* Light gray border */
+            padding: 10px 15px;
+            /* More padding for better readability */
+            vertical-align: middle;
+        }
+
+        .table-responsive-sm th {
+            background-color: #f0f0f0;
+            /* Light gray header background */
+            font-weight: bold;
         }
 
         .table-responsive-sm tbody tr {
@@ -41,6 +62,11 @@
 
         .table-responsive-sm tbody td {
             text-align: left;
+            padding: 15px;
+            background-color: #f8f8f8;
+            /* Very light gray background */
+            border-bottom: 1px solid #ddd;
+            /* Add a bottom border */
         }
 
         /* Media query for smaller screens (adjust the breakpoint if needed) */

@@ -20,6 +20,9 @@
                 <li class="nav-item">
                     <a class="nav-link text-white" href="<?= site_url('analytics'); ?>">Analytics</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="<?= site_url('config'); ?>">Challenge Config</a>
+                </li>
             </ul>
         </div>
     </nav>

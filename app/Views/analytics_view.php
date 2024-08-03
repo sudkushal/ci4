@@ -66,29 +66,6 @@
                     <li class="list-group-item">Most Active Hour of Day: <?= $mostActiveHour; ?>:00</li>
                 </ul>
             </div>
-            <div class="col-md-6">
-                <h3>Sunrise Walk Counts (5 AM - 8:30 AM)</h3>
-                <?php if (!empty($sunriseWalkCounts)) : ?>
-                    <table class="table table-bordered table-striped">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Participant</th>
-                                <th>Number of Walks</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($sunriseWalkCounts as $entry) : ?>
-                                <tr>
-                                    <td><?= $entry['participant_name']; ?></td>
-                                    <td><?= $entry['sunrise_walk_count']; ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                <?php else : ?>
-                    <p>No data available for sunrise walk counts.</p>
-                <?php endif; ?>
-            </div>
         </div>
 
         <div class="row mt-4">
