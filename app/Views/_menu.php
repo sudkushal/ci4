@@ -1,8 +1,8 @@
 <?php namespace App\Views; ?>
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-success">
-        <a class="navbar-brand text-white" href="#">100 Days Fitness Challenge</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-success sticky-top">
+        <a class="navbar-brand text-white" href="<?= site_url('/'); ?>">100 Days Fitness Challenge</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -12,7 +12,7 @@
                     <a class="nav-link text-white" href="<?= site_url('/'); ?>">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="<?= site_url('leaderboard'); ?>">Leaderboard</a>
+                    <a class="nav-link text-white" href="<?= site_url('stage'); ?>">Leaderboard</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white" href="<?= site_url('individualboard'); ?>">Individual Statistics</a>
