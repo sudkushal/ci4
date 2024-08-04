@@ -59,7 +59,7 @@
             }
         
             .table-responsive tbody td:before {
-                content: attr(data-label) ": "; 
+                content: attr(data-label) ""; 
                 float: left;       
                 font-weight: bold; 
             }
