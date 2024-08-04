@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,39 +15,58 @@
             margin: 0;
             padding: 0;
         }
+
         .faq-section {
             padding: 80px 0;
             background: linear-gradient(to right, #f7f7f7, #e0e0e0);
             color: #333;
         }
+
         .faq-header {
             margin-bottom: 50px;
             font-size: 2rem;
-            color: #FF8C00; /* Orange color to match the theme */
+            color: #FF8C00;
+            /* Orange color to match the theme */
         }
+
         .faq-item {
             margin-bottom: 30px;
         }
+
         .faq-question {
             font-weight: bold;
             font-size: 1.2rem;
-            color: #006400; /* Dark green color for questions */
+            color: #006400;
+            /* Dark green color for questions */
         }
+
         .faq-answer {
             font-size: 1rem;
             color: #333;
             line-height: 1.6;
         }
+
         .faq-answer ol {
             padding-left: 20px;
         }
+
         .faq-answer ol li {
             margin-bottom: 10px;
         }
+
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 20px;
+                /* Adjust as needed */
+                padding-right: 20px;
+                /* Adjust as needed */
+            }
+        }
     </style>
 </head>
+
 <body>
-<?= $this->include('_menu') ?>
+    <?= $this->include('_menu') ?>
 
     <!-- FAQ Section -->
     <div class="container faq-section">
@@ -59,8 +79,8 @@
                     <p class="faq-question">Q1: How do I sync my Strava data with this portal?</p>
                     <div class="faq-answer">
                         <ol>
-                            <li>Connect Strava Account: Navigate to the 'Connect Strava' section in the portal. You will see an option to link your Strava account.</li>
-                            <li>Authorize: Click the 'Authorize' button, which will redirect you to Strava’s website. Login to Strava, and authorize the portal to access your data.</li>
+                            <li>Connect Strava Account: Use 'Connect with Strava' button on the landing page of the portal. You will see an option to link your Strava account.</li>
+                            <li>Authorize: You will be redirected Strava’s website. Login to Strava, and authorize the portal to access your data.</li>
                             <li>Sync Data: Once authorization is complete, your Strava activities will automatically sync with the portal.</li>
                         </ol>
                     </div>
@@ -123,4 +143,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>
