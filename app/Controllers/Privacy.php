@@ -28,4 +28,9 @@ class Privacy extends BaseController
 
         return view('privacy_policy', $data); // Load your new view file
     }
+
+    public function faqs()
+    {
+        return view('faqs_view');
+    }
 }

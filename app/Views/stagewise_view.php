@@ -178,6 +178,7 @@
                                 <th>Total Distance</th>
                                 <th>Min Distance Points</th>
                                 <th>Stage Total Points</th>
+                                <th>Challenges Completed (x/4)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -190,6 +191,7 @@
                                     <td data-label="Total Distance"><?= number_format($row['total_distance'], 2); ?></td>
                                     <td data-label="Min Distance Points"><?= $row['min_distance_points']; ?></td>
                                     <td data-label="Stage Total Points"><?= $row['stage_total_points']; ?></td>
+                                    <td data-label="Challenge Completed (x/4)"><?= $row['challenges_completed']; ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -212,6 +214,7 @@
                                 <th>Total Distance</th>
                                 <th>Min Distance Points</th>
                                 <th>Stage Total Points</th>
+                                <th>Challenges Completed (x/4)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -224,6 +227,7 @@
                                     <td data-label="Total Distance"><?= number_format($row['total_distance'], 2); ?></td>
                                     <td data-label="Min Distance Points"><?= $row['min_distance_points']; ?></td>
                                     <td data-label="Stage Total Points"><?= $row['stage_total_points']; ?></td>
+                                    <td data-label="Challenge Completed (x/4)"><?= $row['challenges_completed']; ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -244,6 +248,7 @@
                                 <th>Total Distance</th>
                                 <th>Min Distance Points</th>
                                 <th>Stage Total Points</th>
+                                <th>Challenges Completed (x/4)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -256,6 +261,7 @@
                                     <td data-label="Total Distance"><?= number_format($row['total_distance'], 2); ?></td>
                                     <td data-label="Min Distance Points"><?= $row['min_distance_points']; ?></td>
                                     <td data-label="Stage Total Points"><?= $row['stage_total_points']; ?></td>
+                                    <td data-label="Challenge Completed (x/4)"><?= $row['challenges_completed']; ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -276,6 +282,7 @@
                                 <th>Total Distance</th>
                                 <th>Min Distance Points</th>
                                 <th>Stage Total Points</th>
+                                <th>Challenges Completed (x/4)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -288,6 +295,7 @@
                                     <td data-label="Total Distance"><?= number_format($row['total_distance'], 2); ?></td>
                                     <td data-label="Min Distance Points"><?= $row['min_distance_points']; ?></td>
                                     <td data-label="Stage Total Points"><?= $row['stage_total_points']; ?></td>
+                                    <td data-label="Challenge Completed (x/4)"><?= $row['challenges_completed']; ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -308,6 +316,7 @@
                                 <th>Total Distance</th>
                                 <th>Min Distance Points</th>
                                 <th>Stage Total Points</th>
+                                <th>Challenges Completed (x/4)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -320,6 +329,7 @@
                                     <td data-label="Total Distance"><?= number_format($row['total_distance'], 2); ?></td>
                                     <td data-label="Min Distance Points"><?= $row['min_distance_points']; ?></td>
                                     <td data-label="Stage Total Points"><?= $row['stage_total_points']; ?></td>
+                                    <td data-label="Challenge Completed (x/4)"><?= $row['challenges_completed']; ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>

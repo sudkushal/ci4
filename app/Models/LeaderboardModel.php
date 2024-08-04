@@ -15,31 +15,31 @@ class LeaderboardModel extends Model {
     // Function to retrieve data from stage 1
     public function getStage1Data()
     {
-        return $this->db->table('stage1_points_breakdown')->get()->getResultArray();
+        return $this->db->table('stage1_combined')->get()->getResultArray();
     }
 
     // Function to retrieve data from stage 2
     public function getStage2Data()
     {
-        return $this->db->table('stage2_points_breakdown')->get()->getResultArray();
+        return $this->db->table('stage2_combined')->get()->getResultArray();
     }
 
     // Function to retrieve data from stage 3
     public function getStage3Data()
     {
-        return $this->db->table('stage3_points_breakdown')->get()->getResultArray();
+        return $this->db->table('stage3_combined')->get()->getResultArray();
     }
 
     // Function to retrieve data from stage 4
     public function getStage4Data()
     {
-        return $this->db->table('stage4_points_breakdown')->get()->getResultArray();
+        return $this->db->table('stage4_combined')->get()->getResultArray();
     }
 
     // Function to retrieve data from stage 5
     public function getStage5Data()
     {
-        return $this->db->table('stage5_points_breakdown')->get()->getResultArray();
+        return $this->db->table('stage5_combined')->get()->getResultArray();
     }
 
     // Function to retrieve consolidated data

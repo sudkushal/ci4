@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>100 Days Fitness Challenge</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('css/style-india.css?v=' . time()); ?>">
     <link rel="icon" href="<?= base_url('favicon.ico'); ?>" type="image/x-icon">
 </head>
