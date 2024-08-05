@@ -103,7 +103,7 @@
                     <p class="faq-question">Q3: Where can I find the consolidated leaderboard?</p>
                     <div class="faq-answer">
                         <ol>
-                            <li>Go to Consolidated Leaderboard: In the Leaderboards section, look for the ‘Consolidated Leaderboard’ tab.</li>
+                            <li>Go to Consolidated Leaderboard: In the Leaderboards section, look for the ‘Consolidated’ tab.</li>
                             <li>View Overall Rankings: This leaderboard provides an aggregated view of all stages, showing overall performance across the entire challenge period.</li>
                         </ol>
                     </div>
@@ -114,7 +114,7 @@
                     <p class="faq-question">Q4: How can I access analytics and my individual statistics?</p>
                     <div class="faq-answer">
                         <ol>
-                            <li>Access Analytics: Go to the ‘Analytics’ section from the main menu.</li>
+                            <li>Access Analytics: Go to the ‘Individual Statistics’ section from the main menu.</li>
                             <li>View Detailed Stats: Here, you can view detailed statistics on your performance, such as total distance covered, active days, and performance trends over time.</li>
                             <li>Compare with Peers: Some analytics sections may also allow you to compare your performance with others in your group or the overall challenge.</li>
                         </ol>

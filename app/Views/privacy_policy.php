@@ -9,10 +9,10 @@
     <link rel="icon" href="<?= base_url('favicon.ico'); ?>" type="image/x-icon">
 </head>
 <body>
-<?= $this->include('_header') ?>
+<?= $this->include('_menu') ?>
 
     <main>
-        <h2>100 Days Challenge Privacy Policy</h2>
+        <h2>Privacy Policy</h2>
 
         <p>
             This Privacy Policy describes how we collect, use, and share your personal information when you participate in the Wellness Challenge.
