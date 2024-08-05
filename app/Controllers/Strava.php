@@ -102,7 +102,6 @@ class Strava extends BaseController
                 $activitiesResponse = $client->request('GET', "https://www.strava.com/api/v3/athlete/activities?page={$page}&per_page={$perPage}", [
                     'headers' => ['Authorization' => 'Bearer ' . $accessToken]
                 ]);
-
                 $pageActivities = json_decode($activitiesResponse->getBody(), true);
                 $filteredActivities = array_filter($pageActivities, function ($activity) use ($startDate, $endDate) {
                     $activityStartTime = strtotime($activity['start_date_local']); // Assuming the date is in the correct format
@@ -138,7 +137,7 @@ class Strava extends BaseController
                 $stravaActivityModel->updateOrCreate($activityData, $athleteId);
             }
 
-            return redirect()->to(site_url('leaderboard'))->with('success', 'Strava connected and data synced successfully!');
+            return redirect()->to(site_url('stage'))->with('success', 'Strava connected and data synced successfully!');
         } catch (\Exception $e) {
             log_message('error', 'Error in Strava callback: ' . $e->getMessage());
             return redirect()->to('/')->with('error', 'Failed to connect to Strava. Please try again.');
