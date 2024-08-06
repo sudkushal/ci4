@@ -184,22 +184,7 @@
                         <tbody>
                             <?php foreach ($stage1_data as $row) : ?>
                                 <tr>
-                                    <td data-label="Participant Name">
-                                        <?php
-                                        // Define the pattern for the expected URL format
-                                        $pattern = "/^https:\/\/dgalywyr863hv\.cloudfront\.net\/pictures\/athletes\/\d+\/\d+\/\d+\/medium\.jpg$/";
-
-                                        // Check if the profile_medium is not empty and matches the pattern
-                                        if (!empty($row['profile_medium']) && preg_match($pattern, $row['profile_medium'])) :
-                                            $imageSrc = $row['profile_medium'];
-                                        else :
-                                            // If the URL is empty or doesn't match the pattern, use a static image
-                                            $imageSrc = base_url('images/replacement_image.png'); 
-                                        endif;
-                                        ?>
-                                        <img src="<?= $imageSrc; ?>" alt="Athlete Profile" class="profile-pic">
-                                        <?= $row['participant_name']; ?>
-                                    </td>
+                                <td data-label="Participant Name"><?= $row['participant_name']; ?></td>
                                     <td data-label="Daily Points"><?= $row['daily_points']; ?></td>
                                     <td data-label="Bonus Points"><?= $row['bonus_points']; ?></td>
                                     <td data-label="Active Day Points"><?= $row['active_day_points']; ?></td>
@@ -358,6 +343,7 @@
                     <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
+                                <th>Serial Number</th>
                                 <th>Rank</th>
                                 <th>Name</th>
                                 <th>Stage 1</th>
@@ -369,8 +355,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($consolidated_data as $row) : ?>
+                            <?php $serialNumber = 1;
+                            foreach ($consolidated_data as $row) : ?>
                                 <tr>
+                                    <td data-label="Serial Number"><?= $serialNumber++; ?></td>
                                     <td data-label="Rank Order"><?= $row['rank_order']; ?></td>
                                     <td data-label="Name">
                                         <?php
@@ -382,7 +370,7 @@
                                             $imageSrc = $row['profile_medium'];
                                         else :
                                             // If the URL is empty or doesn't match the pattern, use a static image
-                                            $imageSrc = base_url('images/replacement_image.png'); 
+                                            $imageSrc = base_url('images/replacement_image.png');
                                         endif;
                                         ?>
                                         <img src="<?= $imageSrc; ?>" alt="Athlete Profile" class="profile-pic">
