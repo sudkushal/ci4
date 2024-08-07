@@ -7,8 +7,8 @@
     <title>100 Days Fitness Challenge</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Tabulator CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.4.3/css/tabulator.min.css" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="<?= base_url('css/style-individual.css?v=' . time()); ?>">
     <link rel="icon" href="<?= base_url('favicon.ico'); ?>" type="image/x-icon">
@@ -27,7 +27,40 @@
 
         <div class="row">
             <div class="col-12">
-                <div id="individual-stats-table" class="mt-4"></div> <!-- This div will hold the Tabulator table -->
+                <!-- Bootstrap Responsive Table with DataTables -->
+                <table id="individual-stats-table" class="table table-striped table-bordered table-responsive-sm">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Max Distance</th>
+                            <th>Total Distance</th>
+                            <th>Total Time</th>
+                            <th>Activities Per Week</th>
+                            <th>Avg Dist Per Week</th>
+                            <th>Avg Time Per Week</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $tableData = json_decode($tableData, true); ?>
+                        <?php if (is_array($tableData) && !empty($tableData)) : ?>
+                            <?php foreach ($tableData as $row) : ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?= htmlspecialchars($row['max_distance'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?= htmlspecialchars($row['total_distance'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?= htmlspecialchars($row['total_time'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?= htmlspecialchars($row['activities_per_week'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?= htmlspecialchars($row['avg_distance_per_week'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?= htmlspecialchars($row['avg_time_per_week'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <tr>
+                                <td colspan="8" class="text-center">No data available</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -35,42 +68,31 @@
     <?= $this->include('_footer') ?>
 
     <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Tabulator JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.4.3/js/tabulator.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap4.min.js"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Use PHP to output the table data directly into the JavaScript
-            const tableData = <?= $tableData; ?>;
-
-            // Initialize Tabulator with the data
-            const table = new Tabulator("#individual-stats-table", {
-                data: tableData, // Assign data to table
-                layout: "fitColumns", // Fit columns to width of table
-                responsiveLayout: "collapse", // Collapse columns that don't fit on the screen
-                tooltips: true, // Show tooltips on cells
-                addRowPos: "top", // When adding a new row, place it at the top of the table
-                history: true, // Allow undo and redo actions on the table
-                pagination: "local", // Paginate the data
-                paginationSize: 15, // Number of rows per page
-                movableColumns: true, // Allow column order to be changed
-                resizableRows: true, // Allow row order to be changed
-                initialSort: [ // Define the initial sorting order
-                    { column: "name", dir: "asc" },
+        $(document).ready(function() {
+            $('#individual-stats-table').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                autoWidth: false,
+                responsive: true,
+                pageLength: 15,
+                columnDefs: [{
+                        targets: [1, 2, 3, 4, 5, 6],
+                        className: 'dt-center'
+                    } // Center align certain columns
                 ],
-                columns: [
-                    { title: "Name", field: "name", headerFilter: "input" },
-                    { title: "Max Distance", field: "max_distance", sorter: "number", hozAlign: "center" },
-                    { title: "Total Distance", field: "total_distance", sorter: "number", hozAlign: "center" },
-                    { title: "Total Time", field: "total_time", sorter: "number", hozAlign: "center" },
-                    { title: "Max Speed", field: "max_speed", sorter: "number", hozAlign: "center" },
-                    { title: "Activities Per Week", field: "activities_per_week", sorter: "number", hozAlign: "center" },
-                    { title: "Avg Dist Per Week", field: "avg_distance_per_week", sorter: "number", hozAlign: "center" },
-                    { title: "Avg Time Per Week", field: "avg_time_per_week", sorter: "number", hozAlign: "center" }
-                ]
+                order: [
+                    [0, 'asc']
+                ] // Default sort by the first column (Name)
             });
         });
     </script>

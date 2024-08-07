@@ -8,8 +8,14 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.4.3/css/tabulator.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('css/style-individual.css?v=' . time()); ?>">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
     <link rel="icon" href="<?= base_url('favicon.ico'); ?>" type="image/x-icon">
     <style>
+        .dt-buttons {
+            display: inline-block !important;
+        }
+
         #goToTopBtn {
             position: fixed;
             bottom: 20px;
@@ -168,7 +174,7 @@
             <div class="tab-pane fade show active" id="stage1" role="tabpanel" aria-labelledby="stage1-tab">
                 <div class="container table-responsive-sm py-4">
                     <h2 class="text-center">Stage 1</h2>
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-striped table-bordered" id="stage1Table">
                         <thead>
                             <tr>
                                 <th>Participant Name</th>
@@ -184,7 +190,7 @@
                         <tbody>
                             <?php foreach ($stage1_data as $row) : ?>
                                 <tr>
-                                <td data-label="Participant Name"><?= $row['participant_name']; ?></td>
+                                    <td data-label="Participant Name"><?= $row['participant_name']; ?></td>
                                     <td data-label="Daily Points"><?= $row['daily_points']; ?></td>
                                     <td data-label="Bonus Points"><?= $row['bonus_points']; ?></td>
                                     <td data-label="Active Day Points"><?= $row['active_day_points']; ?></td>
@@ -204,7 +210,7 @@
             <div class="tab-pane fade" id="stage2" role="tabpanel" aria-labelledby="stage2-tab">
                 <div class="container table-responsive-sm py-4">
                     <h2 class="text-center">Stage 2</h2>
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-striped table-bordered" id="stage2Table">
                         <thead>
                             <tr>
                                 <th>Participant Name</th>
@@ -238,7 +244,7 @@
             <div class="tab-pane fade" id="stage3" role="tabpanel" aria-labelledby="stage3-tab">
                 <div class="container table-responsive-sm py-4">
                     <h2 class="text-center">Stage 3</h2>
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-striped table-bordered" id="stage3Table">
                         <thead>
                             <tr>
                                 <th>Participant Name</th>
@@ -272,7 +278,7 @@
             <div class="tab-pane fade" id="stage4" role="tabpanel" aria-labelledby="stage4-tab">
                 <div class="container table-responsive-sm py-4">
                     <h2 class="text-center">Stage 4</h2>
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-striped table-bordered" id="stage4Table">
                         <thead>
                             <tr>
                                 <th>Participant Name</th>
@@ -306,7 +312,7 @@
             <div class="tab-pane fade" id="stage5" role="tabpanel" aria-labelledby="stage5-tab">
                 <div class="container table-responsive-sm py-4">
                     <h2 class="text-center">Stage 5</h2>
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-striped table-bordered" id="stage5Table">
                         <thead>
                             <tr>
                                 <th>Participant Name</th>
@@ -339,28 +345,25 @@
 
             <div class="tab-pane fade" id="consolidated" role="tabpanel" aria-labelledby="consolidated-tab">
                 <div class="container table-responsive-sm py-4">
-                    <h2 class="text-center">Consolidated Leaderboard</h2>
-                    <table class="table table-striped table-bordered">
+                    <h2 class="text-center">Consolidated</h2>
+                    <table class="table table-striped table-bordered" id="consolidatedTable">
                         <thead>
                             <tr>
-                                <th>Serial Number</th>
                                 <th>Rank</th>
-                                <th>Name</th>
-                                <th>Stage 1</th>
-                                <th>Stage 2</th>
-                                <th>Stage 3</th>
-                                <th>Stage 4</th>
-                                <th>Stage 5</th>
-                                <th>Total Points</th>
+                                <th>Participant Name</th>
+                                <th>Total Stage 1 Points</th>
+                                <th>Total Stage 2 Points</th>
+                                <th>Total Stage 3 Points</th>
+                                <th>Total Stage 4 Points</th>
+                                <th>Total Stage 5 Points</th>
+                                <th>Overall Total Points</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $serialNumber = 1;
-                            foreach ($consolidated_data as $row) : ?>
+                            <?php foreach ($consolidated_data as $row) : ?>
                                 <tr>
-                                    <td data-label="Serial Number"><?= $serialNumber++; ?></td>
-                                    <td data-label="Rank Order"><?= $row['rank_order']; ?></td>
-                                    <td data-label="Name">
+                                <td data-label="Rank"><?= $row['rank_order']; ?></td>
+                                    <td>
                                         <?php
                                         // Define the pattern for the expected URL format
                                         $pattern = "/^https:\/\/dgalywyr863hv\.cloudfront\.net\/pictures\/athletes\/\d+\/\d+\/\d+\/medium\.jpg$/";
@@ -370,18 +373,18 @@
                                             $imageSrc = $row['profile_medium'];
                                         else :
                                             // If the URL is empty or doesn't match the pattern, use a static image
-                                            $imageSrc = base_url('images/replacement_image.png');
+                                            $imageSrc = base_url('path/to/static/image.jpg');
                                         endif;
                                         ?>
                                         <img src="<?= $imageSrc; ?>" alt="Athlete Profile" class="profile-pic">
                                         <?= $row['name']; ?>
                                     </td>
-                                    <td data-label="Stage 1 Points"><?= $row['stage1_points']; ?></td>
-                                    <td data-label="Stage 2 Points"><?= $row['stage2_points']; ?></td>
-                                    <td data-label="Stage 3 Points"><?= $row['stage3_points']; ?></td>
-                                    <td data-label="Stage 4 Points"><?= $row['stage4_points']; ?></td>
-                                    <td data-label="Stage 5 Points"><?= $row['stage5_points']; ?></td>
-                                    <td data-label="Consolidated Points"><?= $row['total_points']; ?></td>
+                                    <td data-label="Total Stage 1 Points"><?= $row['stage1_points']; ?></td>
+                                    <td data-label="Total Stage 2 Points"><?= $row['stage2_points']; ?></td>
+                                    <td data-label="Total Stage 3 Points"><?= $row['stage3_points']; ?></td>
+                                    <td data-label="Total Stage 4 Points"><?= $row['stage4_points']; ?></td>
+                                    <td data-label="Total Stage 5 Points"><?= $row['stage5_points']; ?></td>
+                                    <td data-label="Overall Total Points"><?= $row['total_points']; ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -391,26 +394,66 @@
         </div>
     </div>
 
-    <button id="goToTopBtn" class="btn btn-primary" style="display: none;">&uarr; Top</button>
+    <!-- Go to Top Button -->
+    <button id="goToTopBtn" class="btn btn-primary" title="Go to top">Top</button>
 
-    <!-- Include Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.4.3/js/tabulator.min.js"></script>
     <script>
-        const goToTopBtn = document.getElementById("goToTopBtn");
+        $(document).ready(function() {
+            // DataTable initialization
+            $('#stage1Table').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ]
+            });
 
-        window.addEventListener("scroll", () => {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                goToTopBtn.style.display = "block";
-            } else {
-                goToTopBtn.style.display = "none";
-            }
-        });
+            // Initialize for each additional table
+            $('#stage2Table').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ]
+            });
+            $('#stage3Table').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ]
+            });
+            $('#stage4Table').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ]
+            });
+            $('#stage5Table').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ]
+            });
+            $('#consolidatedTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ]
+            });
 
-        goToTopBtn.addEventListener("click", () => {
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
+            // Smooth scroll to top
+            $('#goToTopBtn').click(function() {
+                $('html, body').animate({
+                    scrollTop: 0
+                }, '300');
+            });
         });
     </script>
 </body>
