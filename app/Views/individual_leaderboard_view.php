@@ -56,7 +56,7 @@
                             <?php endforeach; ?>
                         <?php else : ?>
                             <tr>
-                                <td colspan="8" class="text-center">No data available</td>
+                                <td colspan="7" class="text-center">No data available</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
@@ -86,7 +86,7 @@
                 responsive: true,
                 pageLength: 15,
                 columnDefs: [{
-                        targets: [1, 2, 3, 4, 5, 6,7],
+                        targets: [1, 2, 3, 4, 5, 6],
                         className: 'dt-center'
                     } // Center align certain columns
                 ],
