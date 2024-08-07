@@ -56,7 +56,6 @@
                             <?php endforeach; ?>
                         <?php else : ?>
                             <tr>
-                                <td colspan="7" class="text-center">No data available</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
@@ -92,7 +91,10 @@
                 ],
                 order: [
                     [0, 'asc']
-                ] // Default sort by the first column (Name)
+                ], // Default sort by the first column (Name)
+                language: {
+                    emptyTable: "No data available" // Message displayed when no data is available
+                }
             });
         });
     </script>
