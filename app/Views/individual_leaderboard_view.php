@@ -42,7 +42,6 @@
                     </thead>
                     <tbody>
                         <?php $tableData = json_decode($tableData, true); ?>
-                        <?php if (is_array($tableData) && !empty($tableData)) : ?>
                             <?php foreach ($tableData as $row) : ?>
                                 <tr>
                                     <td><?= htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8'); ?></td>
@@ -54,10 +53,6 @@
                                     <td><?= htmlspecialchars(number_format($row['avg_time_per_week'], 2), ENT_QUOTES, 'UTF-8'); ?></td>
                                 </tr>
                             <?php endforeach; ?>
-                        <?php else : ?>
-                            <tr>
-                            </tr>
-                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
