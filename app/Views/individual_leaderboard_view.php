@@ -86,7 +86,7 @@
                 responsive: true,
                 pageLength: 15,
                 columnDefs: [{
-                        targets: [1, 2, 3, 4, 5, 6],
+                        targets: [1, 2, 3, 4, 5, 6,7],
                         className: 'dt-center'
                     } // Center align certain columns
                 ],
