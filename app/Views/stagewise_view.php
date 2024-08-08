@@ -362,20 +362,17 @@
                         <tbody>
                             <?php foreach ($consolidated_data as $row) : ?>
                                 <tr>
-                                <td data-label="Rank"><?= $row['rank_order']; ?></td>
+                                    <td data-label="Rank"><?= $row['rank_order']; ?></td>
                                     <td>
                                         <?php
-                                        // Define the pattern for the expected URL format
-                                        $pattern = "/^https:\/\/dgalywyr863hv\.cloudfront\.net\/pictures\/athletes\/\d+\/\d+\/\d+\/medium\.jpg$/";
-
-                                        // Check if the profile_medium is not empty and matches the pattern
-                                        if (!empty($row['profile_medium']) && preg_match($pattern, $row['profile_medium'])) :
-                                            $imageSrc = $row['profile_medium'];
-                                        else :
-                                            // If the URL is empty or doesn't match the pattern, use a static image
-                                            $imageSrc = base_url('images/replacement_image.png');
-                                        endif;
+                                        // Check if the image URL is exactly "avatar/athlete/medium.png"
+                                        if ($row['profile_medium'] === 'avatar/athlete/medium.png') {
+                                            $imageSrc = base_url('images/replacement_image.png'); // Use backup image
+                                        } else {
+                                            $imageSrc = $row['profile_medium']; // Use original image
+                                        }
                                         ?>
+
                                         <img src="<?= $imageSrc; ?>" alt="Athlete Profile" class="profile-pic">
                                         <?= $row['name']; ?>
                                     </td>
