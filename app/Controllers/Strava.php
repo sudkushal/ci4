@@ -8,7 +8,6 @@ use App\Models\StravaActivityModel; // Model to store Strava activities
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Config\Services;
 use App\Config\AppConstants;
-use DateTime;  
 
 class Strava extends BaseController
 {
@@ -95,16 +94,12 @@ class Strava extends BaseController
             $page = 1;
             $perPage = 200;
             $activities = [];
-            $stravaStartDate = new DateTime('2024-08-01'); 
-
-            // Convert the start date to a Unix timestamp
-            $afterTimestamp = $stravaStartDate->getTimestamp(); 
 
             $startDate = strtotime(AppConstants::CHALLENGE_START_DATE);
             $endDate = strtotime(AppConstants::CHALLENGE_END_DATE);
 
             do {
-                $activitiesResponse = $client->request('GET', "https://www.strava.com/api/v3/athlete/activities?page={$page}&per_page={$perPage}&after={$afterTimestamp}", [
+                $activitiesResponse = $client->request('GET', "https://www.strava.com/api/v3/athlete/activities?page={$page}&per_page={$perPage}", [
                     'headers' => ['Authorization' => 'Bearer ' . $accessToken]
                 ]);
                 $pageActivities = json_decode($activitiesResponse->getBody(), true);
