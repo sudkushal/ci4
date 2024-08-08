@@ -137,7 +137,7 @@ class Strava extends BaseController
                 $stravaActivityModel->updateOrCreate($activityData, $athleteId);
             }
 
-            return redirect()->to(site_url('stage'))->with('success', 'Strava connected and data synced successfully!');
+            return redirect()->to(site_url('activities'))->with('success', 'Strava connected and data synced successfully!');
         } catch (\Exception $e) {
             log_message('error', 'Error in Strava callback: ' . $e->getMessage());
             return redirect()->to('/')->with('error', 'Failed to connect to Strava. Please try again.');
