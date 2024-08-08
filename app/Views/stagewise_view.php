@@ -373,7 +373,7 @@
                                             $imageSrc = $row['profile_medium'];
                                         else :
                                             // If the URL is empty or doesn't match the pattern, use a static image
-                                            $imageSrc = base_url('path/to/static/image.jpg');
+                                            $imageSrc = base_url('images/replacement_image.png');
                                         endif;
                                         ?>
                                         <img src="<?= $imageSrc; ?>" alt="Athlete Profile" class="profile-pic">
