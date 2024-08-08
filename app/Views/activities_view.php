@@ -1,21 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- activities_view.php -->
+<?= $this->extend('layout') ?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>100 Days Fitness Challenge</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- DataTables CSS -->
-    <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="<?= base_url('css/style-individual.css?v=' . time()); ?>">
-    <link rel="icon" href="<?= base_url('favicon.ico'); ?>" type="image/x-icon">
-</head>
-
-<body>
-    <?= $this->include('_menu') ?>
+<?= $this->section('content') ?>
     <?php
     // Arrays to hold unique values
     $userNames = [];
@@ -82,20 +68,10 @@
             </table>
         </div>
     </div>
+<?= $this->endSection() ?>
 
-    <?= $this->include('_footer') ?>
+<?= $this->section('scripts') ?>
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
-
-    <!-- Initialize DataTable -->
     <script>
         $(document).ready(function() {
             // Initialize DataTable
@@ -137,6 +113,4 @@
             });
         });
     </script>
-</body>
-
-</html>
+<?= $this->endSection() ?>
