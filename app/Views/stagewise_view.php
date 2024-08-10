@@ -367,7 +367,7 @@
                             <?php foreach ($consolidated_data as $row) : ?>
                                 <tr>
                                     <td data-label="Rank"><?= $row['rank_order']; ?></td>
-                                    <td>
+                                    <td data-label="Name">
                                         <?php
                                         // Check if the image URL is exactly "avatar/athlete/medium.png"
                                         if ($row['profile_medium'] === 'avatar/athlete/medium.png') {
