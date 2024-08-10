@@ -97,16 +97,19 @@ class Strava extends BaseController
 
             $startDate = strtotime(AppConstants::CHALLENGE_START_DATE);
             $endDate = strtotime(AppConstants::CHALLENGE_END_DATE);
+            $newDate = strtotime("2024-08-01");
 
             do {
                 $activitiesResponse = $client->request('GET', "https://www.strava.com/api/v3/athlete/activities?page={$page}&per_page={$perPage}", [
                     'headers' => ['Authorization' => 'Bearer ' . $accessToken]
                 ]);
                 $pageActivities = json_decode($activitiesResponse->getBody(), true);
-                $filteredActivities = array_filter($pageActivities, function ($activity) use ($startDate, $endDate) {
+                
+                $filteredActivities = array_filter($pageActivities, function ($activity) use ($newDate, $endDate) {
                     $activityStartTime = strtotime($activity['start_date_local']); // Assuming the date is in the correct format
-                    return $activityStartTime >= $startDate && $activityStartTime < $endDate;
+                    return $activityStartTime >= $newDate && $activityStartTime < $endDate;
                 });
+
 
                 $activities = array_merge($activities, $filteredActivities);
                 $page++;
