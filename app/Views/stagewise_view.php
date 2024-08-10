@@ -353,6 +353,7 @@
                     <table class="table table-striped table-bordered" id="consolidatedTable">
                         <thead>
                             <tr>
+                                <th>Row Number</th>
                                 <th>Rank</th>
                                 <th>Participant Name</th>
                                 <th>Total Stage 1 Points</th>
@@ -366,6 +367,7 @@
                         <tbody>
                             <?php foreach ($consolidated_data as $row) : ?>
                                 <tr>
+                                    <td data-label="Row Number"><?= $row['row_num']; ?></td>
                                     <td data-label="Rank"><?= $row['rank_order']; ?></td>
                                     <td data-label="Name">
                                         <?php
@@ -378,7 +380,7 @@
                                         ?>
 
                                         <img src="<?= $imageSrc; ?>" alt="Athlete Profile" class="profile-pic">
-                                        <?= $row['name']; ?>
+                                        <?= $row['participant_name']; ?>
                                     </td>
                                     <td data-label="Total Stage 1 Points"><?= $row['stage1_points']; ?></td>
                                     <td data-label="Total Stage 2 Points"><?= $row['stage2_points']; ?></td>
