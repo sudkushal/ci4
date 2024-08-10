@@ -356,6 +356,7 @@
                                 <th>Row Number</th>
                                 <th>Rank</th>
                                 <th>Participant Name</th>
+                                <th>Strava ID</th>
                                 <th>Total Stage 1 Points</th>
                                 <th>Total Stage 2 Points</th>
                                 <th>Total Stage 3 Points</th>
@@ -382,6 +383,7 @@
                                         <img src="<?= $imageSrc; ?>" alt="Athlete Profile" class="profile-pic">
                                         <?= $row['participant_name']; ?>
                                     </td>
+                                    <td data-label="Strava ID"><?= $row['strava_athlete_id']; ?></td>
                                     <td data-label="Total Stage 1 Points"><?= $row['stage1_points']; ?></td>
                                     <td data-label="Total Stage 2 Points"><?= $row['stage2_points']; ?></td>
                                     <td data-label="Total Stage 3 Points"><?= $row['stage3_points']; ?></td>
