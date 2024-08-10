@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
     <link rel="icon" href="<?= base_url('favicon.ico'); ?>" type="image/x-icon">
     <style>
+        .dataTables_wrapper .dataTables_filter input {
+            background-color: white;
+        }
+
         .dt-buttons {
             display: inline-block !important;
         }
