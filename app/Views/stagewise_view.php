@@ -198,7 +198,7 @@
                                     <td data-label="Daily Points"><?= $row['daily_points']; ?></td>
                                     <td data-label="Bonus Points"><?= $row['bonus_points']; ?></td>
                                     <td data-label="Active Day Points"><?= $row['active_day_points']; ?></td>
-                                    <td data-label="Total Distance"><?= number_format($row['total_distance'], 2); ?></td>
+                                    <td data-label="Total Distance"><?= number_format(($row['total_distance']/1000), 2); ?></td>
                                     <td data-label="Min Distance Points"><?= $row['min_distance_points']; ?></td>
                                     <td data-label="Stage Total Points"><?= $row['stage_total_points']; ?></td>
                                     <td data-label="Challenge Completed (x/4)"><?= $row['challenges_completed']; ?></td>
@@ -234,7 +234,7 @@
                                     <td data-label="Daily Points"><?= $row['daily_points']; ?></td>
                                     <td data-label="Bonus Points"><?= $row['bonus_points']; ?></td>
                                     <td data-label="Active Day Points"><?= $row['active_day_points']; ?></td>
-                                    <td data-label="Total Distance"><?= number_format($row['total_distance'], 2); ?></td>
+                                    <td data-label="Total Distance"><?= number_format(($row['total_distance']/1000), 2); ?></td>
                                     <td data-label="Min Distance Points"><?= $row['min_distance_points']; ?></td>
                                     <td data-label="Stage Total Points"><?= $row['stage_total_points']; ?></td>
                                     <td data-label="Challenge Completed (x/4)"><?= $row['challenges_completed']; ?></td>
@@ -268,7 +268,7 @@
                                     <td data-label="Daily Points"><?= $row['daily_points']; ?></td>
                                     <td data-label="Bonus Points"><?= $row['bonus_points']; ?></td>
                                     <td data-label="Active Day Points"><?= $row['active_day_points']; ?></td>
-                                    <td data-label="Total Distance"><?= number_format($row['total_distance'], 2); ?></td>
+                                    <td data-label="Total Distance"><?= number_format(($row['total_distance']/1000), 2); ?></td>
                                     <td data-label="Min Distance Points"><?= $row['min_distance_points']; ?></td>
                                     <td data-label="Stage Total Points"><?= $row['stage_total_points']; ?></td>
                                     <td data-label="Challenge Completed (x/4)"><?= $row['challenges_completed']; ?></td>
@@ -302,7 +302,7 @@
                                     <td data-label="Daily Points"><?= $row['daily_points']; ?></td>
                                     <td data-label="Bonus Points"><?= $row['bonus_points']; ?></td>
                                     <td data-label="Active Day Points"><?= $row['active_day_points']; ?></td>
-                                    <td data-label="Total Distance"><?= number_format($row['total_distance'], 2); ?></td>
+                                    <td data-label="Total Distance"><?= number_format(($row['total_distance']/1000), 2); ?></td>
                                     <td data-label="Min Distance Points"><?= $row['min_distance_points']; ?></td>
                                     <td data-label="Stage Total Points"><?= $row['stage_total_points']; ?></td>
                                     <td data-label="Challenge Completed (x/4)"><?= $row['challenges_completed']; ?></td>
@@ -336,7 +336,7 @@
                                     <td data-label="Daily Points"><?= $row['daily_points']; ?></td>
                                     <td data-label="Bonus Points"><?= $row['bonus_points']; ?></td>
                                     <td data-label="Active Day Points"><?= $row['active_day_points']; ?></td>
-                                    <td data-label="Total Distance"><?= number_format($row['total_distance'], 2); ?></td>
+                                    <td data-label="Total Distance"><?= number_format(($row['total_distance']/1000), 2); ?></td>
                                     <td data-label="Min Distance Points"><?= $row['min_distance_points']; ?></td>
                                     <td data-label="Stage Total Points"><?= $row['stage_total_points']; ?></td>
                                     <td data-label="Challenge Completed (x/4)"><?= $row['challenges_completed']; ?></td>
@@ -410,7 +410,6 @@
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.4.3/js/tabulator.min.js"></script>
     <script>
         $(document).ready(function() {
             // DataTable initialization
