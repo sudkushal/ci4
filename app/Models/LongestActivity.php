@@ -19,4 +19,16 @@ class LongestActivity extends Model
 
         return $query->getResultArray(); // Return the results as an array
     }
+
+    public function getFullActivitiesWithUsers()
+    {
+        $builder = $this->db->table('longest_activities_full'); // Use the new view name
+        $builder->select('longest_activities_full.*, users.name as user_name'); 
+        $builder->join('users', 'users.strava_athlete_id = longest_activities_full.strava_athlete_id'); 
+        $builder->orderBy('activity_date', 'DESC');
+
+        $query = $builder->get(); 
+
+        return $query->getResultArray(); 
+    }
 }
