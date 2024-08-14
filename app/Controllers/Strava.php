@@ -104,12 +104,16 @@ class Strava extends BaseController
                     'headers' => ['Authorization' => 'Bearer ' . $accessToken]
                 ]);
                 $pageActivities = json_decode($activitiesResponse->getBody(), true);
-                
+
                 $filteredActivities = array_filter($pageActivities, function ($activity) use ($newDate, $endDate) {
-                    $activityStartTime = strtotime($activity['start_date_local']); // Assuming the date is in the correct format
-                    return $activityStartTime >= $newDate && $activityStartTime < $endDate;
+                    $activityStartTime = strtotime($activity['start_date_local']);
+                    $isManual = isset($activity['manual']) && $activity['manual'] == 1;
+                    $maxAllowedTime = 2 * $activity['moving_time'];
+                    return !$isManual && $activityStartTime >= $newDate && $activityStartTime < $endDate  &&
+                        $activity['elapsed_time'] <= $maxAllowedTime;
                 });
 
+               // echo "<pre>";                print_r($filteredActivities);                echo "</pre>";                exit;
 
                 $activities = array_merge($activities, $filteredActivities);
                 $page++;
