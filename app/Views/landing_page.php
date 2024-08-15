@@ -46,6 +46,11 @@
                     </div>
                     <button id="connectStravaBtn" disabled class="btn btn-primary btn-block">Connect with Strava</button>
                 </section>
+
+                <section id="whatsapp-group" class="text-center mt-4">
+                    <h3>Scan this QR Code to join our WhatsApp group</h3>
+                    <img src="<?= base_url('images/whatsapp.jpg'); ?>" alt="WhatsApp Group QR Code">
+                </section>
             </div>
         </div>
     </main>
