@@ -34,7 +34,7 @@
             <div class="col-12 col-md-8 col-lg-6">
                 <section id="strava-connect" class="text-center">
                     <h2>Connect with Strava</h2>
-                    <p>Track your progress, compete with friends, and stay motivated!</p>
+                    <p>Track your progress, compete with friends, and stay motivated! <br> <b>Please submit your data only if you think you have completed a challenge. Please do not sync your data on daily basis.</b> This is a limited bandwidth portal.</p>
 
                     <div class="form-group text-left">
                         <div class="form-check">
