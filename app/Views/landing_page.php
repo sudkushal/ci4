@@ -75,14 +75,14 @@
         const today = new Date();
 
         // Calculate the difference in milliseconds
-        const timeDiff = Math.abs(today - startDate);
+        const timeDiff = Math.abs(startDate - today);
 
         // Convert milliseconds to days
         const diffDays = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
 
         // Get the element where you want to display the counter (create a new div in your HTML)
         const counterDisplay = document.getElementById("dayCounter");
-        counterDisplay.textContent = `Note: ${diffDays} Days to Start`;
+        counterDisplay.textContent = `Today is Day ${diffDays} of 100 Days Challenge `;
     </script>
 </body>
 
