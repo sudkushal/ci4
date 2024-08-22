@@ -50,6 +50,7 @@
                         <th>Strava Athlete ID</th>
                         <th>User Name</th>
                         <th>Activity Date</th>
+                        <th>Strava Activity ID</th>
                         <th>Distance (km)</th>
                         <th>Stage</th>
                     </tr>
@@ -60,6 +61,9 @@
                             <td><?= esc($activity['strava_athlete_id']); ?></td>
                             <td><?= esc($activity['user_name']); ?></td>
                             <td><?= esc($activity['activity_date']); ?></td>
+                            <td><a href="https://www.strava.com/activities/<?= esc($activity['activity_id']); ?>" target="_blank">
+                                <?= esc($activity['activity_id']); ?>
+                            </a></td>
                             <td><?= esc(number_format($activity['distance'] / 1000, 2)); ?></td>
                             <td><?= esc($activity['stage']); ?></td>
                         </tr>
