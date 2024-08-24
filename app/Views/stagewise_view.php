@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
     <link rel="icon" href="<?= base_url('favicon.ico'); ?>" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         .dataTables_wrapper .dataTables_filter input {
             background-color: white;
@@ -353,16 +354,16 @@
                     <table class="table table-striped table-bordered" id="consolidatedTable">
                         <thead>
                             <tr>
-                                <th>Row Number</th>
-                                <th>Rank</th>
-                                <th>Participant Name</th>
-                                <th>Strava ID</th>
-                                <th>Total Stage 1 Points</th>
-                                <th>Total Stage 2 Points</th>
-                                <th>Total Stage 3 Points</th>
-                                <th>Total Stage 4 Points</th>
-                                <th>Total Stage 5 Points</th>
-                                <th>Overall Total Points</th>
+                                <th>#</th>
+                                <th>Rank <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Ranks awarded based on Standard competition ranking (1224 ranking)"></i></th>
+                                <th>Name</th>
+                                <th>Stage 1</th>
+                                <th>Stage 2</th>
+                                <th>Stage 3</th>
+                                <th>Stage 4</th>
+                                <th>Stage 5</th>
+                                <th>Extra Points <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Points awarded for completing Step It Up Challenge."></i></th> 
+                                <th>Total Points</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -383,13 +384,13 @@
                                         <img src="<?= $imageSrc; ?>" alt="Athlete Profile" class="profile-pic">
                                         <?= $row['participant_name']; ?>
                                     </td>
-                                    <td data-label="Strava ID"><?= $row['strava_athlete_id']; ?></td>
-                                    <td data-label="Total Stage 1 Points"><?= $row['stage1_points']; ?></td>
-                                    <td data-label="Total Stage 2 Points"><?= $row['stage2_points']; ?></td>
-                                    <td data-label="Total Stage 3 Points"><?= $row['stage3_points']; ?></td>
-                                    <td data-label="Total Stage 4 Points"><?= $row['stage4_points']; ?></td>
-                                    <td data-label="Total Stage 5 Points"><?= $row['stage5_points']; ?></td>
-                                    <td data-label="Overall Total Points"><?= $row['total_points']; ?></td>
+                                    <td data-label="Stage 1: "><?= $row['stage1_points']; ?></td>
+                                    <td data-label="Stage 2: "><?= $row['stage2_points']; ?></td>
+                                    <td data-label="Stage 3: "><?= $row['stage3_points']; ?></td>
+                                    <td data-label="Stage 4: "><?= $row['stage4_points']; ?></td>
+                                    <td data-label="Stage 5: "><?= $row['stage5_points']; ?></td>
+                                    <td data-label="Extra Points: "><?= $row['extra_points']; ?></td>
+                                    <td data-label="Total Points: "><?= $row['total_points']; ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -412,6 +413,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip(); 
+            
             // DataTable initialization
             $('#stage1Table').DataTable({
                 dom: 'Bfrtip',
@@ -459,6 +462,7 @@
                 }, '300');
             });
         });
+        
     </script>
 </body>
 
