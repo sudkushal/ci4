@@ -110,9 +110,14 @@ class Strava extends BaseController
                     $isManual = isset($activity['manual']) && $activity['manual'] == 1;
                     $maxAllowedTime = 2 * $activity['moving_time'];
                     $minDistance = 1000;
-                    return !$isManual && $activityStartTime >= $newDate && $activityStartTime < $endDate  &&
-                        $activity['elapsed_time'] <= $maxAllowedTime &&
-                        $activity['distance'] >= $minDistance;
+                    $allowedTypes = ['walk', 'run']; // Array of allowed activity types
+                
+                    return !$isManual && 
+                           $activityStartTime >= $newDate && 
+                           $activityStartTime < $endDate &&
+                           $activity['elapsed_time'] <= $maxAllowedTime &&
+                           $activity['distance'] >= $minDistance &&
+                           in_array(strtolower($activity['type']), $allowedTypes); // Check if type is allowed
                 });
 
                 // echo "<pre>";                print_r($filteredActivities);                echo "</pre>";                exit;

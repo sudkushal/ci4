@@ -31,9 +31,6 @@
                     <li class="list-group-item">Total Distance: <?= number_format($totalDistance / 1000, 2); ?> km</li>
                     <li class="list-group-item">Total Activities: <?= $totalActivities; ?></li>
                     <li class="list-group-item">Average Distance per Activity: <?= number_format($averageDistance / 1000, 2); ?> km</li>
-                    <li class="list-group-item">Total Elevation Gain: <?= number_format($totalElevationGain, 2); ?> m</li>
-                    <li class="list-group-item">Average Speed: <?= number_format($averageSpeed, 2); ?> km/h</li>
-                    <li class="list-group-item">Max Speed: <?= number_format($maxSpeed, 2); ?> km/h</li>
                 </ul>
             </div>
         </div>
