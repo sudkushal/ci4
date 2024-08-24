@@ -109,11 +109,13 @@ class Strava extends BaseController
                     $activityStartTime = strtotime($activity['start_date_local']);
                     $isManual = isset($activity['manual']) && $activity['manual'] == 1;
                     $maxAllowedTime = 2 * $activity['moving_time'];
+                    $minDistance = 1000;
                     return !$isManual && $activityStartTime >= $newDate && $activityStartTime < $endDate  &&
-                        $activity['elapsed_time'] <= $maxAllowedTime;
+                        $activity['elapsed_time'] <= $maxAllowedTime &&
+                        $activity['distance'] >= $minDistance;
                 });
 
-               // echo "<pre>";                print_r($filteredActivities);                echo "</pre>";                exit;
+                // echo "<pre>";                print_r($filteredActivities);                echo "</pre>";                exit;
 
                 $activities = array_merge($activities, $filteredActivities);
                 $page++;
