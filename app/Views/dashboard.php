@@ -8,6 +8,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('css/style-india.css?v=' . time()); ?>">
     <link rel="icon" href="<?= base_url('favicon.ico'); ?>" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* Add custom styles for progress circle and layout adjustments as needed */
         .progress-circle {
@@ -28,7 +29,7 @@
             /* Green */
             clip: rect(0, 100px, 100px, 50px);
             /* Initial half-circle */
-            transform: rotate(<?php  ?>deg);
+            transform: rotate(<?php ?>deg);
             /* Rotate based on percentage */
         }
 
@@ -62,7 +63,7 @@
         </div>
 
         <div class="row mt-4 dashboard-stats">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <h5 class="card-title">Registered Participants</h5>
@@ -70,7 +71,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <h5 class="card-title">Active Participants</h5>
@@ -78,7 +79,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <h5 class="card-title">Distance Completed</h5>
@@ -88,7 +89,7 @@
             </div>
         </div>
         <div class="row mt-4 dashboard-stats">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <h5 class="card-title">Avg Activities per Participant</h5>
@@ -96,7 +97,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <h5 class="card-title">Avg Distance per Activity</h5>
@@ -104,7 +105,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <h5 class="card-title">Average Time per Activity</h5>
@@ -114,36 +115,26 @@
             </div>
         </div>
         <div class="row mt-4 dashboard-stats">
-            <div class="col-md-6">
+            <div class="col-12 col-md-8"> 
                 <div class="card">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <h5 class="card-title">Longest Activity</h5>
                         <p class="card-text">
                             <?php if ($longestActivity) : ?>
-                                <?= number_format($longestActivity['distance'] / 1000, 2); ?> km by <?= $longestActivity['user_name']; ?> on <?= date('F j, Y', strtotime($longestActivity['start_date_local'])); ?> <?php else : ?>
+                                <?= number_format($longestActivity['distance'] / 1000, 2); ?> km by <?= $longestActivity['user_name']; ?> on <?= date('F j, Y', strtotime($longestActivity['start_date_local'])); ?> 
+                            <?php else : ?>
                                 No activities recorded yet.
                             <?php endif; ?>
                         </p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-12 col-md-4">
                 <div class="card">
-                    <div class="card-body d-flex flex-column justify-content-center align-items-center">  
-                         
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <h5 class="card-title">Most Active Day</h5>
                         <p class="card-text">
                             <?= $mostActiveDay; ?> </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body d-flex flex-column justify-content-center align-items-center">  
-                         
-                        <h5 class="card-title">Most Active Hour</h5>
-                        <p class="card-text">
-                            <?= $mostActiveHour; ?>:00 </p>
                     </div>
                 </div>
             </div>
