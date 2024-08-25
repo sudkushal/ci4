@@ -18,7 +18,7 @@ class Dashboard extends BaseController
         $activityTypes = ['Walk', 'Run'];
 
         $totalActivities = $activityModel->whereIn('type', $activityTypes)
-            ->where('distance >=', 2000)->where('start_date >=', $startDate)->where('start_date <', $endDate)->countAllResults();
+            ->where('start_date >=', $startDate)->where('start_date <', $endDate)->countAllResults();
 
         $totalDistance = $activityModel->select('SUM(distance)')->whereIn('type', $activityTypes)
             ->where('distance >=', 2000)->where('start_date >=', $startDate)->where('start_date <', $endDate)->first()['SUM(distance)'] ?? 0;
@@ -29,8 +29,11 @@ class Dashboard extends BaseController
         $totalDays = floor((strtotime($endDate) - strtotime($startDate)) / (60 * 60 * 24));
         $averageActivitiesPerParticipant = ($participants > 0) ? floor($totalActivities / $participants) : 0;
         $averageDistance = ($totalActivities > 0) ? $totalDistance / $totalActivities : 0;
-        $totalMovingTime = $activityModel->select('SUM(moving_time)')->whereIn('type', $activityTypes)
-            ->where('distance >=', 2000)->where('start_date >=', $startDate)->where('start_date <', $endDate)->first()['SUM(moving_time)'] ?? 0;
+        $totalMovingTime = $activityModel->select('SUM(moving_time)')
+        ->whereIn('type', $activityTypes)
+        ->where('start_date >=', $startDate)
+        ->where('start_date <', $endDate)
+        ->first()['SUM(moving_time)'] ?? 0;
         $averageMovingTime = ($totalActivities > 0) ? $totalMovingTime / $totalActivities : 0;
 
         $longestActivity = $activityModel->select('strava_activities.*, users.name AS user_name')
