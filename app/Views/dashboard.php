@@ -57,7 +57,7 @@
         <div class="row">
             <div class="col-12 text-center">
                 <h2>100 Days Fitness Challenge - Analytics</h2>
-                <h3>As on <?= date('F j, Y, g:i A') ?></h3>
+                <h3>As on <?= date('F j, Y, g:i A', time() + 5.5 * 3600) ?></h3>
             </div>
         </div>
 
@@ -143,7 +143,7 @@
                          
                         <h5 class="card-title">Most Active Hour</h5>
                         <p class="card-text">
-                        <?= $mostActiveHour; ?>:00 </p>
+                            <?= $mostActiveHour; ?>:00 </p>
                     </div>
                 </div>
             </div>
