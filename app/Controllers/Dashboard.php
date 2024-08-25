@@ -30,32 +30,40 @@ class Dashboard extends BaseController
         $averageActivitiesPerParticipant = ($participants > 0) ? floor($totalActivities / $participants) : 0;
         $averageDistance = ($totalActivities > 0) ? $totalDistance / $totalActivities : 0;
         $totalMovingTime = $activityModel->select('SUM(moving_time)')
-        ->whereIn('type', $activityTypes)
-        ->where('start_date >=', $startDate)
-        ->where('start_date <', $endDate)
-        ->first()['SUM(moving_time)'] ?? 0;
+            ->whereIn('type', $activityTypes)
+            ->where('start_date >=', $startDate)
+            ->where('start_date <', $endDate)
+            ->first()['SUM(moving_time)'] ?? 0;
         $averageMovingTime = ($totalActivities > 0) ? $totalMovingTime / $totalActivities : 0;
 
         $longestActivity = $activityModel->select('strava_activities.*, users.name AS user_name')
-        ->join('users', 'strava_activities.strava_athlete_id = users.strava_athlete_id', 'left') // Replace 'user_id' and 'id' if necessary
-        ->whereIn('strava_activities.type', $activityTypes)
-        ->where('strava_activities.distance >=', 2000)
-        ->where('strava_activities.start_date >=', $startDate)
-        ->where('strava_activities.start_date <', $endDate)
-        ->orderBy('strava_activities.distance', 'DESC')
-        ->first();
+            ->join('users', 'strava_activities.strava_athlete_id = users.strava_athlete_id', 'left') // Replace 'user_id' and 'id' if necessary
+            ->whereIn('strava_activities.type', $activityTypes)
+            ->where('strava_activities.distance >=', 2000)
+            ->where('strava_activities.start_date >=', $startDate)
+            ->where('strava_activities.start_date <', $endDate)
+            ->orderBy('strava_activities.distance', 'DESC')
+            ->first();
         $mostActiveDay = $activityModel->select("DATE_FORMAT(start_date_local, '%Y-%m-%d') AS day, COUNT(*) AS count")
-        ->whereIn('type', $activityTypes)
-        ->where('start_date >=', $startDate)->where('start_date <', $endDate)->where('distance >=', 2000)
-        ->groupBy('day')
-        ->orderBy('count', 'DESC')
-        ->first();
+            ->whereIn('type', $activityTypes)
+            ->where('start_date >=', $startDate)->where('start_date <', $endDate)->where('distance >=', 2000)
+            ->groupBy('day')
+            ->orderBy('count', 'DESC')
+            ->first();
         $mostActiveHour = $activityModel->select("HOUR(start_date_local) AS hour, COUNT(*) AS count")
             ->whereIn('type', $activityTypes)
             ->where('start_date >=', $startDate)->where('start_date <', $endDate)->where('distance >=', 2000)
             ->groupBy('hour')
             ->orderBy('count', 'DESC')
             ->first();
+
+
+        $start_date = strtotime('2024-08-15');
+        $end_date = strtotime('2024-11-22');
+        $today = time() + 5.5 * 3600; // Current time in IST
+        $total_days = ($end_date - $start_date) / 86400 + 1; // Days in challenge
+        $elapsed_days = ($today - $start_date) / 86400 + 1;
+        $progress_percentage = round(($elapsed_days / $total_days) * 100, 2);
 
         $data = [
             'startDate' => $startDate,
@@ -69,6 +77,9 @@ class Dashboard extends BaseController
             'longestActivity' => $longestActivity,
             'mostActiveDay' => $mostActiveDay ? $mostActiveDay['day'] : 'N/A',
             'mostActiveHour' => $mostActiveHour ? $mostActiveHour['hour'] : 'N/A',
+            'progress_percentage' => $progress_percentage,
+            'elapsed_days' => $elapsed_days,
+            'total_days' => $total_days,
         ];
 
         return view('dashboard', $data);

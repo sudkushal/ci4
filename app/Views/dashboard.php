@@ -33,12 +33,21 @@
             /* Rotate based on percentage */
         }
 
-        .progress-circle-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 18px;
+        .progress {
+            height: 20px;
+            /* Adjust the height as needed */
+            background-color: #e9ecef;
+            /* Light gray background */
+            border-radius: 5px;
+            margin-bottom: 20px;
+            /* Add some spacing below the progress bar */
+        }
+
+        .progress-bar {
+            background-color: #4CAF50;
+            /* Green */
+            width: <?php echo $progress_percentage; ?>%;
+            height: 100%;
         }
 
         /* Adjust layout for 3 columns */
@@ -59,6 +68,13 @@
             <div class="col-12 text-center">
                 <h2>100 Days Fitness Challenge - Analytics</h2>
                 <h3>As on <?= date('F j, Y, g:i A', time() + 5.5 * 3600) ?></h3>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: <?php echo $progress_percentage; ?>%;" aria-valuenow="<?php echo $progress_percentage; ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <small><?= date('F j, Y', strtotime($startDate)); ?></small> 
+                    <small><?= date('F j, Y', strtotime($endDate)); ?></small> 
+                </div> 
             </div>
         </div>
 
@@ -115,13 +131,13 @@
             </div>
         </div>
         <div class="row mt-4 dashboard-stats">
-            <div class="col-12 col-md-8"> 
+            <div class="col-12 col-md-8">
                 <div class="card">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <h5 class="card-title">Longest Activity</h5>
                         <p class="card-text">
                             <?php if ($longestActivity) : ?>
-                                <?= number_format($longestActivity['distance'] / 1000, 2); ?> km by <?= $longestActivity['user_name']; ?> on <?= date('F j, Y', strtotime($longestActivity['start_date_local'])); ?> 
+                                <?= number_format($longestActivity['distance'] / 1000, 2); ?> km by <?= $longestActivity['user_name']; ?> on <?= date('F j, Y', strtotime($longestActivity['start_date_local'])); ?>
                             <?php else : ?>
                                 No activities recorded yet.
                             <?php endif; ?>
@@ -146,6 +162,11 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 </body>
 
 </html>
