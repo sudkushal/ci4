@@ -12,11 +12,82 @@ class ParticipantModel extends Model
 
     public function getTotalParticipants()
     {
-        return $this->countAllResults(); 
+        return $this->countAllResults();
     }
 
-    public function getTotalDistance()
+    public function getStageStats()
     {
-        return $this->selectSum('distance')->first()['distance'] ?? 0;
+        $builder = $this->db->table('stage_combined');
+        $builder->select('stage, SUM(total_distance) as total_distance, COUNT(DISTINCT strava_athlete_id) as participant_count');
+        $builder->where('stage IS NOT NULL');
+        $builder->groupBy('stage');
+        $query = $builder->get();
+
+        $result = $query->getResultArray();
+
+        $stageStats = [];
+        foreach ($result as $row) {
+            $distanceInKms = $row['total_distance'] / 1000;
+            $stageStats["Stage {$row['stage']}"] = [
+                'total_distance' => $distanceInKms,
+                'participant_count' => $row['participant_count']
+            ];
+        }
+
+        return $stageStats;
+    }
+
+    public function getChallengesCompletedDistributionPerStage()
+    {
+        $builder = $this->db->table('stage_combined');
+        $builder->select('stage, challenges_completed, COUNT(*) as participant_count');
+        $builder->where('stage IS NOT NULL');
+        $builder->where('challenges_completed > 0');
+        $builder->groupBy('stage, challenges_completed');
+        $query = $builder->get();
+
+        $result = $query->getResultArray();
+
+        // Initialize an array to store the distribution for each stage
+        $challengesCompletedDistribution = [];
+
+        foreach ($result as $row) {
+            $stage = "Stage {$row['stage']}";
+            $challengesCompleted = $row['challenges_completed'];
+            $participantCount = $row['participant_count'];
+
+            // If the stage doesn't exist in the result array, initialize it
+            if (!isset($challengesCompletedDistribution[$stage])) {
+                $challengesCompletedDistribution[$stage] = [];
+            }
+
+            // Store the participant count for the specific number of challenges completed
+            $challengesCompletedDistribution[$stage][$challengesCompleted] = $participantCount;
+        }
+        return $challengesCompletedDistribution;
+    }
+
+    public function getDistanceDistributionPerStage()
+    {
+        $builder = $this->db->table('stage_combined');
+        $builder->select('stage, total_distance'); // Select stage and total_distance
+        $builder->where('stage IS NOT NULL');
+        $query = $builder->get();
+
+        $result = $query->getResultArray();
+
+        $distanceDistribution = [];
+        foreach ($result as $row) {
+            $stage = "Stage {$row['stage']}";
+            $distanceInKms = $row['total_distance'] / 1000;
+
+            // If the stage doesn't exist in the result array, initialize it
+            if (!isset($distanceDistribution[$stage])) {
+                $distanceDistribution[$stage] = [];
+            }
+
+            $distanceDistribution[$stage][] = $distanceInKms;
+        }
+        return $distanceDistribution;
     }
 }

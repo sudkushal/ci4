@@ -65,6 +65,10 @@ class Dashboard extends BaseController
         $elapsed_days = ($today - $start_date) / 86400 + 1;
         $progress_percentage = round(($elapsed_days / $total_days) * 100, 2);
 
+        $stageStats = $participantModel->getStageStats();
+        $challengesCompleted = $participantModel->getChallengesCompletedDistributionPerStage();
+        $distanceDistribution = $participantModel->getDistanceDistributionPerStage();
+
         $data = [
             'startDate' => $startDate,
             'endDate' => $endDate,
@@ -80,6 +84,9 @@ class Dashboard extends BaseController
             'progress_percentage' => $progress_percentage,
             'elapsed_days' => $elapsed_days,
             'total_days' => $total_days,
+            'stageStats' => $stageStats,
+            'challengesCompleted' => $challengesCompleted,
+            'distanceDistribution' => $distanceDistribution,
         ];
 
         return view('dashboard', $data);

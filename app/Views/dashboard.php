@@ -66,15 +66,15 @@
     <main class="container mt-5">
         <div class="row">
             <div class="col-12 text-center">
-                <h2>100 Days Fitness Challenge - Analytics</h2>
+                <h2>100 Days Challenge - Analytics</h2>
                 <h3>As on <?= date('F j, Y, g:i A', time() + 5.5 * 3600) ?></h3>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width: <?php echo $progress_percentage; ?>%;" aria-valuenow="<?php echo $progress_percentage; ?>" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <div class="d-flex justify-content-between">
-                    <small><?= date('F j, Y', strtotime($startDate)); ?></small> 
-                    <small><?= date('F j, Y', strtotime($endDate)); ?></small> 
-                </div> 
+                    <small><?= date('F j, Y', strtotime($startDate)); ?></small>
+                    <small><?= date('F j, Y', strtotime($endDate)); ?></small>
+                </div>
             </div>
         </div>
 
@@ -155,6 +155,44 @@
                 </div>
             </div>
         </div>
+        <div class="row mt-4">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">KMs per Stage</h5>
+                        <canvas id="kmsPerStageChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Participants per Stage</h5>
+                        <canvas id="participantsPerStageChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Challenges Completed per Stage</h5>
+                        <canvas id="challengesCompletedChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"></h5>
+                        <canvas id="distanceDistributionChart1"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <?= $this->include('_footer') ?>
@@ -162,11 +200,191 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         $(function() {
             $('[data-toggle="tooltip"]').tooltip()
         })
     </script>
+    <script>
+        const stageStats = <?php echo json_encode($stageStats); ?>;
+        const kmsPerStageData = {
+            labels: Object.keys(stageStats),
+            datasets: [{
+                label: 'KMs',
+                data: Object.values(stageStats).map(stats => stats.total_distance), // Extract total distances
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Example color
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        const kmsPerStageConfig = {
+            type: 'bar',
+            data: kmsPerStageData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    trendline: {
+                        style: 'rgba(255, 0, 0, .8)', // Red color for the trendline
+                        width: 2
+                    }
+                }
+            }
+        };
+
+        const kmsPerStageChart = new Chart(
+            document.getElementById('kmsPerStageChart'),
+            kmsPerStageConfig
+        );
+    </script>
+    <script>
+        const participantsPerStageChartData = {
+            labels: Object.keys(stageStats),
+            datasets: [{
+                    label: 'Count',
+                    data: Object.values(stageStats).map(stats => stats.participant_count), // Extract total distances
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Example color
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                },
+                { // Add the trendline dataset
+                    type: 'line',
+                    label: 'Trendline',
+                    data: Object.values(stageStats).map(stats => stats.participant_count),
+                    borderColor: 'rgba(255, 0, 0, .8)',
+                    borderWidth: 2
+                }
+            ]
+        };
+
+        const participantsPerStageChartConfig = {
+            type: 'bar',
+            data: participantsPerStageChartData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    trendline: {
+                        style: 'rgba(255, 0, 0, .8)', // Red color for the trendline
+                        width: 2
+                    }
+                }
+            }
+        };
+
+        const participantsPerStageChart = new Chart(
+            document.getElementById('participantsPerStageChart'),
+            participantsPerStageChartConfig
+        );
+    </script>
+    <script>
+        <?php
+        // Extract labels (stage names)
+        $labels = array_keys($challengesCompleted);
+
+        // Extract datasets (one for each number of challenges completed)
+        $datasets = [];
+        $maxChallengesCompleted = max(array_map(function ($stageData) {
+            return max(array_keys($stageData));
+        }, $challengesCompleted));
+
+        for ($challenges = 1; $challenges <= $maxChallengesCompleted; $challenges++) {
+            $dataset = [
+                'label' => $challenges . ' Challenge' . ($challenges == 1 ? '' : 's') . ' Completed',
+                'data' => [],
+                'backgroundColor' => sprintf('rgba(%d, %d, %d, 0.2)', rand(0, 255), rand(0, 255), rand(0, 255)), // Random color for each dataset
+                'borderColor' => sprintf('rgba(%d, %d, %d, 1)', rand(0, 255), rand(0, 255), rand(0, 255)),
+                'borderWidth' => 1
+            ];
+
+            foreach ($labels as $stage) {
+                $dataset['data'][] = $challengesCompleted[$stage][$challenges] ?? 0; // Default to 0 if no one completed that many challenges in a stage
+            }
+
+            $datasets[] = $dataset;
+        }
+        ?>
+        const challengesCompletedChartData = {
+            labels: <?php echo json_encode($labels); ?>,
+            datasets: <?php echo json_encode($datasets); ?>
+        };
+
+        const challengesCompletedChartConfig = {
+            type: 'bar',
+            data: challengesCompletedChartData,
+            options: {
+                scales: {
+                    x: {
+                        stacked: true
+                    },
+                    y: {
+                        beginAtZero: true,
+                        stacked: true
+                    }
+                }
+            }
+        };
+
+        const challengesCompletedChart = new Chart(
+            document.getElementById('challengesCompletedChart'),
+            challengesCompletedChartConfig
+        );
+    </script>
+    <script>
+        <?php
+        $labels = array_keys($distanceDistribution);
+        $datasets = [];
+
+        foreach ($labels as $stage) {
+            $dataset = [
+                'label' => $stage,
+                'data' => $distanceDistribution[$stage],
+                'backgroundColor' => sprintf('rgba(%d, %d, %d, 0.2)', rand(0, 255), rand(0, 255), rand(0, 255)),
+                'borderColor' => sprintf('rgba(%d, %d, %d, 1)', rand(0, 255), rand(0, 255), rand(0, 255)),
+                'borderWidth' => 1
+            ];
+            $datasets[] = $dataset;
+        }
+        ?>
+        const distanceDistributionData = {
+            labels: <?php echo json_encode($labels); ?>,
+            datasets: <?php echo json_encode($datasets); ?>
+        };
+
+        const distanceDistributionConfig = {
+            type: 'bar', // You can change this to 'histogram' if Chart.js supports it directly
+            data: distanceDistributionData,
+            options: {
+                scales: {
+                    x: {
+                        type: 'linear', // Important for histograms
+                        beginAtZero: true,
+                        binning: {
+                            bins: [60, 70, 80, 90, 100, 110,120] // Example buckets: 0-10 km, 10-20 km, ...
+                        }
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        const distanceDistributionChart = new Chart(
+            document.getElementById('distanceDistributionChart'),
+            distanceDistributionConfig
+        );
+    </script>
+
 </body>
 
 </html>
