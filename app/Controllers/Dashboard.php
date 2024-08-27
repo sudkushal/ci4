@@ -6,65 +6,37 @@ use App\Models\ParticipantModel;
 use App\Models\StravaActivityModel;
 use App\Config\AppConstants;
 
-
 class Dashboard extends BaseController
 {
     public function index()
     {
         $activityModel = new StravaActivityModel();
         $participantModel = new ParticipantModel();
+
         $startDate = AppConstants::CHALLENGE_START_DATE;
         $endDate = AppConstants::CHALLENGE_END_DATE;
         $activityTypes = ['Walk', 'Run'];
 
-        $totalActivities = $activityModel->whereIn('type', $activityTypes)
-            ->where('start_date >=', $startDate)->where('start_date <', $endDate)->countAllResults();
+        // Calculate total activities, distance, and participants
+        $totalActivities = $this->getTotalActivities($activityModel, $startDate, $endDate, $activityTypes);
+        $totalDistance = $this->getTotalDistance($activityModel, $startDate, $endDate, $activityTypes);
+        $participants = $this->getParticipantsCount($activityModel, $startDate, $endDate, $activityTypes);
 
-        $totalDistance = $activityModel->select('SUM(distance)')->whereIn('type', $activityTypes)
-            ->where('distance >=', 2000)->where('start_date >=', $startDate)->where('start_date <', $endDate)->first()['SUM(distance)'] ?? 0;
+        // Calculate derived metrics
+        $totalDays = $this->calculateTotalDays($startDate, $endDate);
+        $averageActivitiesPerParticipant = $this->calculateAverageActivities($totalActivities, $participants);
+        $averageDistance = $this->calculateAverageDistance($totalDistance, $totalActivities);
+        $averageMovingTime = $this->calculateAverageMovingTime($activityModel, $startDate, $endDate, $activityTypes, $totalActivities);
 
-        $participants = $activityModel->select('strava_athlete_id')->distinct()
-            ->whereIn('type', $activityTypes)
-            ->where('start_date >=', $startDate)->where('start_date <', $endDate)->countAllResults();
-        $totalDays = floor((strtotime($endDate) - strtotime($startDate)) / (60 * 60 * 24));
-        $averageActivitiesPerParticipant = ($participants > 0) ? floor($totalActivities / $participants) : 0;
-        $averageDistance = ($totalActivities > 0) ? $totalDistance / $totalActivities : 0;
-        $totalMovingTime = $activityModel->select('SUM(moving_time)')
-            ->whereIn('type', $activityTypes)
-            ->where('start_date >=', $startDate)
-            ->where('start_date <', $endDate)
-            ->first()['SUM(moving_time)'] ?? 0;
-        $averageMovingTime = ($totalActivities > 0) ? $totalMovingTime / $totalActivities : 0;
+        // Fetch additional data
+        $longestActivity = $this->getLongestActivity($activityModel, $startDate, $endDate, $activityTypes);
+        $mostActiveDay = $this->getMostActiveDay($activityModel, $startDate, $endDate, $activityTypes);
+        $mostActiveHour = $this->getMostActiveHour($activityModel, $startDate, $endDate, $activityTypes);
 
-        $longestActivity = $activityModel->select('strava_activities.*, users.name AS user_name')
-            ->join('users', 'strava_activities.strava_athlete_id = users.strava_athlete_id', 'left') // Replace 'user_id' and 'id' if necessary
-            ->whereIn('strava_activities.type', $activityTypes)
-            ->where('strava_activities.distance >=', 2000)
-            ->where('strava_activities.start_date >=', $startDate)
-            ->where('strava_activities.start_date <', $endDate)
-            ->orderBy('strava_activities.distance', 'DESC')
-            ->first();
-        $mostActiveDay = $activityModel->select("DATE_FORMAT(start_date_local, '%Y-%m-%d') AS day, COUNT(*) AS count")
-            ->whereIn('type', $activityTypes)
-            ->where('start_date >=', $startDate)->where('start_date <', $endDate)->where('distance >=', 2000)
-            ->groupBy('day')
-            ->orderBy('count', 'DESC')
-            ->first();
-        $mostActiveHour = $activityModel->select("HOUR(start_date_local) AS hour, COUNT(*) AS count")
-            ->whereIn('type', $activityTypes)
-            ->where('start_date >=', $startDate)->where('start_date <', $endDate)->where('distance >=', 2000)
-            ->groupBy('hour')
-            ->orderBy('count', 'DESC')
-            ->first();
+        // Calculate progress percentage
+        $progressPercentage = $this->calculateProgressPercentage($startDate, $endDate);
 
-
-        $start_date = strtotime('2024-08-15');
-        $end_date = strtotime('2024-11-22');
-        $today = time() + 5.5 * 3600; // Current time in IST
-        $total_days = ($end_date - $start_date) / 86400 + 1; // Days in challenge
-        $elapsed_days = ($today - $start_date) / 86400 + 1;
-        $progress_percentage = round(($elapsed_days / $total_days) * 100, 2);
-
+        // Fetch data from ParticipantModel
         $stageStats = $participantModel->getStageStats();
         $challengesCompleted = $participantModel->getChallengesCompletedDistributionPerStage();
         $distanceDistribution = $participantModel->getDistanceDistributionPerStage();
@@ -83,17 +55,118 @@ class Dashboard extends BaseController
             'longestActivity' => $longestActivity,
             'mostActiveDay' => $mostActiveDay ? $mostActiveDay['day'] : 'N/A',
             'mostActiveHour' => $mostActiveHour ? $mostActiveHour['hour'] : 'N/A',
-            'progress_percentage' => $progress_percentage,
-            'elapsed_days' => $elapsed_days,
-            'total_days' => $total_days,
+            'progress_percentage' => $progressPercentage,
+            'total_days' => $totalDays, // Removed 'elapsed_days'
             'stageStats' => $stageStats,
             'challengesCompleted' => $challengesCompleted,
             'distanceDistribution' => $distanceDistribution,
             'top5Ranks' => $top5Ranks,
             'participantsCompletingMoreThan3' => $participantsCompletingMoreThan3,
-
         ];
 
         return view('dashboard', $data);
+    }
+
+    // Helper functions
+
+    private function getTotalActivities($activityModel, $startDate, $endDate, $activityTypes)
+    {
+        return $activityModel->whereIn('type', $activityTypes)
+            ->where('start_date >=', $startDate)
+            ->where('start_date <', $endDate)
+            ->countAllResults();
+    }
+
+    private function getTotalDistance($activityModel, $startDate, $endDate, $activityTypes)
+    {
+        return $activityModel->select('SUM(distance)')
+            ->whereIn('type', $activityTypes)
+            ->where('distance >=', 2000)
+            ->where('start_date >=', $startDate)
+            ->where('start_date <', $endDate)
+            ->first()['SUM(distance)'] ?? 0;
+    }
+
+    private function getParticipantsCount($activityModel, $startDate, $endDate, $activityTypes)
+    {
+        return $activityModel->select('strava_athlete_id')
+            ->distinct()
+            ->whereIn('type', $activityTypes)
+            ->where('start_date >=', $startDate)
+            ->where('start_date <', $endDate)
+            ->countAllResults();
+    }
+
+    private function calculateTotalDays($startDate, $endDate)
+    {
+        return floor((strtotime($endDate) - strtotime($startDate)) / (60 * 60 * 24)) + 1; 
+    }
+
+    private function calculateAverageActivities($totalActivities, $participants)
+    {
+        return ($participants > 0) ? floor($totalActivities / $participants) : 0;
+    }
+
+    private function calculateAverageDistance($totalDistance, $totalActivities)
+    {
+        return ($totalActivities > 0) ? $totalDistance / $totalActivities : 0;
+    }
+
+    private function calculateAverageMovingTime($activityModel, $startDate, $endDate, $activityTypes, $totalActivities)
+    {
+        $totalMovingTime = $activityModel->select('SUM(moving_time)')
+            ->whereIn('type', $activityTypes)
+            ->where('start_date >=', $startDate)
+            ->where('start_date <', $endDate)
+            ->first()['SUM(moving_time)'] ?? 0;
+
+        return ($totalActivities > 0) ? $totalMovingTime / $totalActivities : 0;
+    }
+
+    private function getLongestActivity($activityModel, $startDate, $endDate, $activityTypes)
+    {
+        return $activityModel->select('strava_activities.*, users.name AS user_name')
+            ->join('users', 'strava_activities.strava_athlete_id = users.strava_athlete_id', 'left')
+            ->whereIn('strava_activities.type', $activityTypes)
+            ->where('strava_activities.distance >=', 2000)
+            ->where('strava_activities.start_date >=', $startDate)
+            ->where('strava_activities.start_date <', $endDate)
+            ->orderBy('strava_activities.distance', 'DESC')
+            ->first();
+    }
+
+    private function getMostActiveDay($activityModel, $startDate, $endDate, $activityTypes)
+    {
+        return $activityModel->select("DATE_FORMAT(start_date_local, '%Y-%m-%d') AS day, COUNT(*) AS count")
+            ->whereIn('type', $activityTypes)
+            ->where('start_date >=', $startDate)
+            ->where('start_date <', $endDate)
+            ->where('distance >=', 2000)
+            ->groupBy('day')
+            ->orderBy('count', 'DESC')
+            ->first();
+    }
+
+    private function getMostActiveHour($activityModel, $startDate, $endDate, $activityTypes)
+    {
+        return $activityModel->select("HOUR(start_date_local) AS hour, COUNT(*) AS count")
+            ->whereIn('type', $activityTypes)
+            ->where('start_date >=', $startDate)
+            ->where('start_date <', $endDate)
+            ->where('distance >=', 2000)
+            ->groupBy('hour')
+            ->orderBy('count', 'DESC')
+            ->first();
+    }
+
+    private function calculateProgressPercentage($startDate, $endDate)
+    {
+        $start_date = strtotime($startDate);
+        $end_date = strtotime($endDate);
+        $today = time() + 5.5 * 3600; 
+        $total_days = ($end_date - $start_date) / 86400 + 1; 
+        $elapsed_days = ($today - $start_date) / 86400 + 1;
+
+        return round(($elapsed_days / $total_days) * 100, 2);
     }
 }

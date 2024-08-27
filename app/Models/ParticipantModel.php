@@ -1,18 +1,34 @@
 <?php
 
-namespace App\Models; // Adjust namespace if needed
+namespace App\Models;
 
 use CodeIgniter\Model;
 
 class ParticipantModel extends Model
 {
-    protected $table = 'users'; // Assuming your table name is 'users'
-    protected $primaryKey = 'id'; // Adjust if your primary key is different
-    protected $allowedFields = ['distance']; // Add other fields as needed
+    protected $table = 'users';
+    protected $primaryKey = 'id';
+    protected $allowedFields = ['distance'];
 
     public function getTotalParticipants()
     {
         return $this->countAllResults();
+    }
+
+    private function formatStageData($result, $key = 'total_distance', $conversionFactor = 1000)
+    {
+        $stageData = [];
+        foreach ($result as $row) {
+            $stage = "Stage {$row['stage']}";
+            $value = $row[$key];
+
+            if ($conversionFactor) {
+                $value /= $conversionFactor; // Apply conversion if needed
+            }
+
+            $stageData[$stage] = $value;
+        }
+        return $stageData;
     }
 
     public function getStageStats()
@@ -21,15 +37,13 @@ class ParticipantModel extends Model
         $builder->select('stage, SUM(total_distance) as total_distance, COUNT(DISTINCT strava_athlete_id) as participant_count');
         $builder->where('stage IS NOT NULL');
         $builder->groupBy('stage');
-        $query = $builder->get();
 
-        $result = $query->getResultArray();
+        $result = $builder->get()->getResultArray();
 
         $stageStats = [];
         foreach ($result as $row) {
-            $distanceInKms = $row['total_distance'] / 1000;
             $stageStats["Stage {$row['stage']}"] = [
-                'total_distance' => $distanceInKms,
+                'total_distance' => $row['total_distance'] / 1000,
                 'participant_count' => $row['participant_count']
             ];
         }
@@ -44,78 +58,54 @@ class ParticipantModel extends Model
         $builder->where('stage IS NOT NULL');
         $builder->where('challenges_completed > 0');
         $builder->groupBy('stage, challenges_completed');
-        $query = $builder->get();
 
-        $result = $query->getResultArray();
+        $result = $builder->get()->getResultArray();
 
-        // Initialize an array to store the distribution for each stage
         $challengesCompletedDistribution = [];
-
         foreach ($result as $row) {
             $stage = "Stage {$row['stage']}";
             $challengesCompleted = $row['challenges_completed'];
-            $participantCount = $row['participant_count'];
 
-            // If the stage doesn't exist in the result array, initialize it
             if (!isset($challengesCompletedDistribution[$stage])) {
                 $challengesCompletedDistribution[$stage] = [];
             }
 
-            // Store the participant count for the specific number of challenges completed
-            $challengesCompletedDistribution[$stage][$challengesCompleted] = $participantCount;
+            $challengesCompletedDistribution[$stage][$challengesCompleted] = $row['participant_count'];
         }
+
         return $challengesCompletedDistribution;
     }
 
     public function getDistanceDistributionPerStage()
     {
         $builder = $this->db->table('stage_combined');
-        $builder->select('stage, total_distance'); // Select stage and total_distance
+        $builder->select('stage, total_distance');
         $builder->where('stage IS NOT NULL');
-        $query = $builder->get();
 
-        $result = $query->getResultArray();
+        $result = $builder->get()->getResultArray();
 
-        $distanceDistribution = [];
-        foreach ($result as $row) {
-            $stage = "Stage {$row['stage']}";
-            $distanceInKms = $row['total_distance'] / 1000;
-
-            // If the stage doesn't exist in the result array, initialize it
-            if (!isset($distanceDistribution[$stage])) {
-                $distanceDistribution[$stage] = [];
-            }
-
-            $distanceDistribution[$stage][] = $distanceInKms;
-        }
-        return $distanceDistribution;
+        return $this->formatStageData($result); 
     }
 
     public function getTop5Ranks()
     {
         $builder = $this->db->table('consolidated_challenge_leaderboard');
         $builder->select('participant_name, rank_order');
-        $builder->orderBy('rank_order', 'ASC'); // Assuming lower rank is better
+        $builder->orderBy('rank_order', 'ASC'); 
         $builder->limit(5);
-        $query = $builder->get();
 
-        return $query->getResultArray();
+        return $builder->get()->getResultArray();
     }
 
     public function getParticipantsCompletingMoreThan3ChallengesPerStage()
     {
         $builder = $this->db->table('stage_combined');
         $builder->select('stage, COUNT(DISTINCT strava_athlete_id) as participant_count');
-        $builder->where('challenges_completed > 3'); // Filter for challenges_completed > 3
+        $builder->where('challenges_completed > 3'); 
         $builder->groupBy('stage');
-        $query = $builder->get();
 
-        $result = $query->getResultArray();
+        $result = $builder->get()->getResultArray();
 
-        $participantCounts = [];
-        foreach ($result as $row) {
-            $participantCounts["Stage {$row['stage']}"] = $row['participant_count'];
-        }
-        return $participantCounts;
+        return $this->formatStageData($result, 'participant_count', null); // No conversion needed
     }
 }
