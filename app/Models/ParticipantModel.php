@@ -90,4 +90,32 @@ class ParticipantModel extends Model
         }
         return $distanceDistribution;
     }
+
+    public function getTop5Ranks()
+    {
+        $builder = $this->db->table('consolidated_challenge_leaderboard');
+        $builder->select('participant_name, rank_order');
+        $builder->orderBy('rank_order', 'ASC'); // Assuming lower rank is better
+        $builder->limit(5);
+        $query = $builder->get();
+
+        return $query->getResultArray();
+    }
+
+    public function getParticipantsCompletingMoreThan3ChallengesPerStage()
+    {
+        $builder = $this->db->table('stage_combined');
+        $builder->select('stage, COUNT(DISTINCT strava_athlete_id) as participant_count');
+        $builder->where('challenges_completed > 3'); // Filter for challenges_completed > 3
+        $builder->groupBy('stage');
+        $query = $builder->get();
+
+        $result = $query->getResultArray();
+
+        $participantCounts = [];
+        foreach ($result as $row) {
+            $participantCounts["Stage {$row['stage']}"] = $row['participant_count'];
+        }
+        return $participantCounts;
+    }
 }

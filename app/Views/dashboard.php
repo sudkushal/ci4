@@ -82,6 +82,51 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                        <h5 class="card-title">Leaderboard</h5>
+                        <p class="card-text"><?php if (!empty($top5Ranks)) : ?>
+                        <ol>
+                            <?php foreach ($top5Ranks as $rank) : ?>
+                                <li><?= $rank['participant_name'] ?> (Rank: <?= $rank['rank_order'] ?>)</li>
+                            <?php endforeach; ?>
+                        </ol>
+                    <?php else : ?>
+                        <p>No ranks found yet.</p>
+                    <?php endif; ?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                        <h5 class="card-title">Engagement Champions</h5>
+                        <p class="card-text">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Stage</th>
+                                    <th>Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($participantsCompletingMoreThan3 as $stage => $count) : ?>
+                                    <tr>
+                                        <td><?= $stage ?></td>
+                                        <td><?= $count ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row mt-4 dashboard-stats">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <h5 class="card-title">Registered Participants</h5>
                         <p class="card-text"><?php echo $total_participants; ?></p>
                     </div>
@@ -202,6 +247,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <script>
         $(function() {
             $('[data-toggle="tooltip"]').tooltip()
@@ -330,6 +376,19 @@
                         beginAtZero: true,
                         stacked: true
                     }
+                },
+
+                plugins: {
+                    datalabels: {
+                        formatter: (value, context) => {
+                            // Only display labels if the value is greater than 0
+                            return value > 0;
+                        },
+                        color: 'black',
+                        font: {
+                            weight: 'bold'
+                        }
+                    }
                 }
             }
         };
@@ -369,7 +428,7 @@
                         type: 'linear', // Important for histograms
                         beginAtZero: true,
                         binning: {
-                            bins: [60, 70, 80, 90, 100, 110,120] // Example buckets: 0-10 km, 10-20 km, ...
+                            bins: [60, 70, 80, 90, 100, 110, 120] // Example buckets: 0-10 km, 10-20 km, ...
                         }
                     },
                     y: {

@@ -68,6 +68,8 @@ class Dashboard extends BaseController
         $stageStats = $participantModel->getStageStats();
         $challengesCompleted = $participantModel->getChallengesCompletedDistributionPerStage();
         $distanceDistribution = $participantModel->getDistanceDistributionPerStage();
+        $top5Ranks = $participantModel->getTop5Ranks();
+        $participantsCompletingMoreThan3 = $participantModel->getParticipantsCompletingMoreThan3ChallengesPerStage();
 
         $data = [
             'startDate' => $startDate,
@@ -87,6 +89,9 @@ class Dashboard extends BaseController
             'stageStats' => $stageStats,
             'challengesCompleted' => $challengesCompleted,
             'distanceDistribution' => $distanceDistribution,
+            'top5Ranks' => $top5Ranks,
+            'participantsCompletingMoreThan3' => $participantsCompletingMoreThan3,
+
         ];
 
         return view('dashboard', $data);
