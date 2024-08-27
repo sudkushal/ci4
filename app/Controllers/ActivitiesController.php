@@ -11,13 +11,19 @@ class ActivitiesController extends BaseController
         $model = new LongestActivity();
 
         // Fetch data from the model
-        $data['activities'] = $model->getActivitiesWithUsers();
+        $dataFromModel = $model->getActivitiesWithUsers();
 
-        // Pass the data to the view
+        $data = [
+            // ... other data for the view
+            'activities' => $dataFromModel['activities'],
+            'userNames' => $dataFromModel['userNames'],
+            'stages' => $dataFromModel['stages'] // Add this line
+        ];
+        
         return view('activities_view', $data);
     }
-    
-    public function fullActivities() 
+
+    public function fullActivities()
     {
         $model = new LongestActivity();
 
