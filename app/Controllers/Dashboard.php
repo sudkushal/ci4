@@ -24,7 +24,7 @@ class Dashboard extends BaseController
 
         // Calculate derived metrics
         $totalDays = $this->calculateTotalDays($startDate, $endDate);
-        $averageActivitiesPerParticipant = $this->calculateAverageActivities($totalActivities, $participants);
+        $averageActivitiesPerParticipant = $participantModel->getAverageActivitiesPerParticipant();
         $averageDistance = $this->calculateAverageDistance($totalDistance, $totalActivities);
         $averageMovingTime = $this->calculateAverageMovingTime($activityModel, $startDate, $endDate, $activityTypes, $totalActivities);
 

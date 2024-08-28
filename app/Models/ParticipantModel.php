@@ -29,35 +29,38 @@ class ParticipantModel extends Model
 
         $result = $builder->get()->getResultArray();
 
-        $totalDistances = $this->formatStageData($result);
-        $participantCounts = $this->formatStageData($result, 'participant_count');
-
-        $stageStats = [];
-        foreach ($totalDistances as $stage => $totalDistance) {
-            $stageStats["Stage {$stage}"] = [
-                'total_distance' => $totalDistance / 1000, 
-                'participant_count' => $participantCounts[$stage] ?? 0 
+        return array_reduce($result, function ($carry, $row) {
+            $stage = "Stage {$row['stage']}";
+            $carry[$stage] = [
+                'total_distance' => $row['total_distance'] / 1000,
+                'participant_count' => $row['participant_count']
             ];
-        }
-
-        return $stageStats;
+            return $carry;
+        }, []);
     }
 
     public function getActiveParticipants()
-    {
-        $builder = $this->db->table('longest_activities'); 
-        $builder->select('COUNT(DISTINCT strava_athlete_id) as active_participants'); 
-        $result = $builder->get()->getRow();
+{
+    $builder = $this->db->table('longest_activities'); 
+    $builder->select('COUNT(DISTINCT strava_athlete_id) AS active_participants'); // Move the alias outside the function
+    $query = $builder->get();
 
-        return $result ? $result->active_participants : 0; 
+    $result = $query->getRow();
+
+    if ($result) {
+        return $result->active_participants; 
+    } else {
+        return 0; 
     }
+}
 
     public function getTotalDistance()
     {
-        $builder = $this->db->table('stage_combined');
-        $result = $builder->selectSum('total_distance')->get()->getRow();
-
-        return $result ? $result->total_distance : 0; 
+        return $this->db->table('stage_combined')
+            ->selectSum('total_distance')
+            ->get()
+            ->getRow()
+            ->total_distance ?? 0;
     }
 
     public function getChallengesCompletedDistributionPerStage()
@@ -70,19 +73,13 @@ class ParticipantModel extends Model
 
         $result = $builder->get()->getResultArray();
 
-        $challengesCompletedDistribution = [];
-        foreach ($result as $row) {
+        return array_reduce($result, function ($carry, $row) {
             $stage = "Stage {$row['stage']}";
             $challengesCompleted = $row['challenges_completed'];
 
-            if (!isset($challengesCompletedDistribution[$stage])) {
-                $challengesCompletedDistribution[$stage] = [];
-            }
-
-            $challengesCompletedDistribution[$stage][$challengesCompleted] = $row['participant_count'];
-        }
-
-        return $challengesCompletedDistribution;
+            $carry[$stage][$challengesCompleted] = $row['participant_count'];
+            return $carry;
+        }, []);
     }
 
     public function getDistanceDistributionPerStage()
@@ -106,16 +103,31 @@ class ParticipantModel extends Model
         return $builder->get()->getResultArray();
     }
 
+    public function getAverageActivitiesPerParticipant()
+    {
+        $builder = $this->db->table('longest_activities');
+        $builder->select('COUNT(*) as total_activities, COUNT(DISTINCT strava_athlete_id) as participant_count');
+        $query = $builder->get();
+
+        $result = $query->getRow();
+
+        if ($result && $result->participant_count > 0) {
+            return floor($result->total_activities / $result->participant_count); 
+        } else {
+            return 0; 
+        }
+    }
+
     public function getParticipantsCompletingMoreThan3ChallengesPerStage()
     {
         $builder = $this->db->table('stage_combined');
         $builder->select('stage, COUNT(DISTINCT strava_athlete_id) as participant_count');
-        $builder->where('challenges_completed > 2'); 
+        $builder->where('challenges_completed > 3'); 
         $builder->groupBy('stage');
 
         $result = $builder->get()->getResultArray();
 
-        return $this->formatStageData($result, 'participant_count', null);
+        return $this->formatStageData($result, 'participant_count', null); 
     }
 
     public function getActivitiesWithUsers()
@@ -128,14 +140,11 @@ class ParticipantModel extends Model
 
         $result = $query->getResultArray(); 
 
-        // Separate usernames (still get unique usernames)
         $userNames = array_column($result, 'user_name');
         $userNames = array_unique($userNames); 
 
-        // Sort usernames alphabetically
         sort($userNames); 
 
-        // Separate stages
         $stages = array_column($result, 'stage');
         $stages = array_unique($stages); 
 
