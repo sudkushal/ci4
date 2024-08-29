@@ -32,7 +32,7 @@ class ParticipantModel extends Model
         return array_reduce($result, function ($carry, $row) {
             $stage = "Stage {$row['stage']}";
             $carry[$stage] = [
-                'total_distance' => $row['total_distance'] / 1000,
+                'total_distance' => number_format(($row['total_distance'] / 1000), 2),
                 'participant_count' => $row['participant_count']
             ];
             return $carry;
