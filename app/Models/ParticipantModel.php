@@ -122,7 +122,7 @@ class ParticipantModel extends Model
     {
         $builder = $this->db->table('stage_combined');
         $builder->select('stage, COUNT(DISTINCT strava_athlete_id) as participant_count');
-        $builder->where('challenges_completed > 3'); 
+        $builder->where('challenges_completed > 2'); 
         $builder->groupBy('stage');
 
         $result = $builder->get()->getResultArray();
