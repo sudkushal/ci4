@@ -15,10 +15,10 @@
                     <a class="nav-link text-white" href="<?= site_url('stage'); ?>">Leaderboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="<?= site_url('individualboard'); ?>">Individual Statistics</a>
+                    <a class="nav-link text-white" href="<?= site_url('activities'); ?>">Longest Activity</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="<?= site_url('activities'); ?>">Longest Activity</a>
+                    <a class="nav-link text-white" href="<?= site_url('analytics'); ?>">Analytics</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white" href="<?= site_url('config'); ?>">Challenge Config</a>
