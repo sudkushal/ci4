@@ -25,17 +25,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $tableData = json_decode($tableData, true); ?>
-                        <?php foreach ($tableData as $row) : ?>
+                        <?php foreach ($analytics as $athlete_data) : ?>
                             <tr>
-                                <td><?= htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?= htmlspecialchars($row['total_activities'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?= htmlspecialchars($row['total_distance_km'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?= htmlspecialchars($row['total_time_hours'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?= htmlspecialchars($row['activities_per_week'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?= htmlspecialchars($row['avg_distance_per_week_km'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?= htmlspecialchars($row['avg_time_per_week_hours'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?= htmlspecialchars($row['personal_best_distance_km'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td><?= esc($athlete_data['athlete_name']); ?></td>
+                                <td><?= esc($athlete_data['total_activities']); ?></td>
+                                <td><?= number_format($athlete_data['total_distance_km'], 2); ?></td>
+                                <td><?= esc($athlete_data['total_moving_time']); ?></td>
+                                <td><?= number_format($athlete_data['avg_activities_per_week'], 2); ?></td>
+                                <td><?= number_format($athlete_data['avg_distance_per_week_km'], 2); ?></td>
+                                <td><?= number_format($athlete_data['avg_time_per_week_hours'], 2); ?></td>
+                                <td><?= number_format($athlete_data['personal_best_distance_km'], 2); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
