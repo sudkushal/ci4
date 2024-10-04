@@ -112,18 +112,22 @@ class Dashboard extends BaseController
         return ($totalActivities > 0) ? $totalDistance / $totalActivities : 0;
     }
 
-    private function calculateAverageMovingTime($activityModel, $startDate, $endDate, $activityTypes, $totalActivities)
-{
-    $totalMovingTime = $activityModel->table('longest_activities AS la')
-                      ->select('SUM(sa.moving_time)')
-                      ->join('strava_activities AS sa', 'la.activity_id = sa.activity_id')
-                      ->whereIn('sa.type', $activityTypes)
-                      ->where('la.activity_date >=', $startDate) // Use 'activity_date'
-                      ->where('la.activity_date <', $endDate)  // Use 'activity_date'
-                      ->first()['SUM(sa.moving_time)'] ?? 0;
+    private function calculateAverageMovingTime($startDate, $endDate, $activityTypes, $totalActivities)
+    {
+        $db = \Config\Database::connect(); // Get the database connection
 
-    return ($totalActivities > 0) ? $totalMovingTime / $totalActivities : 0;
-}
+        $totalMovingTime = $db->table('longest_activities AS la')
+            ->select('SUM(sa.moving_time)')
+            ->join('strava_activities AS sa', 'la.activity_id = sa.activity_id')
+            ->whereIn('sa.type', $activityTypes)
+            ->where('la.activity_date >=', $startDate)
+            ->where('la.activity_date <', $endDate)
+            ->get() // Execute the query
+            ->getRow() // Get the result row
+            ->{'SUM(sa.moving_time)'} ?? 0; // Access the sum value
+
+        return ($totalActivities > 0) ? $totalMovingTime / $totalActivities : 0;
+    }
 
     private function getLongestActivity($activityModel, $startDate, $endDate, $activityTypes)
     {
