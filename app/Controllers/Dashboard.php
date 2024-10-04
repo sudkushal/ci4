@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\ParticipantModel;
 use App\Models\StravaActivityModel;
 use App\Config\AppConstants;
+use App\Models\AnalyticsDataModel;
 
 class Dashboard extends BaseController
 {
@@ -12,6 +13,7 @@ class Dashboard extends BaseController
     {
         $activityModel = new StravaActivityModel();
         $participantModel = new ParticipantModel();
+        $analyticsModel = new AnalyticsDataModel();
 
         $startDate = AppConstants::CHALLENGE_START_DATE;
         $endDate = AppConstants::CHALLENGE_END_DATE;
@@ -26,7 +28,7 @@ class Dashboard extends BaseController
         $totalDays = $this->calculateTotalDays($startDate, $endDate);
         $averageActivitiesPerParticipant = $participantModel->getAverageActivitiesPerParticipant();
         $averageDistance = $this->calculateAverageDistance($totalDistance, $totalActivities);
-        $averageMovingTime = $this->calculateAverageMovingTime($activityModel, $startDate, $endDate, $activityTypes, $totalActivities);
+        $averageMovingTime = $analyticsModel->calculateAverageMovingTime($startDate, $endDate, $activityTypes, $totalActivities);
 
         // Fetch additional data
         $longestActivity = $this->getLongestActivity($activityModel, $startDate, $endDate, $activityTypes);
