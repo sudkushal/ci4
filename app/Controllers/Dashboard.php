@@ -99,7 +99,7 @@ class Dashboard extends BaseController
 
     private function calculateTotalDays($startDate, $endDate)
     {
-        return floor((strtotime($endDate) - strtotime($startDate)) / (60 * 60 * 24)) + 1; 
+        return floor((strtotime($endDate) - strtotime($startDate)) / (60 * 60 * 24)) + 1;
     }
 
     private function calculateAverageActivities($totalActivities, $participants)
@@ -114,11 +114,13 @@ class Dashboard extends BaseController
 
     private function calculateAverageMovingTime($activityModel, $startDate, $endDate, $activityTypes, $totalActivities)
     {
-        $totalMovingTime = $activityModel->select('SUM(moving_time)')
-            ->whereIn('type', $activityTypes)
-            ->where('start_date >=', $startDate)
-            ->where('start_date <', $endDate)
-            ->first()['SUM(moving_time)'] ?? 0;
+        $totalMovingTime = $activityModel->table('longest_activities')
+            ->select('SUM(strava_activities.moving_time)') // Select moving_time from strava_activities
+            ->join('strava_activities', 'longest_activities.activity_id = strava_activities.activity_id') // Join the tables
+            ->whereIn('strava_activities.type', $activityTypes) // Filter by activity type from strava_activities
+            ->where('longest_activities.activity_date >=', $startDate) // Filter by date from longest_activities
+            ->where('longest_activities.activity_date <', $endDate)  // Filter by date from longest_activities
+            ->first()['SUM(strava_activities.moving_time)'] ?? 0;
 
         return ($totalActivities > 0) ? $totalMovingTime / $totalActivities : 0;
     }
@@ -163,8 +165,8 @@ class Dashboard extends BaseController
     {
         $start_date = strtotime($startDate);
         $end_date = strtotime($endDate);
-        $today = time() + 5.5 * 3600; 
-        $total_days = ($end_date - $start_date) / 86400 + 1; 
+        $today = time() + 5.5 * 3600;
+        $total_days = ($end_date - $start_date) / 86400 + 1;
         $elapsed_days = ($today - $start_date) / 86400 + 1;
 
         return round(($elapsed_days / $total_days) * 100, 2);
