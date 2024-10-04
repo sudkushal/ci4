@@ -113,17 +113,17 @@ class Dashboard extends BaseController
     }
 
     private function calculateAverageMovingTime($activityModel, $startDate, $endDate, $activityTypes, $totalActivities)
-    {
-        $totalMovingTime = $activityModel->table('longest_activities AS la') // Alias 'la' for longest_activities
-        ->select('SUM(sa.moving_time)') // Select moving_time from 'sa'
-        ->join('strava_activities AS sa', 'la.activity_id = sa.activity_id') // Join using aliases
-        ->whereIn('sa.type', $activityTypes) // Filter by activity type from 'sa'
-        ->where('la.activity_date >=', $startDate) // Filter by date from 'la'
-        ->where('la.activity_date <', $endDate)  // Filter by date from 'la'
-        ->first()['SUM(sa.moving_time)'] ?? 0;
+{
+    $totalMovingTime = $activityModel->table('longest_activities AS la')
+                      ->select('SUM(sa.moving_time)')
+                      ->join('strava_activities AS sa', 'la.activity_id = sa.activity_id')
+                      ->whereIn('sa.type', $activityTypes)
+                      ->where('la.activity_date >=', $startDate) // Use 'activity_date'
+                      ->where('la.activity_date <', $endDate)  // Use 'activity_date'
+                      ->first()['SUM(sa.moving_time)'] ?? 0;
 
-        return ($totalActivities > 0) ? $totalMovingTime / $totalActivities : 0;
-    }
+    return ($totalActivities > 0) ? $totalMovingTime / $totalActivities : 0;
+}
 
     private function getLongestActivity($activityModel, $startDate, $endDate, $activityTypes)
     {
