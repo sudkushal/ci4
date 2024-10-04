@@ -20,8 +20,8 @@ class Dashboard extends BaseController
         $activityTypes = ['Walk', 'Run'];
 
         // Calculate total activities, distance, and participants
-        $totalActivities = $this->getTotalActivities($activityModel, $startDate, $endDate, $activityTypes);
-        $totalDistance = $participantModel->getTotalDistance();
+        $totalActivities = $analyticsModel->getTotalActivities($startDate, $endDate, $activityTypes);
+        $totalDistance = $analyticsModel->getTotalDistance($startDate, $endDate, $activityTypes);
         $participants = $participantModel->getActiveParticipants();
 
         // Calculate derived metrics
