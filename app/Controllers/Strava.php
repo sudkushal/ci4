@@ -96,7 +96,7 @@ class Strava extends BaseController
             $activities = [];
 
             $startDate = strtotime(AppConstants::CHALLENGE_START_DATE);
-            $endDate = strtotime(AppConstants::CHALLENGE_END_DATE);
+            $endDate = strtotime("2024-11-23");
             $newDate = strtotime("2024-08-01");
 
             do {
