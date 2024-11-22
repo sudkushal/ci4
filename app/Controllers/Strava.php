@@ -114,7 +114,7 @@ class Strava extends BaseController
                 
                     return !$isManual && 
                            $activityStartTime >= $newDate && 
-                           $activityStartTime < $endDate &&
+                           $activityStartTime <= $endDate &&
                            $activity['elapsed_time'] <= $maxAllowedTime &&
                            $activity['distance'] >= $minDistance &&
                            in_array(strtolower($activity['type']), $allowedTypes); // Check if type is allowed
