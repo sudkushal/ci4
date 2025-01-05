@@ -25,6 +25,7 @@ class Strava extends BaseController
             'scope' => 'read,activity:read_all'
         ];
         $fullUrl = $authorizeUrl . '?' . http_build_query($params);
+        echo "<pre>"; print_r($fullUrl); echo "</pre>";
         return redirect()->to($fullUrl);
     }
 
