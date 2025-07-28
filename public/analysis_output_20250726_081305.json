@@ -1,0 +1,207 @@
+{
+  "documentAnalysis": {
+    "overallAssessment": {
+      "forgeryDetected": true,
+      "confidenceScore": 0.85,
+      "summary": "Multiple signs of visual tampering detected, including a potentially pasted photograph and an overlaid signature. The document is also expired relative to the reference date."
+    },
+    "overall_verdict": {
+      "status": "FORGED",
+      "confidence": 0.85,
+      "reason": "Visual tampering detected on the primary portrait and signature. Document is expired."
+    },
+    "supporting_evidence": {
+      "evidence_points": [
+        "Primary portrait shows signs of being a pasted image (inconsistent edges, lighting, texture).",
+        "Signature 'R.S. Lakshan' appears to be digitally overlaid or added, showing ink density and integration inconsistencies.",
+        "Document expired on 10/10/2021, which is prior to the reference date 2025-07-26.",
+        "Low image quality and potential screen capture artifacts (glare, moire patterns).",
+        "Inconsistent compression artifacts suggest re-processing or manipulation.",
+        "Faint ghost image, difficult to verify consistency with primary photo due to image quality and potential tampering."
+      ],
+      "recommendation": "Further manual forensic examination is recommended to confirm the nature and extent of tampering, especially regarding the photo and signature."
+    },
+    "section_1_overview_red_flags": {
+      "classification_details": {
+        "type": "Passport",
+        "country_origin": "India",
+        "language": "English, Hindi",
+        "contextual_consistency": "Consistent with an Indian passport template, but content shows anomalies."
+      },
+      "layout_coherence": {
+        "consistent_layout": false,
+        "alignment_issues": "Signature block appears misaligned or overlaid.",
+        "margin_deviations": "Minor deviations around the document edges, possibly from scanning/cropping."
+      },
+      "completeness_check": {
+        "all_fields_present": true,
+        "obscured_areas": "None, but signature area is suspicious."
+      }
+    },
+    "section_2_image_forensics": {
+      "screen_capture_detection": {
+        "screen_capture_suspected": true,
+        "glare_patterns": "Visible glare/hotspots, especially on the right side and near the photo.",
+        "moire_patterns": "Possible faint moire patterns, indicative of scanning a screen or printed material.",
+        "reflection_details": "General reflections consistent with a photo of a physical document or screen."
+      },
+      "multiple_image_detection": {
+        "detected": false,
+        "details": null
+      },
+      "pasted_image_analysis": {
+        "pasted_image_suspected": true,
+        "confidence_score": 0.75,
+        "suspicious_areas": [
+          "Primary portrait",
+          "Signature area"
+        ],
+        "lighting_consistency": "Slight inconsistency in lighting between the primary portrait and the document background.",
+        "texture_consistency": "Texture around the photo edges appears slightly different from the document paper.",
+        "edge_analysis_details": "Edges of the primary portrait appear unnaturally sharp or cut, not seamlessly integrated."
+      },
+      "compression_analysis": {
+        "double_compression_detected": true,
+        "inconsistent_compression": true,
+        "artifact_details": "Visible JPEG compression artifacts, blockiness, and blur, suggesting multiple compression cycles."
+      },
+      "noise_analysis": {
+        "inconsistent_noise_detected": true,
+        "noise_pattern_details": "Noise levels appear higher and less uniform in certain areas, particularly around text and the photo, suggesting manipulation."
+      },
+      "ela_inference": {
+        "ela_anomalies_detected": true,
+        "ela_anomaly_details": "Likely ELA anomalies around the photo and signature, indicating areas of different compression history.",
+        "suspicious_regions": [
+          "Primary portrait",
+          "Signature area"
+        ]
+      },
+      "cloning_detection": {
+        "cloned_elements_detected": false,
+        "cloned_element_details": null,
+        "repeated_patterns": []
+      },
+      "lighting_consistency": {
+        "inconsistent_lighting_detected": true,
+        "shadow_mismatch_details": "No distinct shadows to analyze, but overall illumination on the photo differs slightly.",
+        "light_source_discrepancies": "Implied different light sources for the photo vs. document."
+      },
+      "color_consistency": {
+        "color_profile_mismatch": false,
+        "white_balance_inconsistencies": "Overall white balance seems consistent, but photo colors might be slightly off."
+      },
+      "resampling_artifacts": {
+        "resampling_detected": true,
+        "scaling_discrepancies": "Blur and pixelation suggest image has been scaled or resampled."
+      },
+      "general_visual_tampering": {
+        "general_manipulation_signs": true,
+        "details": "Overall low quality, suspicious photo integration, and overlaid signature are strong indicators of manipulation."
+      }
+    },
+    "section_3_textual_forensics": {
+      "ocr_results": {
+        "extracted_text": "भारत गणराज्य REPUBLIC OF INDIA\nटाइप / Type P राष्ट्र कोड / Country Code IND पासपोर्ट नं. / Passport No. J8369854\nउपनाम / Surname DOE\nदिया गया नाम / Given Name(s)\nJOCELYN MICHELLE\nराष्ट्रीयता / Nationality लिंग / Sex जन्मतिथि / Date of Birth\nINDIAN F 23/09/1959\nजन्म स्थान / Place of Birth\nGUNDUGOLANU\nजारी करने का स्थान / Place of Issue\nHYDERABAD\nजारी करने की तिथि / Date of Issue समाप्ति की तिथि / Date of Expiry\n11/10/2011 10/10/2021\nR.S. Lakshan\nP<DOE<<JOCELYN<MICHELLE<<<<<<<<<<<<<<<<<<<<<<<<<<<<\nJ8369854<4IND5909234F2110101<<<<<<<<<<<<<<<<<<<<<<<<8",
+        "extracted_structured_data": {
+          "type": "P",
+          "country_code": "IND",
+          "passport_no": "J8369854",
+          "surname": "DOE",
+          "given_names": "JOCELYN MICHELLE",
+          "nationality": "INDIAN",
+          "sex": "F",
+          "date_of_birth": "23/09/1959",
+          "place_of_birth": "GUNDUGOLANU",
+          "place_of_issue": "HYDERABAD",
+          "date_of_issue": "11/10/2011",
+          "date_of_expiry": "10/10/2021",
+          "signature": "R.S. Lakshan"
+        },
+        "ocr_confidence": 0.9,
+        "unreadable_areas": []
+      },
+      "date_time_interpretation": {
+        "future_dates_detected": false,
+        "future_date_details": null,
+        "metadata_ocr_date_mismatches": false,
+        "metadata_ocr_date_mismatch_details": null,
+        "chronological_inconsistencies": false,
+        "chronological_inconsistencies_details": null,
+        "time_zone_discrepancies": false
+      },
+      "font_consistency": {
+        "inconsistencies_detected": true,
+        "font_details": "Printed text fonts appear consistent. However, the handwritten signature 'R.S. Lakshan' shows characteristics of a digitally added font or overlay, inconsistent with natural ink.",
+        "kerning_anomalies": "Minor kerning inconsistencies in some printed text, but more pronounced in the overlaid signature.",
+        "anti_aliasing_variations": "Variations in anti-aliasing, especially between the main document text and the signature, suggesting different rendering or source."
+      },
+      "text_replacement_detection": {
+        "text_overlaid_suspected": true,
+        "ink_density_mismatch": "Signature 'R.S. Lakshan' shows ink density and texture inconsistent with other printed elements, suggesting it's an overlay."
+      },
+      "language_errors": {
+        "spelling_errors": [],
+        "grammar_errors": []
+      }
+    },
+    "section_4_metadata_data_logic": {
+      "metadata_presence_analysis": {
+        "metadata_present_in_file": false,
+        "extraction_error": "No metadata found in the provided file.",
+        "full_metadata_dump": {}
+      },
+      "metadata_ocr_date_comparison": {
+        "discrepancy_detected": false,
+        "comparison_details": "No file metadata available for comparison."
+      },
+      "timestamp_validity": {
+        "future_dates_detected": false,
+        "future_date_details": null,
+        "chronological_inconsistencies": true,
+        "timestamp_realism": "Document expired on 10/10/2021, which is before the reference date of 2025-07-26. This indicates the document is no longer valid."
+      },
+      "software_origin_anomaly": {
+        "anomaly_detected": false,
+        "metadata_software": null,
+        "visual_software_indication": null,
+        "discrepancy_details": null
+      },
+      "checksum_validation": {
+        "pattern_valid": true,
+        "checksum_consistent": true,
+        "details_if_invalid": null
+      }
+    },
+    "section_5_photographic_biometric_authenticity": {
+      "primary_portrait_analysis": {
+        "real_photo_likelihood": 0.6,
+        "pasted_image_indicators": true,
+        "liveness_indicators": "Static image, no liveness indicators.",
+        "screen_capture_signs": true,
+        "deepfake_artifacts": false,
+        "lighting_mismatch_detected": true,
+        "physical_tampering_signs": true,
+        "detailed_observations": "The photo's edges are sharp and distinct from the background, suggesting it was cut and pasted or digitally inserted. Lighting on the face appears slightly different from the document's ambient light."
+      },
+      "ghost_image_analysis": {
+        "expected": true,
+        "detected": true,
+        "consistency_with_primary": "Faintly visible, but its consistency with the primary photo is difficult to ascertain due to image quality and the primary photo's suspicious nature.",
+        "integration_realistic": "Appears somewhat integrated, but its faintness and the overall image quality make a definitive assessment difficult.",
+        "security_feature_interaction_consistent": "Cannot definitively assess interaction with security features due to image quality.",
+        "detailed_observations": "A faint ghost image is present behind the 'Nationality' and 'Sex' fields, as expected for an Indian passport. However, its clarity and integration are compromised by the overall image quality and potential tampering of the primary photo."
+      },
+      "overall_photo_integrity": {
+        "consistent": false,
+        "discrepancy_summary": "The primary portrait shows strong indicators of being a pasted or digitally inserted image, with inconsistent lighting and integration. The ghost image is present but its authenticity cannot be fully verified due to image quality."
+      },
+      "age_estimation_consistency": {
+        "estimated_age_range": "60-70 years",
+        "stated_age_ocr": "65 years (as of 2025-07-26, based on 23/09/1959 DOB)",
+        "age_inconsistency_detected": false,
+        "details": "The estimated age range of the person in the photo is consistent with the stated date of birth (23/09/1959)."
+      }
+    }
+  }
+}
