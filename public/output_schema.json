@@ -1,0 +1,407 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/document_analysis.schema.json",
+  "title": "DocumentAnalysis",
+  "type": "object",
+  "properties": {
+    "documentAnalysis": {
+      "type": "object",
+      "properties": {
+        "overallAssessment": {
+          "type": "object",
+          "properties": {
+            "forgeryDetected": { "type": "boolean" },
+            "confidenceScore": { "type": "number", "minimum": 0, "maximum": 1 },
+            "summary": { "type": "string" }
+          },
+          "required": ["forgeryDetected", "confidenceScore", "summary"]
+        },
+        "overall_verdict": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string", "enum": ["UNDEFINED", "AUTHENTIC", "FORGED", "SUSPICIOUS", "INCONCLUSIVE"] },
+            "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+            "reason": { "type": ["string", "null"] }          }
+        },
+        "supporting_evidence": {
+          "type": "object",
+          "properties": {
+            "evidence_points": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "recommendation": { "type": ["string", "null"] }
+          }
+        },
+        "section_1_overview_red_flags": {
+          "type": "object",
+          "properties": {
+            "classification_details": {
+              "type": "object",
+              "properties": {
+                "type": { "type": ["string", "null"] },
+                "country_origin": { "type": ["string", "null"] },
+                "language": { "type": ["string", "null"] },
+                "contextual_consistency": { "type": ["string", "null"] }
+              }
+            },
+            "layout_coherence": {
+              "type": "object",
+              "properties": {
+                "consistent_layout": { "type": ["boolean", "null"] },
+                "alignment_issues": { "type": ["string", "null"] },
+                "margin_deviations": { "type": ["string", "null"] }
+              }
+            },
+            "completeness_check": {
+              "type": "object",
+              "properties": {
+                "all_fields_present": { "type": ["boolean", "null"] },
+                "obscured_areas": { "type": ["string", "null"] }
+              }
+            }
+          }
+        },
+        "section_2_image_forensics": {
+          "type": "object",
+          "properties": {
+            "screen_capture_detection": {
+              "type": "object",
+              "properties": {
+                "screen_capture_suspected": { "type": "boolean" },
+                "glare_patterns": { "type": ["string", "null"] },
+                "moire_patterns": { "type": ["string", "null"] },
+                "reflection_details": { "type": ["string", "null"] }
+              }
+            },
+            "multiple_image_detection": {
+              "type": "object",
+              "properties": {
+                "detected": { "type": "boolean" },
+                "details": { "type": ["string", "null"] }
+              }
+            },
+            "pasted_image_analysis": {
+              "type": "object",
+              "properties": {
+                "pasted_image_suspected": { "type": "boolean" },
+                "confidence_score": { "type": "number", "minimum": 0, "maximum": 1 },
+                "suspicious_areas": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "lighting_consistency": { "type": ["string", "null"] },
+                "texture_consistency": { "type": ["string", "null"] },
+                "edge_analysis_details": { "type": ["string", "null"] }
+              }
+            },
+            "compression_analysis": {
+              "type": "object",
+              "properties": {
+                "double_compression_detected": { "type": "boolean" },
+                "inconsistent_compression": { "type": "boolean" },
+                "artifact_details": { "type": ["string", "null"] }
+              }
+            },
+            "noise_analysis": {
+              "type": "object",
+              "properties": {
+                "inconsistent_noise_detected": { "type": "boolean" },
+                "noise_pattern_details": { "type": ["string", "null"] }
+              }
+            },
+            "ela_inference": {
+              "type": "object",
+              "properties": {
+                "ela_anomalies_detected": { "type": "boolean" },
+                "ela_anomaly_details": { "type": ["string", "null"] },
+                "suspicious_regions": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            },
+            "cloning_detection": {
+              "type": "object",
+              "properties": {
+                "cloned_elements_detected": { "type": "boolean" },
+                "cloned_element_details": { "type": ["string", "null"] },
+                "repeated_patterns": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            },
+            "lighting_consistency": {
+              "type": "object",
+              "properties": {
+                "inconsistent_lighting_detected": { "type": "boolean" },
+                "shadow_mismatch_details": { "type": ["string", "null"] },
+                "light_source_discrepancies": { "type": ["string", "null"] }
+              }
+            },
+            "color_consistency": {
+              "type": "object",
+              "properties": {
+                "color_profile_mismatch": { "type": "boolean" },
+                "white_balance_inconsistencies": { "type": ["string", "null"] }
+              }
+            },
+            "resampling_artifacts": {
+              "type": "object",
+              "properties": {
+                "resampling_detected": { "type": "boolean" },
+                "scaling_discrepancies": { "type": ["string", "null"] }
+              }
+            },
+            "general_visual_tampering": {
+              "type": "object",
+              "properties": {
+                "general_manipulation_signs": { "type": "boolean" },
+                "details": { "type": ["string", "null"] }
+              }
+            },
+            "sensor_pattern_noise_analysis": {
+              "type": "object",
+              "properties": {
+                "spn_extracted": { "type": "boolean" },
+                "spn_matched_source": { "type": ["string", "null"] },
+                "spn_consistency": { "type": "boolean" },
+                "details": { "type": ["string", "null"] }
+              }
+            },
+            "lens_artifact_analysis": {
+              "type": "object",
+              "properties": {
+                "distortion_inconsistencies_detected": { "type": "boolean" },
+                "chromatic_aberration_anomalies": { "type": "boolean" },
+                "details": { "type": ["string", "null"] }
+              }
+            },
+            "jpeg_quantization_table_analysis": {
+              "type": "object",
+              "properties": {
+                "inconsistent_q_tables": { "type": "boolean" },
+                "q_table_details": { "type": ["string", "null"] }
+              }
+            }
+          }
+        },
+        "section_3_textual_forensics": {
+          "type": "object",
+          "properties": {
+            "ocr_results": {
+              "type": "object",
+              "properties": {
+                "extracted_text": { "type": ["string", "null"] },
+                "extracted_structured_data": { "type": "object" },
+                "ocr_confidence": { "type": ["number", "null"] },
+                "unreadable_areas": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            },
+            "date_time_interpretation": {
+              "type": "object",
+              "properties": {
+                "future_dates_detected": { "type": "boolean" },
+                "future_date_details": { "type": ["string", "null"] },
+                "metadata_ocr_date_mismatches": { "type": "boolean" },
+                "metadata_ocr_date_mismatch_details": { "type": ["string", "null"] },
+                "chronological_inconsistencies": { "type": "boolean" },
+                "chronological_inconsistencies_details": { "type": ["string", "null"] },
+                "time_zone_discrepancies": { "type": "boolean" }
+              }
+            },
+            "font_consistency": {
+              "type": "object",
+              "properties": {
+                "inconsistencies_detected": { "type": "boolean" },
+                "font_details": { "type": ["string", "null"] },
+                "kerning_anomalies": { "type": ["string", "null"] },
+                "anti_aliasing_variations": { "type": ["string", "null"] }
+              }
+            },
+            "text_replacement_detection": {
+              "type": "object",
+              "properties": {
+                "text_overlaid_suspected": { "type": "boolean" },
+                "ink_density_mismatch": { "type": ["string", "null"] }
+              }
+            },
+            "language_errors": {
+              "type": "object",
+              "properties": {
+                "spelling_errors": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "grammar_errors": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            },
+            "sub_pixel_rendering_analysis": {
+              "type": "object",
+              "properties": {
+                "s_p_r_inconsistencies_detected": { "type": "boolean" },
+                "s_p_r_details": { "type": ["string", "null"] }
+              }
+            },
+            "print_scan_forensics": {
+              "type": "object",
+              "properties": {
+                "printer_identification_marks": { "type": ["string", "null"] },
+                "scanner_noise_patterns_consistent": { "type": ["boolean", "null"] },
+                "details": { "type": ["string", "null"] }
+              }
+            },
+            "semantic_consistency_with_data_points": {
+              "type": "object",
+              "properties": {
+                "inconsistency_detected": { "type": "boolean" },
+                "details": { "type": ["string", "null"] }
+              }
+            }
+          }
+        },
+        "section_4_metadata_data_logic": {
+          "type": "object",
+          "properties": {
+            "metadata_presence_analysis": {
+              "type": "object",
+              "properties": {
+                "metadata_present_in_file": { "type": "boolean" },
+                "extraction_error": { "type": ["string", "null"] },
+                "full_metadata_dump": { "type": "object" }
+              }
+            },
+            "metadata_ocr_date_comparison": {
+              "type": "object",
+              "properties": {
+                "discrepancy_detected": { "type": "boolean" },
+                "comparison_details": { "type": ["string", "null"] }
+              }
+            },
+            "timestamp_validity": {
+              "type": "object",
+              "properties": {
+                "future_dates_detected": { "type": "boolean" },
+                "future_date_details": { "type": ["string", "null"] },
+                "chronological_inconsistencies": { "type": "boolean" },
+                "timestamp_realism": { "type": ["string", "null"] },
+                "backward_time_travel_suspected": { "type": ["boolean", "null"] }
+              }
+            },
+            "software_origin_anomaly": {
+              "type": "object",
+              "properties": {
+                "anomaly_detected": { "type": "boolean" },
+                "metadata_software": { "type": ["string", "null"] },
+                "visual_software_indication": { "type": ["string", "null"] },
+                "discrepancy_details": { "type": ["string", "null"] }
+              }
+            },
+            "checksum_validation": {
+              "type": "object",
+              "properties": {
+                "pattern_valid": { "type": ["boolean", "null"] },
+                "checksum_consistent": { "type": ["boolean", "null"] },
+                "details_if_invalid": { "type": ["string", "null"] }
+              }
+            },
+            "file_structure_integrity": {
+              "type": "object",
+              "properties": {
+                "format_compliance_issues": { "type": "boolean" },
+                "structural_anomaly_details": { "type": ["string", "null"] }
+              }
+            },
+            "hidden_content_detection": {
+              "type": "object",
+              "properties": {
+                "hidden_layers_detected": { "type": "boolean" },
+                "hidden_text_detected": { "type": "boolean" },
+                "object_stream_anomalies": { "type": "boolean" },
+                "details": { "type": ["string", "null"] }
+              }
+            }
+          }
+        },
+        "section_5_photographic_biometric_authenticity": {
+          "type": "object",
+          "properties": {
+            "primary_portrait_analysis": {
+              "type": "object",
+              "properties": {
+                "real_photo_likelihood": { "type": ["number", "null"] },
+                "pasted_image_indicators": { "type": "boolean" },
+                "liveness_indicators": { "type": ["string", "null"] },
+                "screen_capture_signs": { "type": "boolean" },
+                "deepfake_artifacts": { "type": "boolean" },
+                "lighting_mismatch_detected": { "type": "boolean" },
+                "physical_tampering_signs": { "type": "boolean" },
+                "detailed_observations": { "type": ["string", "null"] }
+              }
+            },
+            "ghost_image_analysis": {
+              "type": "object",
+              "properties": {
+                "expected": { "type": "boolean" },
+                "detected": { "type": "boolean" },
+                "consistency_with_primary": { "type": ["string", "null"] },
+                "integration_realistic": { "type": ["string", "null"] },
+                "security_feature_interaction_consistent": { "type": ["string", "null"] },
+                "detailed_observations": { "type": ["string", "null"] }
+              }
+            },
+            "overall_photo_integrity": {
+              "type": "object",
+              "properties": {
+                "consistent": { "type": ["boolean", "null"] },
+                "discrepancy_summary": { "type": ["string", "null"] }
+              }
+            },
+            "age_estimation_consistency": {
+              "type": "object",
+              "properties": {
+                "estimated_age_range": { "type": ["string", "null"] },
+                "stated_age_ocr": { "type": ["string", "null"] },
+                "age_inconsistency_detected": { "type": "boolean" },
+                "details": { "type": ["string", "null"] }
+              }
+            },
+            "face_swap_detection": {
+              "type": "object",
+              "properties": {
+                "face_swap_suspected": { "type": "boolean" },
+                "alignment_inconsistencies": { "type": ["string", "null"] },
+                "skin_tone_mismatch": { "type": ["string", "null"] }
+              }
+            },
+            "physical_photo_alteration_signs": {
+              "type": "object",
+              "properties": {
+                "physical_tampering_details": { "type": ["string", "null"] }
+              }
+            }
+          }
+        },
+        "document_specific_security_features": {
+          "type": "object",
+          "properties": {
+            "hologram_anomalies": { "type": ["boolean", "null"] },
+            "microprint_anomalies": { "type": ["boolean", "null"] },
+            "uv_feature_consistency": { "type": ["boolean", "null"] },
+            "physical_security_layer_integrity": { "type": ["boolean", "null"] },
+            "details": { "type": ["string", "null"] }
+          }
+        }
+      },
+      "required": ["overallAssessment"]
+    }
+  },
+  "required": ["documentAnalysis"]
+}

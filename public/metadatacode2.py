@@ -1,5 +1,3 @@
-# document_analyzer.py
-
 import google.generativeai as genai
 import os
 import base64
@@ -106,7 +104,8 @@ def encode_file_to_base64(file_path: Path) -> str:
 
 def analyze_document(api_key: str, file_path: str, context: str = "",
                      prompt_template_path: str = "prompt.txt",
-                     output_schema_path: str = "output_schema.json") -> Optional[dict]:
+                     output_schema_path: str = "output_schema.json",
+                     sensitivity_level: int = 5) -> Optional[dict]: # Added sensitivity_level parameter
     """
     Analyzes a document (image or PDF) using the Gemini API for forgery detection.
     Extracts metadata, prepares the prompt, sends the request, and parses the response.
@@ -160,7 +159,8 @@ def analyze_document(api_key: str, file_path: str, context: str = "",
     full_prompt = prompt_template.format(
         current_date_for_comparison=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S IST"),
         metadata_json_string=json.dumps(metadata, indent=2),
-        JSON_OUTPUT_FORMAT_TEMPLATE=output_schema
+        JSON_OUTPUT_FORMAT_TEMPLATE=output_schema,
+        sensitivity_level=sensitivity_level # Pass sensitivity level to the prompt
     )
 
     model = genai.GenerativeModel("gemini-2.5-flash")
@@ -238,6 +238,9 @@ def main():
     parser.add_argument("-c", "--context", default="", help="Optional context for the AI (e.g., 'Indian Passport')")
     parser.add_argument("-p", "--prompt-template", default="prompt.txt", help="Path to the prompt template file")
     parser.add_argument("-s", "--output-schema", default="output_schema.json", help="Path to the output JSON schema file")
+    # Added the --sensitivity argument
+    parser.add_argument("--sensitivity", type=int, default=5, choices=range(0, 11), metavar="[0-10]",
+                        help="Sensitivity level for forgery detection (0=lenient, 10=harsh/critical). Default is 5.")
 
     args = parser.parse_args()
     api_key = args.api_key or os.getenv("GEMINI_API_KEY")
@@ -247,8 +250,10 @@ def main():
         return
 
     try:
-        # Call the document analysis function
-        result = analyze_document(api_key, args.file_path, args.context, args.prompt_template, args.output_schema)
+        # Call the document analysis function, passing the sensitivity level
+        result = analyze_document(api_key, args.file_path, args.context,
+                                  args.prompt_template, args.output_schema,
+                                  args.sensitivity)
     except (FileNotFoundError, IsADirectoryError, ValueError, RuntimeError) as e:
         # Catch and report specific errors related to file handling or unsupported formats
         print(f"An error occurred during document analysis setup: {e}", file=sys.stderr)
