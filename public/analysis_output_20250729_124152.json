@@ -1,0 +1,213 @@
+{
+  "documentAnalysis": {
+    "overallAssessment": {
+      "forgeryDetected": true,
+      "confidenceScore": 0.99,
+      "summary": "The document is highly suspicious and shows clear signs of forgery. The most prominent evidence is the presence of a well-known celebrity's (Sylvester Stallone) photograph on a Bulgarian passport, which is a definitive indicator of image manipulation. Additionally, the file metadata indicates the image was processed with 'paint.net', a consumer-grade image editor, further supporting the manipulation claim. While the document layout appears superficially consistent, the core identity element (the photo) is fraudulent."
+    },
+    "overall_verdict": {
+      "sensitivity_rating": 10,
+      "status": "FORGED",
+      "confidence": 0.99,
+      "reason": "The primary portrait on the passport is clearly that of Sylvester Stallone, a famous actor, which is inconsistent with a genuine Bulgarian passport holder. The image metadata also indicates processing by 'paint.net', a common image editing software, suggesting digital manipulation."
+    },
+    "supporting_evidence": {
+      "evidence_points": [
+        "Primary portrait is of Sylvester Stallone, a well-known celebrity, not a typical passport holder.",
+        "File metadata indicates 'Software: paint.net 4.2.15', a consumer-grade image editor, highly suspicious for an authentic document scan/photo.",
+        "Visual inspection of the portrait suggests it is a pasted or digitally inserted image due to potential lighting and resolution inconsistencies compared to the document background.",
+        "The document's expiry date (30.03.2021) is in the past relative to the reference date (2025-07-29), indicating an expired document, but this does not negate the forgery of the identity itself."
+      ],
+      "recommendation": "The document should be rejected immediately due to clear evidence of identity forgery. Further investigation into the source of this document is recommended."
+    },
+    "section_1_overview_red_flags": {
+      "classification_details": {
+        "type": "Passport",
+        "country_origin": "Bulgaria",
+        "language": "Bulgarian, English",
+        "contextual_consistency": "Highly inconsistent due to the celebrity photo. The document type and country are identifiable, but the content is fraudulent."
+      },
+      "layout_coherence": {
+        "consistent_layout": true,
+        "alignment_issues": "None apparent in the general layout, but the inserted photo's alignment might be slightly off.",
+        "margin_deviations": "None apparent."
+      },
+      "completeness_check": {
+        "all_fields_present": true,
+        "obscured_areas": "Some personal details (e.g., signature, personal ID number) are intentionally blurred/pixelated in the provided image, but the core fields are visible."
+      }
+    },
+    "section_2_image_forensics": {
+      "screen_capture_detection": {
+        "screen_capture_suspected": false,
+        "glare_patterns": "Minor reflections/glare are visible, consistent with a photo of a physical document, but not strong indicators of screen capture.",
+        "moire_patterns": null,
+        "reflection_details": "Subtle reflections on the document surface, particularly near the top right."
+      },
+      "multiple_image_detection": {
+        "detected": true,
+        "details": "The primary portrait (Sylvester Stallone) is clearly a foreign element inserted into the document image."
+      },
+      "pasted_image_analysis": {
+        "pasted_image_suspected": true,
+        "confidence_score": 0.95,
+        "suspicious_areas": [
+          "Primary portrait area (Sylvester Stallone's photo)"
+        ],
+        "lighting_consistency": "The lighting on Sylvester Stallone's face appears slightly different from the ambient lighting of the passport page, suggesting it was taken under different conditions or digitally altered.",
+        "texture_consistency": "The texture and resolution of the portrait appear slightly different from the surrounding document print, indicating a potential digital insertion.",
+        "edge_analysis_details": "Edges of the portrait show some signs of digital manipulation, possibly slight blurring or pixelation inconsistent with a directly printed photo."
+      },
+      "compression_analysis": {
+        "double_compression_detected": true,
+        "inconsistent_compression": true,
+        "artifact_details": "The presence of 'paint.net' in metadata strongly suggests re-saving and re-compression. Visual artifacts consistent with JPEG re-compression are visible, particularly around the inserted photo."
+      },
+      "noise_analysis": {
+        "inconsistent_noise_detected": true,
+        "noise_pattern_details": "The noise pattern in the portrait area appears different from the background of the passport, suggesting separate origins or manipulation."
+      },
+      "ela_inference": {
+        "ela_anomalies_detected": true,
+        "ela_anomaly_details": "Expected to show significant differences in error levels between the original document background and the inserted portrait, indicating manipulation.",
+        "suspicious_regions": [
+          "Primary portrait area"
+        ]
+      },
+      "cloning_detection": {
+        "cloned_elements_detected": false,
+        "cloned_element_details": null,
+        "repeated_patterns": []
+      },
+      "lighting_consistency": {
+        "inconsistent_lighting_detected": true,
+        "shadow_mismatch_details": "No distinct shadows to analyze for mismatch, but overall illumination on the face differs from the document.",
+        "light_source_discrepancies": "The light source on the portrait subject appears to be from a different direction or intensity than the light illuminating the passport page."
+      },
+      "color_consistency": {
+        "color_profile_mismatch": true,
+        "white_balance_inconsistencies": "The white balance of the portrait seems slightly off compared to the document background, contributing to the 'pasted' look."
+      },
+      "resampling_artifacts": {
+        "resampling_detected": true,
+        "scaling_discrepancies": "The portrait appears to have been scaled to fit the passport photo slot, potentially introducing resampling artifacts."
+      },
+      "general_visual_tampering": {
+        "general_manipulation_signs": true,
+        "details": "The most obvious sign is the celebrity photo. Other subtle signs include inconsistent image quality and potential edge artifacts around the photo."
+      }
+    },
+    "section_3_textual_forensics": {
+      "ocr_results": {
+        "extracted_text": "ПАСПОРТ\nPASSPORT\nРЕПУБЛИКА БЪЛГАРИЯ REPUBLIC OF BULGARIA\nType/Type P\nКод/Code BGR\nNo/No 383982655\nСТАЛОУН\nSTALLONE\nСИЛВЕСТЪР ЕНЦИО\nSYLVESTER ENZIO\nБЪЛГАРИЯ / BULGARIA\nDate of birth\n27.07.1957\nM/M\nDate of issue\n30.03.2016\nDate of expiry\n30.03.2021\nPersonal identifying number\n5707273453\nPlace of birth\nСОФИЯ\nSIOFIA\nAuthority\nМВР София\nMol BGR\nHolder's signature\nP<BGRSTALLONE<<SYLVESTER<<<<<<<<<<<<<<<<<<<<<<<<\n3839826559BGR5707272M21033025707273453<<<<<<<<<<10",
+        "extracted_structured_data": {
+          "document_type": "Passport",
+          "country": "Bulgaria",
+          "passport_number": "383982655",
+          "surname": "STALLONE",
+          "given_names": "SYLVESTER ENZIO",
+          "nationality": "Bulgaria",
+          "date_of_birth": "27.07.1957",
+          "sex": "M",
+          "date_of_issue": "30.03.2016",
+          "date_of_expiry": "30.03.2021",
+          "personal_id_number": "5707273453",
+          "place_of_birth": "SOFIA",
+          "issuing_authority": "Mol BGR"
+        },
+        "ocr_confidence": 0.98,
+        "unreadable_areas": [
+          "Holder's signature (blurred)",
+          "Top right corner of the document (blurred)"
+        ]
+      },
+      "date_time_interpretation": {
+        "future_dates_detected": false,
+        "future_date_details": null,
+        "metadata_ocr_date_mismatches": false,
+        "metadata_ocr_date_mismatch_details": "No date information available in the provided file metadata for comparison.",
+        "chronological_inconsistencies": false,
+        "chronological_inconsistencies_details": "Dates (DOB, Issue, Expiry) are chronologically consistent: DOB (1957) < Issue (2016) < Expiry (2021).",
+        "time_zone_discrepancies": false
+      },
+      "font_consistency": {
+        "inconsistencies_detected": false,
+        "font_details": "Fonts appear generally consistent with a standard Bulgarian passport, no obvious font changes in the printed text fields.",
+        "kerning_anomalies": null,
+        "anti_aliasing_variations": null
+      },
+      "text_replacement_detection": {
+        "text_overlaid_suspected": false,
+        "ink_density_mismatch": null
+      },
+      "language_errors": {
+        "spelling_errors": [],
+        "grammar_errors": []
+      }
+    },
+    "section_4_metadata_data_logic": {
+      "metadata_presence_analysis": {
+        "metadata_present_in_file": true,
+        "extraction_error": null,
+        "full_metadata_dump": {
+          "metadataPresent": true,
+          "ResolutionUnit": "2",
+          "Software": "paint.net 4.2.15",
+          "XResolution": "96.0",
+          "YResolution": "96.0"
+        }
+      },
+      "metadata_ocr_date_comparison": {
+        "discrepancy_detected": false,
+        "comparison_details": "No date information available in the provided file metadata to compare with OCR extracted dates."
+      },
+      "timestamp_validity": {
+        "future_dates_detected": false,
+        "future_date_details": null,
+        "chronological_inconsistencies": false,
+        "timestamp_realism": "No creation/modification timestamps available in the provided metadata for analysis."
+      },
+      "software_origin_anomaly": {
+        "anomaly_detected": true,
+        "metadata_software": "paint.net 4.2.15",
+        "visual_software_indication": "The visual quality of the image, particularly the inserted photo, is consistent with processing in a consumer-grade image editor.",
+        "discrepancy_details": "The presence of 'paint.net' as the software origin is highly anomalous for an authentic scan or photograph of an official document. This software is commonly used for image editing and manipulation, not for official document capture."
+      },
+      "checksum_validation": {
+        "pattern_valid": null,
+        "checksum_consistent": null,
+        "details_if_invalid": "No checksums or specific patterns (like MRZ checksums) were provided for validation."
+      }
+    },
+    "section_5_photographic_biometric_authenticity": {
+      "primary_portrait_analysis": {
+        "real_photo_likelihood": 0.01,
+        "pasted_image_indicators": true,
+        "liveness_indicators": "Not applicable for a static image, but the subject is a known celebrity.",
+        "screen_capture_signs": false,
+        "deepfake_artifacts": false,
+        "lighting_mismatch_detected": true,
+        "physical_tampering_signs": false,
+        "detailed_observations": "The photo is unequivocally of Sylvester Stallone. This is the most significant indicator of forgery. The image quality of the portrait is slightly lower and appears digitally inserted rather than an original part of the document."
+      },
+      "ghost_image_analysis": {
+        "expected": false,
+        "detected": false,
+        "consistency_with_primary": null,
+        "integration_realistic": null,
+        "security_feature_interaction_consistent": null,
+        "detailed_observations": "No ghost image is typically expected or visible on this type of passport page."
+      },
+      "overall_photo_integrity": {
+        "consistent": false,
+        "discrepancy_summary": "The photo's subject (Sylvester Stallone) is entirely inconsistent with a genuine passport holder. The photo itself shows signs of digital insertion and inconsistent lighting/quality compared to the rest of the document."
+      },
+      "age_estimation_consistency": {
+        "estimated_age_range": "60s-70s (based on Stallone's appearance in the photo)",
+        "stated_age_ocr": "Born 1957, so 68 years old as of 2025-07-29.",
+        "age_inconsistency_detected": false,
+        "details": "While the photo is of a celebrity, the apparent age of Sylvester Stallone in the photo is broadly consistent with his stated birth year (1957). The inconsistency is *who* is in the photo, not their age."
+      }
+    }
+  }
+}
