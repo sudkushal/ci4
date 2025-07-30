@@ -3,8 +3,8 @@ import os
 import base64
 import json
 from PIL import Image, ExifTags
-from PyPDF2 import PdfReader
-from PyPDF2.errors import PdfReadError
+# from PyPDF2 import PdfReader # Remove this line
+# from PyPDF2.errors import PdfReadError # Remove this line
 import argparse
 import datetime
 import mimetypes
@@ -13,6 +13,12 @@ from pathlib import Path
 from typing import Optional
 import re
 import sys
+
+# Import necessary components from pdfminer.six
+from pdfminer.pdfparser import PDFParser
+from pdfminer.pdfdocument import PDFDocument
+from pdfminer.pdfpage import PDFPage # To get page count if needed
+from pdfminer.pdftypes import resolve1 # To resolve PDF object references
 
 def load_file_content(file_path: Path) -> str:
     """
@@ -30,6 +36,7 @@ def get_image_metadata(image_path: Path) -> dict:
     """
     Extracts EXIF metadata from an image file.
     Handles various data types and potential decoding errors.
+    Parses common date formats for consistency.
     """
     metadata = {"metadataPresent": False}
     try:
@@ -48,6 +55,20 @@ def get_image_metadata(image_path: Path) -> dict:
                             # If decoding fails, skip this value to prevent errors
                             continue
                     
+                    # --- START MODIFICATION ---
+                    # Special handling for EXIF DateTime, DateTimeOriginal, DateTimeDigitized
+                    # These often use 'YYYY:MM:DD HH:MM:SS' format
+                    if tag in ["DateTime", "DateTimeOriginal", "DateTimeDigitized"] and isinstance(value, str):
+                        try:
+                            # Attempt to parse EXIF date format (YYYY:MM:DD HH:MM:SS)
+                            parsed_date = datetime.datetime.strptime(value, "%Y:%m:%d %H:%M:%S")
+                            value = parsed_date.isoformat() # Convert to ISO format for consistent comparison
+                        except ValueError:
+                            # If parsing fails, keep the original string and let the AI handle it,
+                            # or you could log a warning.
+                            pass # Keep original value if format doesn't match
+                    # --- END MODIFICATION ---
+
                     # Special handling for GPSInfo, which is a nested structure
                     if tag == "GPSInfo" and isinstance(value, Mapping):
                         gps_info = {}
@@ -66,27 +87,65 @@ def get_image_metadata(image_path: Path) -> dict:
 
 def get_pdf_metadata(pdf_path: Path) -> dict:
     """
-    Extracts metadata from a PDF file using PyPDF2.
+    Extracts metadata from a PDF file using pdfminer.six.
     Handles PDF-specific errors and ensures data is JSON serializable.
     """
     metadata = {"metadataPresent": False}
     try:
-        with open(pdf_path, 'rb') as f:
-            reader = PdfReader(f)
-            doc_info = reader.metadata
-            if doc_info:
-                metadata["metadataPresent"] = True
-                for key, value in doc_info.items():
-                    clean_key = key.lstrip("/") # Remove leading '/' from PDF metadata keys
-                    # Ensure all values are JSON serializable (convert to string if necessary)
-                    metadata[clean_key] = str(value)
-            metadata["pageCount"] = len(reader.pages)
-    except PdfReadError as e:
+        # pdfminer.six's extract_info can directly get document info
+        doc_info = extract_info(str(pdf_path)) # extract_info takes a file path string
+
+        if doc_info:
+            metadata["metadataPresent"] = True
+            # Iterate through the attributes of the PDFInfo object
+            # and convert them to a dictionary
+            for key in dir(doc_info):
+                # We want to skip private attributes and methods
+                if not key.startswith('_') and key not in ['get', 'pop', 'items', 'keys', 'values', 'clear', 'copy', 'update', 'setdefault']:
+                    value = getattr(doc_info, key)
+                    # pdfminer.six often returns bytes for strings, decode them
+                    if isinstance(value, bytes):
+                        try:
+                            value = value.decode('utf-8', errors='ignore')
+                        except Exception:
+                            pass # Keep bytes if decoding fails, though it's better to log/handle
+
+                    # Handle common date formats from PDF (often in D:YYYYMMDDHHMMSS[Z|+HH'MM'])
+                    if key in ["CreationDate", "ModDate"] and isinstance(value, str):
+                        # Attempt to parse common PDF date string format
+                        # Example: D:20231026153000+05'30'
+                        match = re.match(r"D:(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})([Z+-]\d{2}'?\d{2}'?)?", value)
+                        if match:
+                            year, month, day, hour, minute, second, tz_info = match.groups()
+                            try:
+                                dt_str = f"{year}-{month}-{day}T{hour}:{minute}:{second}"
+                                if tz_info:
+                                    # Simple handling for Z or +/-HH'MM'
+                                    if tz_info == 'Z':
+                                        dt_str += '+00:00'
+                                    elif re.match(r"[+-]\d{2}'?\d{2}'?", tz_info):
+                                        tz_clean = tz_info.replace("'", "")
+                                        dt_str += f"{tz_clean[:3]}:{tz_clean[3:]}"
+                                parsed_date = datetime.datetime.fromisoformat(dt_str)
+                                value = parsed_date.isoformat()
+                            except ValueError:
+                                pass # Keep original string if parsing fails
+                        
+                    # Ensure all values are JSON serializable
+                    metadata[key] = str(value)
+            
+            # Note: pdfminer.six doesn't directly give page count in extract_info.
+            # You'd need to parse the PDF document more deeply to get page count,
+            # for simplicity here, we'll omit it or add a placeholder.
+            # If page count is critical, you might need pdfminer.six's PDFPageInterpreter
+            # or explore other libraries focused on page count (e.g., fitz/PyMuPDF, though
+            # that's a larger dependency and might have its own "vulnerability" concerns
+            # depending on your specific threat model).
+            metadata["pageCount"] = "N/A (pdfminer.six does not easily provide page count via extract_info)"
+
+    except Exception as e: # Catch broader exceptions for robustness
         # Specific error for PDF reading issues
-        metadata["extractionError"] = f"PDF read error: {e}"
-    except Exception as e:
-        # General error for other issues
-        metadata["extractionError"] = str(e)
+        metadata["extractionError"] = f"PDF processing error: {e}"
     return metadata
 
 def encode_file_to_base64(file_path: Path) -> str:
@@ -105,7 +164,7 @@ def encode_file_to_base64(file_path: Path) -> str:
 def analyze_document(api_key: str, file_path: str, context: str = "",
                      prompt_template_path: str = "prompt.txt",
                      output_schema_path: str = "output_schema.json",
-                     sensitivity_level: int = 5) -> Optional[dict]: # Added sensitivity_level parameter
+                     sensitivity_level: int = 5) -> Optional[dict]:
     """
     Analyzes a document (image or PDF) using the Gemini API for forgery detection.
     Extracts metadata, prepares the prompt, sends the request, and parses the response.
@@ -160,7 +219,7 @@ def analyze_document(api_key: str, file_path: str, context: str = "",
         current_date_for_comparison=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S IST"),
         metadata_json_string=json.dumps(metadata, indent=2),
         JSON_OUTPUT_FORMAT_TEMPLATE=output_schema,
-        sensitivity_level=sensitivity_level # Pass sensitivity level to the prompt
+        sensitivity_level=sensitivity_level
     )
 
     model = genai.GenerativeModel("gemini-2.5-flash")
@@ -240,7 +299,7 @@ def main():
     parser.add_argument("-s", "--output-schema", default="output_schema.json", help="Path to the output JSON schema file")
     # Added the --sensitivity argument
     parser.add_argument("--sensitivity", type=int, default=5, choices=range(0, 11), metavar="[0-10]",
-                        help="Sensitivity level for forgery detection (0=lenient, 10=harsh/critical). Default is 5.")
+                         help="Sensitivity level for forgery detection (0=lenient, 10=harsh/critical). Default is 5.")
 
     args = parser.parse_args()
     api_key = args.api_key or os.getenv("GEMINI_API_KEY")
