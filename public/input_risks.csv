@@ -1,0 +1,31 @@
+record_id,source_record_id,email_riskoutcome,email_riskdatefirstseen,email_riskbasiccheckstatus,email_verifybreachdata,email_verifycreditheadercheck,phone_riskoutcome,phone_riskdatefirstseen,phone_riskscore,phone_verifybreachdata,phone_verifycreditheadercheck,document_riskoutcome,selfie_riskoutcome,device_riskoutcome,device_riskdatefirstseen
+1,1,medium,2013-01-28,valid,not found,found,low,2020-06-03,184,found,,not_available,review,,2021-02-27
+2,2,medium,2004-06-15,trap,found,not found,medium,2017-02-14,385,not found,not found,review,not_available,high,2010-07-06
+3,3,high,2011-11-05,valid,found,not found,low,2020-07-17,707,not found,found,review,review,low,2023-01-05
+4,4,medium,2010-08-22,corrected,not found,not found,low,,975,not found,not found,not_available,not_available,high,2016-01-06
+5,5,low,2003-08-31,valid,not found,not found,medium,,40,found,not found,review,,medium,2018-04-12
+6,6,medium,2005-01-06,unknown,not found,not found,low,2016-09-28,344,found,,not_available,fail,medium,2010-03-09
+7,7,high,2002-05-21,trap,found,found,medium,2014-02-05,39,not found,found,,clear,medium,2021-05-16
+8,7,high,2002-05-21,trap,found,found,medium,2014-02-05,39,not found,found,,clear,medium,2021-05-16
+9,9,medium,2001-06-28,safetosend,not found,not found,high,2007-01-06,928,not found,found,not_available,fail,,
+10,10,low,2011-01-19,invalid,not found,not found,high,2022-03-15,,found,not found,not_available,fail,,2023-06-09
+11,11,high,2003-11-09,unknown,found,found,low,2022-04-16,142,found,found,not_available,not_available,high,2016-08-24
+12,12,medium,2011-02-05,corrected,not found,not found,,2022-09-08,539,,found,not_available,clear,medium,2019-06-13
+13,13,low,,valid,found,,medium,2012-06-04,634,not found,not found,review,not_available,low,2020-07-29
+14,14,medium,2008-11-05,unknown,not found,,medium,2014-08-02,367,found,found,clear,clear,low,2010-08-10
+15,15,high,2005-03-13,invalid,found,found,high,2016-06-04,120,,found,review,clear,medium,2024-11-30
+16,7,high,2002-05-21,trap,found,found,medium,2014-02-05,39,not found,found,,clear,medium,2021-05-16
+17,17,medium,2016-02-12,,not found,found,medium,2017-11-28,853,not found,found,clear,not_available,low,2020-05-23
+18,18,medium,,unknown,not found,found,high,2012-04-05,808,not found,found,,clear,suspicious,2015-11-26
+19,19,medium,2017-07-01,invalid,found,,high,2010-12-26,5,found,found,fail,clear,high,2009-01-29
+20,20,low,2001-12-07,invalid,not found,not found,medium,2010-05-10,869,not found,not found,,clear,medium,2023-03-30
+21,21,low,2009-05-15,corrected,not found,,medium,,555,found,not found,fail,review,,
+22,22,high,2015-09-17,,not found,not found,low,2021-07-31,123,not found,found,not_available,fail,low,2012-12-07
+23,23,low,,invalid,not found,not found,,2023-03-27,120,not found,not found,not_available,clear,suspicious,
+24,24,high,2011-01-08,invalid,found,not found,low,2014-10-18,404,found,not found,review,review,suspicious,2011-07-12
+25,25,high,2007-10-15,safetosend,found,not found,low,2010-06-02,29,not found,found,not_available,not_available,medium,2015-08-25
+26,26,medium,2003-10-29,,not found,not found,high,2014-05-11,,,,fail,fail,suspicious,2023-04-10
+27,18,medium,,unknown,not found,found,high,2012-04-05,808,not found,found,,clear,suspicious,2015-11-26
+28,28,medium,2008-05-22,safetosend,found,not found,medium,2021-01-04,646,found,,fail,clear,low,2008-02-21
+29,29,medium,2024-07-06,trap,not found,found,low,2009-06-15,807,,not found,review,fail,medium,2016-07-02
+30,30,,2003-04-08,unknown,not found,not found,low,2011-09-28,135,not found,found,review,not_available,low,2019-10-12
