@@ -1,0 +1,123 @@
+import pandas as pd
+import numpy as np
+import xgboost as xgb
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, roc_auc_score, classification_report
+import joblib
+import os
+
+# --- CONFIGURATION ---
+CSV_FILE = 'ml_training_vectors.csv'
+MODEL_FILE = 'forgery_xgb_model.json'
+# Features to exclude from training (identifiers, timestamps)
+DROP_COLS = ['filename', 'timestamp']
+
+def load_and_prep_data(filepath):
+    """
+    Loads data and prepares it for training.
+
+    NOTE: In a real production scenario, your CSV must have a target column
+    (e.g., 'is_forged': 0 or 1).
+
+    Since the provided snippet might be single-class or unlabelled,
+    this function includes a SIMULATION block to generate synthetic
+    'authentic' samples so the training code runs successfully for you.
+    """
+    if not os.path.exists(filepath):
+        print(f"Error: {filepath} not found. Please upload the CSV.")
+        return None, None
+
+    df = pd.read_csv(filepath)
+
+    # --- DATA AUGMENTATION / SIMULATION FOR DEMO ---
+    # We need both 'Forged' (1) and 'Authentic' (0) data to train.
+    # If the CSV doesn't have a label, we assume the input CSV contains 'Forged' samples
+    # and we generate synthetic 'Authentic' samples for contrast.
+
+    if 'is_forged' not in df.columns:
+        print("⚠ No 'is_forged' label found. Treating input CSV as Positive (Forged) samples.")
+        print("⚠ Generating synthetic Negative (Authentic) samples for training demonstration...")
+
+        # Label existing data as 1 (Forged)
+        df['is_forged'] = 1
+
+        # Create synthetic 'Authentic' data
+        # Authentic docs typically have lower error rates, fewer edits, matching dates
+        authentic_df = df.copy()
+        authentic_df['filename'] = 'synthetic_authentic_' + authentic_df.index.astype(str)
+        authentic_df['is_forged'] = 0
+
+        # Perturb features to look "cleaner" (logic based on domain knowledge)
+        authentic_df['meta_has_editing_software'] = 0
+        authentic_df['meta_date_mismatch'] = 0
+        authentic_df['meta_tag_count'] = authentic_df['meta_tag_count'] * 0.8 # Less metadata churn
+        authentic_df['ela_average_error'] = authentic_df['ela_average_error'] * 0.3 # Lower ELA error
+        authentic_df['ela_max_error'] = authentic_df['ela_max_error'] * 0.4
+        authentic_df['clone_keypoint_matches'] = 0 # No cloning
+        authentic_df['texture_anomaly_score'] = authentic_df['texture_anomaly_score'] * 0.2
+
+        # Combine them
+        df = pd.concat([df, authentic_df], ignore_index=True)
+
+        # Shuffle
+        df = df.sample(frac=1, random_state=42).reset_index(drop=True)
+
+    # --- PREPROCESSING ---
+    # Separate Features (X) and Target (y)
+    X = df.drop(columns=['is_forged'] + [c for c in DROP_COLS if c in df.columns])
+    y = df['is_forged']
+
+    return X, y
+
+def train_model():
+    print("--- Starting Model Training Pipeline ---")
+
+    X, y = load_and_prep_data(CSV_FILE)
+    if X is None:
+        return
+
+    # Split data (80% train, 20% test)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Initialize XGBoost Classifier
+    # Optimized for tabular fraud data
+    model = xgb.XGBClassifier(
+        objective='binary:logistic',
+        n_estimators=100,
+        learning_rate=0.1,
+        max_depth=5,
+        use_label_encoder=False,
+        eval_metric='logloss'
+    )
+
+    print(f"Training on {len(X_train)} samples...")
+    model.fit(X_train, y_train)
+
+    # Evaluation
+    preds = model.predict(X_test)
+    probs = model.predict_proba(X_test)[:, 1]
+
+    acc = accuracy_score(y_test, preds)
+    auc = roc_auc_score(y_test, probs) if len(np.unique(y_test)) > 1 else 0.0
+
+    print("\n--- Model Evaluation ---")
+    print(f"Accuracy: {acc:.4f}")
+    print(f"AUC Score: {auc:.4f}")
+    print("\nClassification Report:")
+    print(classification_report(y_test, preds))
+
+    # Feature Importance Analysis
+    print("\n--- Top Risk Indicators (Feature Importance) ---")
+    importance = model.feature_importances_
+    feats = X.columns
+    feat_imp = pd.DataFrame({'Feature': feats, 'Importance': importance})
+    feat_imp = feat_imp.sort_values(by='Importance', ascending=False).head(5)
+    print(feat_imp)
+
+    # Save Model
+    model.save_model(MODEL_FILE)
+    print(f"\n✅ Model saved to {MODEL_FILE}")
+    print("You can now use 'fraud_risk_engine.py' to score new documents.")
+
+if __name__ == "__main__":
+    train_model()
