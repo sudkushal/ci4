@@ -1,0 +1,363 @@
+import vertexai
+from vertexai.generative_models import GenerativeModel, GenerationConfig
+import json
+import re
+import uuid
+import logging
+import enum
+import time
+from typing import List, Dict, Set, Any
+from dataclasses import dataclass
+from pydantic import BaseModel
+from tenacity import retry, stop_after_attempt, wait_fixed
+
+# ==========================================
+# 1. CONFIGURATION
+# ==========================================
+# TODO: Replace with your actual GCP Project ID
+PROJECT_ID = "your-gcp-project-id"
+LOCATION = "us-central1"
+
+# Set logging to ERROR to keep the Interactive Chat clean
+logging.basicConfig(level=logging.ERROR, format='%(message)s')
+logger = logging.getLogger("SalesEngine")
+
+# ==========================================
+# 2. DATA ADAPTER (The "Truth Source")
+# ==========================================
+class DatabaseAdapter:
+    """
+    Simulates your internal database. 
+    In PROD, replace this with a SQL/VectorDB query.
+    """
+    @staticmethod
+    def fetch_live_catalog() -> List[Dict[str, Any]]:
+        return [
+            {
+                "id": "SOL-001",
+                "name": "TruValidate Digital Insights",
+                "capabilities": ["bot_detection", "device_fingerprinting", "behavioral_biometrics"],
+                "description": "Stops anonymous bot attacks at signup."
+            },
+            {
+                "id": "SOL-002",
+                "name": "TruValidate Identity Insights",
+                "capabilities": ["identity_verification", "credit_risk_check", "synthetic_fraud_detection"],
+                "description": "Verifies consumer identity against global datasets."
+            },
+            {
+                "id": "SOL-003",
+                "name": "TruValidate Omnichannel Auth",
+                "capabilities": ["phone_validation", "call_center_auth", "caller_id_verification"],
+                "description": "Secures call center channels."
+            },
+            {
+                "id": "SOL-004",
+                "name": "TruValidate Document Forensics",
+                "capabilities": ["document_forgery_check", "id_scan_verification"],
+                "description": "Analyzes uploaded ID images for pixel manipulation."
+            }
+        ]
+
+# ==========================================
+# 3. DYNAMIC ONTOLOGY (Zero-Hardcoding)
+# ==========================================
+class Product(BaseModel):
+    id: str
+    name: str
+    capabilities: Set[Any] # Will be Dynamic Enum members
+    description: str
+
+class OntologyEngine:
+    def __init__(self):
+        self.products: List[Product] = []
+        self.CapabilityEnum = None
+        self._refresh_schema()
+
+    def _refresh_schema(self):
+        raw_data = DatabaseAdapter.fetch_live_catalog()
+        
+        # 1. Discover all unique capabilities from DB
+        all_caps = set()
+        for item in raw_data:
+            for cap in item['capabilities']:
+                all_caps.add(cap)
+        
+        # 2. Create Dynamic Enum
+        if not all_caps:
+             self.CapabilityEnum = enum.Enum('Capability', {'NONE': 'none'})
+        else:
+            enum_map = {name.upper(): name for name in all_caps}
+            self.CapabilityEnum = enum.Enum('Capability', enum_map)
+        
+        # 3. Hydrate Product Objects
+        self.products = []
+        for item in raw_data:
+            valid_caps = set()
+            for c_str in item['capabilities']:
+                try:
+                    valid_caps.add(self.CapabilityEnum(c_str))
+                except ValueError:
+                    pass
+            self.products.append(Product(
+                id=item['id'], name=item['name'], capabilities=valid_caps, description=item['description']
+            ))
+
+    def get_valid_tags(self) -> List[str]:
+        return [e.value for e in self.CapabilityEnum] if self.CapabilityEnum else []
+
+    def validate_req(self, req: str):
+        try:
+            return self.CapabilityEnum(req)
+        except ValueError:
+            return None
+
+# Singleton (Loads once on startup)
+ontology = OntologyEngine()
+
+# ==========================================
+# 4. SERVICES LAYER (Security & AI)
+# ==========================================
+class SecurityService:
+    @staticmethod
+    def redact_pii(text: str) -> str:
+        """
+        Regex Scrubber. Retains Company Names (Context) but removes direct PII.
+        """
+        if not text: return ""
+        # Redact Email
+        text = re.sub(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', "[EMAIL_REDACTED]", text)
+        # Redact Phone
+        text = re.sub(r'\b(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})\b', "[PHONE_REDACTED]", text)
+        return text
+
+class LLMService:
+    def __init__(self):
+        try:
+            vertexai.init(project=PROJECT_ID, location=LOCATION)
+            self.model = GenerativeModel("gemini-1.5-flash-001")
+        except Exception:
+            self.model = None
+            print("⚠️ WARNING: Vertex AI Init Failed. Check GCP Credentials.")
+
+    @retry(stop=stop_after_attempt(3), wait=wait_fixed(1))
+    def generate_json(self, prompt: str) -> Dict[str, Any]:
+        if not self.model: return {}
+        config = GenerationConfig(response_mime_type="application/json", temperature=0.0)
+        try:
+            response = self.model.generate_content(prompt, generation_config=config)
+            clean = re.sub(r"```json|```", "", response.text).strip()
+            return json.loads(clean)
+        except:
+            return {}
+
+    def generate_text(self, prompt: str) -> str:
+        if not self.model: return "LLM Offline"
+        config = GenerationConfig(temperature=0.3)
+        return self.model.generate_content(prompt, generation_config=config).text
+
+# ==========================================
+# 5. VALIDATOR SERVICE (The Gatekeeper)
+# ==========================================
+class ValidatorService:
+    def __init__(self, llm: LLMService):
+        self.llm = llm
+
+    def validate(self, text: str) -> List[str]:
+        # 1. Heuristic Check
+        if len(text) < 10:
+            return ["Input is too short. Please describe the Industry and the Problem."]
+            
+        # 2. Semantic Check
+        prompt = f"""
+        Role: Sales Gatekeeper.
+        Task: Check input for TWO things:
+        1. Context (Industry/Client Type)
+        2. Technical Pain Point (The Problem)
+        
+        Input: "{text}"
+        
+        Output JSON: {{ "status": "GO" }} OR {{ "status": "STOP", "questions": ["Clarifying Question"] }}
+        """
+        data = self.llm.generate_json(prompt)
+        
+        if data.get("status") == "STOP":
+            return data.get("questions", ["Please provide more details regarding the client industry and problem."])
+        return []
+
+# ==========================================
+# 6. LOGIC ENGINE (The Math)
+# ==========================================
+@dataclass
+class OrchestrationResult:
+    bundle: List[Product]
+    covered: Set[Any]
+    missing: Set[str]
+    score: int
+
+class LogicEngine:
+    @staticmethod
+    def solve(reqs: List[str]) -> OrchestrationResult:
+        # 1. Normalize
+        valid_needs, missing_needs = set(), set()
+        for r in reqs:
+            enum_val = ontology.validate_req(r)
+            if enum_val: valid_needs.add(enum_val)
+            else: missing_needs.add(r) # It's a gap!
+
+        # 2. Greedy Set Cover
+        remaining = valid_needs.copy()
+        bundle, covered = [], set()
+        
+        while remaining:
+            best_prod, best_overlap = None, set()
+            for prod in ontology.products:
+                overlap = prod.capabilities.intersection(remaining)
+                if len(overlap) > len(best_overlap):
+                    best_overlap = overlap
+                    best_prod = prod
+            
+            if best_prod:
+                bundle.append(best_prod)
+                remaining -= best_overlap
+                covered.update(best_overlap)
+            else:
+                break
+        
+        # 3. Score
+        score = int((len(covered) / len(reqs)) * 100) if reqs else 0
+        missing_needs.update({r.value for r in remaining})
+        return OrchestrationResult(bundle, covered, missing_needs, score)
+
+# ==========================================
+# 7. ORCHESTRATOR (Stateless API)
+# ==========================================
+class AgentOrchestrator:
+    def __init__(self):
+        self.llm = LLMService()
+        self.security = SecurityService()
+        self.logic = LogicEngine()
+        self.validator = ValidatorService(self.llm)
+
+    def process_request(self, user_text: str) -> Dict[str, Any]:
+        # 1. Scrub
+        clean_text = self.security.redact_pii(user_text)
+        
+        # 2. Validate (Stop here if info missing)
+        questions = self.validator.validate(clean_text)
+        if questions:
+            return {"status": "NEEDS_INFO", "questions": questions}
+            
+        # 3. Extract Requirements
+        prompt = f"""
+        Extract technical requirements as JSON list.
+        Text: "{clean_text}"
+        Allowed Tags: {ontology.get_valid_tags()}
+        Output: {{ "requirements": ["tag1", "tag2"] }}
+        """
+        data = self.llm.generate_json(prompt)
+        reqs = data.get("requirements", [])
+        
+        if not reqs:
+            return {"status": "NO_REQS", "message": "No technical needs detected."}
+
+        # 4. Solve (Math)
+        res = self.logic.solve(reqs)
+
+        # 5. Report (Generation)
+        report = self._generate_brief(res, reqs, clean_text)
+        return {
+            "status": "SUCCESS", 
+            "report": report, 
+            "data": {"score": res.score, "bundle": [p.name for p in res.bundle]}
+        }
+
+    def _generate_brief(self, res, reqs, context):
+        bundle_txt = "\n".join([f"- **{p.name}**" for p in res.bundle])
+        missing_txt = ", ".join(res.missing) if res.missing else "None"
+        
+        if res.score == 0: strat = "NO SOLUTION. Recommend No Bid."
+        elif res.score < 100: strat = f"PARTIAL ({res.score}%). Highlight GAPS."
+        else: strat = "PERFECT FIT."
+
+        prompt = f"""
+        Role: Principal Architect.
+        Context: "{context}"
+        Reqs: {reqs}
+        Score: {res.score}%
+        Gaps: {missing_txt}
+        Bundle: {bundle_txt}
+        Instruction: {strat}
+        Write professional Markdown brief.
+        """
+        return self.llm.generate_text(prompt)
+
+# ==========================================
+# 8. INTERACTIVE CLIENT (The Loop)
+# ==========================================
+if __name__ == "__main__":
+    print("\n" + "="*50)
+    print("🤖 ENTERPRISE SALES AGENT (Interactive Mode)")
+    print("   Type 'exit' to quit.")
+    print("="*50 + "\n")
+    
+    agent = AgentOrchestrator()
+    
+    # State tracking
+    accumulated_context = ""
+    MAX_ATTEMPTS = 10
+    attempts = 0
+    
+    while True:
+        # 1. Get Input
+        if attempts == 0:
+            user_input = input("👤 ENTER REQUEST (e.g. Paste Transcript): ").strip()
+        else:
+            user_input = input(f"👤 CLARIFY ({attempts}/{MAX_ATTEMPTS}): ").strip()
+            
+        if user_input.lower() in ['exit', 'quit']:
+            print("👋 Exiting.")
+            break
+            
+        if not user_input: continue
+
+        # 2. Accumulate Context (Append to history)
+        if accumulated_context:
+            accumulated_context += " " + user_input
+        else:
+            accumulated_context = user_input
+            
+        attempts += 1
+        
+        # 3. Safety Break
+        if attempts > MAX_ATTEMPTS:
+            print("\n❌ MAX ATTEMPTS REACHED. Resetting session.")
+            accumulated_context = ""
+            attempts = 0
+            continue
+
+        print("   Thinking...", end="\r")
+        
+        # 4. Call API
+        response = agent.process_request(accumulated_context)
+        
+        # 5. Handle Response
+        if response["status"] == "SUCCESS":
+            print("\n" + "✅ ANALYSIS COMPLETE ".center(50, "="))
+            print(response["report"])
+            print("="*50)
+            print(f"📊 DEBUG: Score={response['data']['score']}% | Bundle={response['data']['bundle']}")
+            print("\n--- Session Reset ---\n")
+            accumulated_context = ""
+            attempts = 0
+            
+        elif response["status"] == "NEEDS_INFO":
+            print("\n🛑 AGENT NEEDS INFO:")
+            for q in response["questions"]:
+                print(f"   ❓ {q}")
+            print()
+            
+        else:
+            print(f"\n⚠️ SYSTEM: {response.get('message')}")
+            accumulated_context = ""
+            attempts = 0
